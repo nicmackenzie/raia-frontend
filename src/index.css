@@ -1,0 +1,110 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    /* --primary: 221.2 83.2% 53.3%;
+    --primary-foreground: 210 40% 98%; */
+    --primary: 256 34% 48%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --success: 92 78% 86%;
+    --success-foreground: 107 100% 8%;
+    --info: 201 100% 86%;
+    --info-foreground: 217 100% 20%;
+    --warning: 46 100% 78%;
+    --warning-foreground: 32 100% 19%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221.2 83.2% 53.3%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    /* --primary: 217.2 91.2% 59.8%; -- not this */
+    /* --primary: 41 42% 67%;
+    --primary-foreground: 222.2 47.4% 11.2%; */
+    --primary: 258 100% 87%;
+    --primary-foreground: 259 58% 28%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --success: 92 78% 86%;
+    --success-foreground: 102 51% 14%;
+    --info: 209 63% 22%;
+    --info-foreground: 201 87% 85%;
+    --warning: 40 63% 21%;
+    --warning-foreground: 49 87% 85%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 224.3 76.3% 48%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@layer components {
+  .loader {
+    width: 45px;
+    aspect-ratio: 1;
+    --c: no-repeat linear-gradient(theme(colors.primary.DEFAULT) 0 0);
+    background: var(--c) 0% 50%, var(--c) 50% 50%, var(--c) 100% 50%;
+    background-size: 20% 100%;
+    animation: animate 1s infinite linear;
+  }
+
+  @keyframes animate {
+    0% {
+      background-size: 20% 100%, 20% 100%, 20% 100%;
+    }
+    33% {
+      background-size: 20% 10%, 20% 100%, 20% 100%;
+    }
+    50% {
+      background-size: 20% 100%, 20% 10%, 20% 100%;
+    }
+    66% {
+      background-size: 20% 100%, 20% 100%, 20% 10%;
+    }
+    100% {
+      background-size: 20% 100%, 20% 100%, 20% 100%;
+    }
+  }
+
+  .test > .relative > div:nth-child(1) {
+    @apply bg-transparent border border-border;
+  }
+}
