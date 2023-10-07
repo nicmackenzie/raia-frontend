@@ -1,7 +1,11 @@
-function FormControl({ label, id, children, error }) {
+import { cn } from '../../lib/utils';
+
+function FormControl({ label, id, children, error, className }) {
   return (
-    <div className="space-y-1">
-      <label htmlFor={id}>{label}</label>
+    <div className={cn('space-y-1', className)}>
+      <label htmlFor={id} className="text-sm font-medium">
+        {label}
+      </label>
       {children}
       {error && <span className="text-sm text-red-500">{error}</span>}
     </div>
