@@ -14,7 +14,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <ThemeProvider defaultTheme="light" storageKey="raia-ui-theme">
         <App />
       </ThemeProvider>
-      <ReactQueryDevtools initialIsOpen={false} />
+      <ReactQueryDevtools initialIsOpen={false} position="top-left" />
     </QueryClientProvider>
   </React.StrictMode>
 );
