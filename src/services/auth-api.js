@@ -49,6 +49,7 @@ export async function signUp(details) {
         fullName: details.fullName,
         role: details.joiningAs,
         contact: details.contact,
+        avatar_url: null,
       },
     },
   });
@@ -56,4 +57,10 @@ export async function signUp(details) {
   if (error) throw new Error(error.message);
 
   return data;
+}
+
+export async function logout() {
+  const { error } = await supabase.auth.signOut();
+
+  if (error) throw new Error(error.message);
 }
