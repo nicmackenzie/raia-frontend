@@ -14,6 +14,7 @@ const Input = React.forwardRef(
             outline: 'border-gray-400',
           },
           size: {
+            small: 'h-8 py-1 px-3',
             default: 'h-9 px-3 py-2',
             large: 'h-10 px-4 py-2',
           },
