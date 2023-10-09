@@ -18,3 +18,49 @@ export async function getCurrentUser() {
 
   return user;
 }
+
+export async function signInWithPassword({ email, password }) {
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
+
+  if (error) throw new Error(error.message);
+
+  return data;
+}
+
+export async function signInWithGoogle() {
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: 'google',
+  });
+
+  if (error) throw new Error(error.message);
+
+  return data;
+}
+
+export async function signUp(details) {
+  const { data, error } = await supabase.auth.signUp({
+    email: details.email,
+    password: details.password,
+    options: {
+      data: {
+        fullName: details.fullName,
+        role: details.joiningAs,
+        contact: details.contact,
+        avatar_url: null,
+      },
+    },
+  });
+
+  if (error) throw new Error(error.message);
+
+  return data;
+}
+
+export async function logout() {
+  const { error } = await supabase.auth.signOut();
+
+  if (error) throw new Error(error.message);
+}
