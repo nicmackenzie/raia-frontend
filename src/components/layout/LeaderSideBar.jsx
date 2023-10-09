@@ -27,7 +27,7 @@ function LeaderSideBar() {
           <Avatar
             size="sm"
             src={data?.user_metadata?.avatar_url}
-            fallBack={getInitials(data.user_metadata?.fullName)}
+            fallBack={getInitials(data?.user_metadata?.fullName)}
           />
           <div>
             <p className="text-xs font-semibold">
