@@ -1,4 +1,5 @@
 import {
+  Bell,
   Calendar,
   CheckSquare,
   File,
@@ -61,5 +62,43 @@ export const NAVITEMS = [
     label: 'Messages',
     path: '/messages',
     icon: MessageSquare,
+  },
+];
+
+export const CITIZEN_NAVITEMS = [
+  {
+    label: 'Home',
+    path: '/',
+    icon: Home,
+  },
+  {
+    label: 'Notifications',
+    path: '/notifications',
+    icon: Bell,
+  },
+  {
+    label: 'Messages',
+    path: '/messages',
+    icon: MessageSquare,
+  },
+  {
+    label: 'Discussion & Forums',
+    path: '/discussions',
+    icon: LayoutGrid,
+  },
+  {
+    label: 'Events',
+    path: '/events',
+    icon: Calendar,
+  },
+  {
+    label: 'Petitions & Surveys',
+    path: '/petitions',
+    icon: FileText,
+  },
+  {
+    label: 'Resources',
+    path: '/resources',
+    icon: File,
   },
 ];
