@@ -1,5 +1,15 @@
+import Button from "../components/ui/Button";
+import DiscussionCard from "../features/discussions/DiscussionCard";
+
 function Discussions() {
-  return <div></div>;
+  return (
+    <div>
+      <Button>Start a discussion</Button>
+      <div>
+        <DiscussionCard/>
+      </div>
+    </div>
+  );
 }
 
 export default Discussions;
