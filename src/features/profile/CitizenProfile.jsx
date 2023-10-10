@@ -5,17 +5,28 @@ import FormControl from '../../components/ui/FormControl'
 import Input from '../../components/ui/Input';
 import Select from '../../components/ui/Select';
 
-const options = [
+const titleOptions = [
     { value: 'parent', label: 'Parent' },
     { value: 'teacher', label: 'Teacher' },
     { value: 'student', label: 'Student' },
     { value: 'entrepreneuer', label: 'Entrepreneuer' },
   ];
+  const genderOptions = [
+    { value: 'male', label: 'Male' },
+    { value: 'female', label: 'Female' },
+    
+  ];
+  const interestOptions = [
+    { value: 'finance', label: 'Finance' },
+    { value: 'infrastructure', label: 'Infrastructure' },
+    { value: 'healthcare', label: 'Healthcare' },
+    { value: 'education', label: 'Education' },
+  ];
 
 function CitizenProfile() {
   return (
     <div>
-      <div className="">
+      <div className="space-x-3">
           <Button >My Profile</Button>
           <Button>change passwordd</Button>
       </div>
@@ -30,7 +41,7 @@ function CitizenProfile() {
             <Select
               // variant={errors?.joiningAs ? 'destructive' : 'outline'}
               id="title"
-              options={options}
+              options={titleOptions}
               size="small"
               placeholder="Select Title" 
            />
@@ -85,6 +96,7 @@ function CitizenProfile() {
         >
             <Input
             id="dateOfBirth"
+            type="date"
             size="small"
             placeholder="Select date"
             
@@ -93,12 +105,13 @@ function CitizenProfile() {
           label="Gender"
           id="gender" 
         >
-            <Input
-            id="gender"
-            size="small"
-            placeholder="Select your gender"
-            
-          />
+            <Select
+              // variant={errors?.joiningAs ? 'destructive' : 'outline'}
+              id="gender"
+              options={genderOptions}
+              size="small"
+              placeholder="Select your Gender" 
+           />
         </FormControl><FormControl 
           label="County"
           id="county" 
@@ -114,12 +127,13 @@ function CitizenProfile() {
           label="Interests"
           id="interests" 
         >
-            <Input
-            id="interests"
-            size="small"
-            placeholder="Select your interests"
-            
-          />
+            <Select
+              // variant={errors?.joiningAs ? 'destructive' : 'outline'}
+              id="interests"
+              options={interestOptions}
+              size="small"
+              placeholder="Select your Interests" 
+           />
         </FormControl>
         <FormControl 
           label="National ID no"
@@ -134,7 +148,7 @@ function CitizenProfile() {
         </FormControl>
         <FormControl 
           label="Address"
-          id="adress" 
+          id="address" 
         >
             <Input
             id="address"
