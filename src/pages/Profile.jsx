@@ -1,5 +1,6 @@
+import CitizenProfile from "../features/profile/CitizenProfile.jsx";
 function Profile() {
-  return <div></div>;
+  return <CitizenProfile/> ;
 }
 
 export default Profile;
