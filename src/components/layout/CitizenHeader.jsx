@@ -1,4 +1,5 @@
 import { Menu, Transition } from '@headlessui/react';
+import fallBack from '../../assets/default-user.jpg';
 import darkLogo from '../../assets/logos/raia-final-white.png';
 import lightLogo from '../../assets/logos/raia-final-purple.png';
 import { useTheme } from '../../context/theme-provider';
@@ -7,7 +8,7 @@ import Input from '../ui/Input';
 import Button from '../ui/Button';
 import { BadgeHelp, LogOut, Moon, Search, Sun } from 'lucide-react';
 import Avatar from '../ui/Avatar';
-import { cn, getInitials } from '../../lib/utils';
+import { cn } from '../../lib/utils';
 import { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { MENU_ITEMS } from './constants';
@@ -57,8 +58,7 @@ function CitizenHeader() {
           <Menu.Button>
             <Avatar
               size="sm"
-              src={data?.user_metadata?.avatar_url}
-              fallBack={getInitials(data?.user_metadata?.fullName)}
+              src={data?.user_metadata?.avatar_url || fallBack}
             />
           </Menu.Button>
           <Transition
