@@ -1,4 +1,5 @@
 import {
+  BadgeInfo,
   Bell,
   Calendar,
   CheckSquare,
@@ -9,6 +10,7 @@ import {
   MessageSquare,
   ScrollText,
   Star,
+  User,
   Video,
 } from 'lucide-react';
 
@@ -100,5 +102,23 @@ export const CITIZEN_NAVITEMS = [
     label: 'Resources',
     path: '/resources',
     icon: File,
+  },
+];
+
+export const MENU_ITEMS = [
+  {
+    label: 'Profile',
+    path: '/my-profile',
+    icon: User,
+  },
+  {
+    label: 'Tickets',
+    path: '/tickets',
+    icon: ScrollText,
+  },
+  {
+    label: 'Complains',
+    path: '/complains',
+    icon: BadgeInfo,
   },
 ];
