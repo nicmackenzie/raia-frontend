@@ -1,7 +1,8 @@
 import toast from 'react-hot-toast';
 import { Link, useSearchParams } from 'react-router-dom';
 import { FcGoogle } from 'react-icons/fc';
-import iconLogo from '../../../public/logos/raia-icon-purple.png';
+// import iconLogo from '../../../public/logos/raia-icon-purple.png';
+import iconLogo from '../../assets/logos/raia-final-purple.png';
 import FormControl from '../../components/ui/FormControl';
 import Input from '../../components/ui/Input';
 import Button from '../../components/ui/Button';
