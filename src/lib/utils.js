@@ -14,3 +14,11 @@ export function getInitials(fullName) {
 
   return firstNameInitial + lastNameInitial;
 }
+
+export function apiUrl() {
+  if (import.meta.env.DEV) {
+    return import.meta.env.VITE_DEV_API_URL;
+  } else {
+    return import.meta.env.VITE_DEV_API_URL;
+  }
+}
