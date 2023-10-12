@@ -9,6 +9,7 @@ import { apiUrl } from '../lib/utils';
 const url = apiUrl();
 export async function getCurrentUser() {
   const { data, error } = await supabase.auth.getSession();
+  // console.log(data);
 
   if (error) throw new Error(error.message);
 
@@ -49,7 +50,7 @@ export async function getSession() {
 
   if (!data.session) return null;
 
-  return data;
+  return data.session;
 }
 
 export async function signUp(details) {
