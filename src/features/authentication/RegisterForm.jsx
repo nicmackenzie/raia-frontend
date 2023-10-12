@@ -1,7 +1,7 @@
 import { toast } from 'react-hot-toast';
 import { FcGoogle } from 'react-icons/fc';
 import { useForm } from 'react-hook-form';
-import iconLogo from '../../../public/logos/raia-icon-purple.png';
+import iconLogo from '../../assets/logos/raia-final-purple.png';
 import FormControl from '../../components/ui/FormControl';
 import Input from '../../components/ui/Input';
 import Select from '../../components/ui/Select';

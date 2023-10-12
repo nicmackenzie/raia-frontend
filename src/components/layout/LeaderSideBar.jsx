@@ -1,39 +1,26 @@
-import { Link, useNavigate } from 'react-router-dom';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { Link } from 'react-router-dom';
+import fallBack from '../../assets/default-user.jpg';
 import { LogOut, Settings } from 'lucide-react';
 import Avatar from '../ui/Avatar';
 import { useUser } from '../../features/authentication/use-user';
 import NavItem from './NavItem';
 import { NAVITEMS } from './constants';
 import Button from '../ui/Button';
-import { getInitials } from '../../lib/utils';
-import { logout as logoutApi } from '../../services/auth-api';
+import { useLogout } from './use-logout';
 
 function LeaderSideBar() {
   const { data } = useUser();
-  const navigate = useNavigate();
-  const queryClient = useQueryClient();
-  const { isLoading: isLoggingOut, mutate: logout } = useMutation({
-    mutationFn: logoutApi,
-    onSuccess: () => {
-      queryClient.removeQueries();
-      navigate('/auth', { replace: true });
-    },
-  });
+  const { isLoggingOut, logout } = useLogout();
   return (
     <aside className="hidden w-72 h-full lg:flex lg:flex-col gap-6 lg:fixed md:fixed md:inset-y-0 z-[80] bg-background border-r pb-6">
       <div className="h-16 flex items-center px-4 lg:px-6 2xl:px-8">
         <div className="flex items-center gap-1">
-          <Avatar
-            size="sm"
-            src={data?.user_metadata?.avatar_url}
-            fallBack={getInitials(data?.user_metadata?.fullName)}
-          />
+          <Avatar size="sm" src={data?.user_metadata?.avatar_url || fallBack} />
           <div>
             <p className="text-xs font-semibold">
-              {data.user_metadata?.fullName}
+              {data?.user_metadata?.fullName}
             </p>
-            <p className="text-[10px] text-muted-foreground">{data.email}</p>
+            <p className="text-[10px] text-muted-foreground">{data?.email}</p>
           </div>
         </div>
       </div>

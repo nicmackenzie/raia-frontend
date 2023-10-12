@@ -7,7 +7,7 @@ function DiscussionCard() {
     <div>
         <Card>
             <div>
-                <Avatar />
+                <Avatar size='sm' alt='user avater' />
                 <CardHeader>
                    <CardTitle className='text-xl'>User Name</CardTitle>
                    <CardDescription>time posted</CardDescription>

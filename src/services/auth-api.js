@@ -1,12 +1,15 @@
 import { supabase } from '@/supabase/supabase';
+import { apiUrl } from '../lib/utils';
 /**
  * API code for all authentication functionality will be done from this file
  * Supabase docs for methods used can be found in https://supabase.com/docs/reference/javascript
  */
 
 /** Used to get the currently logged user details for the session if one exists */
+const url = apiUrl();
 export async function getCurrentUser() {
   const { data, error } = await supabase.auth.getSession();
+  // console.log(data);
 
   if (error) throw new Error(error.message);
 
@@ -40,6 +43,16 @@ export async function signInWithGoogle() {
   return data;
 }
 
+export async function getSession() {
+  const { data, error } = await supabase.auth.getSession();
+
+  if (error) throw new Error(error.message);
+
+  if (!data.session) return null;
+
+  return data.session;
+}
+
 export async function signUp(details) {
   const { data, error } = await supabase.auth.signUp({
     email: details.email,
@@ -55,6 +68,31 @@ export async function signUp(details) {
   });
 
   if (error) throw new Error(error.message);
+
+  // console.log(data.user);
+
+  try {
+    const response = await fetch(url + '/signup', {
+      method: 'POST',
+      body: JSON.stringify({
+        email: details.email,
+        full_name: details.fullName,
+        role: details.joiningAs,
+        contact: details.contact,
+        user_uid: data.user.id,
+      }),
+      headers: { 'Content-Type': 'application/json' },
+    });
+
+    const resdata = await response.json();
+
+    if (!response.ok) {
+      throw new Error(resdata.errors);
+    }
+  } catch (error) {
+    await supabase.auth.admin.deleteUser(data.user.id);
+    throw new Error(error.message);
+  }
 
   return data;
 }
