@@ -22,3 +22,9 @@ export function apiUrl() {
     return import.meta.env.VITE_DEV_API_URL;
   }
 }
+
+export function getToken() {
+  return JSON.parse(
+    localStorage.getItem(`sb-${import.meta.env.VITE_SUPABASE_ID}-auth-token`)
+  );
+}
