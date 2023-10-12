@@ -42,6 +42,16 @@ export async function signInWithGoogle() {
   return data;
 }
 
+export async function getSession() {
+  const { data, error } = await supabase.auth.getSession();
+
+  if (error) throw new Error(error.message);
+
+  if (!data.session) return null;
+
+  return data;
+}
+
 export async function signUp(details) {
   const { data, error } = await supabase.auth.signUp({
     email: details.email,
@@ -58,7 +68,7 @@ export async function signUp(details) {
 
   if (error) throw new Error(error.message);
 
-  console.log(data.user);
+  // console.log(data.user);
 
   try {
     const response = await fetch(url + '/signup', {
