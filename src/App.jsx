@@ -77,7 +77,9 @@ function App() {
             path="verification"
             element={
               <Suspense fallback={<Loader />}>
-                <Verification />
+                <ProtectedRoute>
+                  <Verification />
+                </ProtectedRoute>
               </Suspense>
             }
           />
