@@ -23,6 +23,7 @@ const Resources = lazy(() => import('./pages/Resources'));
 const Reviews = lazy(() => import('./pages/Reviews'));
 const Tickets = lazy(() => import('./pages/Tickets'));
 const LeaderConfirmation = lazy(() => import('./pages/LeaderConfirmation'));
+const Verification = lazy(() => import('./pages/Verification'));
 
 function App() {
   return (
@@ -72,6 +73,14 @@ function App() {
             <Route path="reviews" element={<Reviews />} />
             <Route path="tickets" element={<Tickets />} />
           </Route>
+          <Route
+            path="verification"
+            element={
+              <Suspense fallback={<Loader />}>
+                <Verification />
+              </Suspense>
+            }
+          />
 
           <Route
             path="*"
