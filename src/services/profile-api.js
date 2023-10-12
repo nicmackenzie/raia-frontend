@@ -17,11 +17,11 @@ export async function uploadLeaderCertificate(values) {
     await httpRequest(
       url + '/certificate-upload',
       'POST',
-      {
+      JSON.stringify({
         upload_url: filePath,
         county_id: values.county,
         elected_position: values.position,
-      },
+      }),
       {
         Authorization: 'Bearer ' + getToken().access_token,
       }

@@ -1,5 +1,5 @@
 import { supabase } from '@/supabase/supabase';
-import { apiUrl } from '../lib/utils';
+import { apiUrl, getToken, httpRequest } from '../lib/utils';
 /**
  * API code for all authentication functionality will be done from this file
  * Supabase docs for methods used can be found in https://supabase.com/docs/reference/javascript
@@ -18,6 +18,12 @@ export async function getCurrentUser() {
   const {
     data: { user },
   } = await supabase.auth.getUser();
+
+  const dbUser = await httpRequest(`${url}/me`, 'GET', undefined, {
+    Authorization: 'Bearer ' + getToken().access_token,
+  });
+
+  user.user = dbUser; //combine user from database with user from supabase
 
   return user;
 }
