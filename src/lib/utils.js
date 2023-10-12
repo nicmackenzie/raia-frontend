@@ -40,7 +40,7 @@ export async function httpRequest(
   try {
     const response = await fetch(url, {
       method: method,
-      body: JSON.stringify(body),
+      body,
       headers: {
         'Content-Type': 'application/json',
         ...headers, // Additional headers can be passed as an object
