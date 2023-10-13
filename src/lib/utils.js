@@ -58,3 +58,13 @@ export async function httpRequest(
     throw new Error(error.message);
   }
 }
+
+export function numberFormatter(value) {
+  if (!isNaN(parseFloat(value))) {
+    return new Intl.NumberFormat(undefined, {
+      notation: 'compact',
+    }).format(value);
+  } else {
+    return 0;
+  }
+}
