@@ -30,13 +30,13 @@ function CitizenProfile() {
           <Button >My Profile</Button>
           <Button>change passwordd</Button>
       </div>
-      <div>
-        <Avatar />
-      </div>
-      <form>
+      
+      <form className='grid grid-cols-12 gap-6 bg-background px-6 pt-14 mt-14 pb-6 relative' >
+        <Avatar src='https://i.pravatar.cc/48?u=123123' className='absolute left-1/2 -translate-x-1/2 -top-6 ' size='lg'/>
         <FormControl
           label="Title"
           id="title"
+          className='col-span-12 md:col-span-4 '
         >
             <Select
               // variant={errors?.joiningAs ? 'destructive' : 'outline'}
@@ -49,6 +49,8 @@ function CitizenProfile() {
         <FormControl 
           label="Full Name"
           id="fullName" 
+          className='col-span-12 md:col-span-4 '
+
         >
             <Input
             id="fullName"
@@ -60,6 +62,8 @@ function CitizenProfile() {
         <FormControl 
           label="Email"
           id="email" 
+          className='col-span-12 md:col-span-4 '
+          
         >
             <Input
             id="email"
@@ -70,7 +74,9 @@ function CitizenProfile() {
         </FormControl>
         <FormControl 
           label="Contact"
-          id="contact" 
+          id="contact"
+          className='col-span-12 md:col-span-4 '
+
         >
             <Input
             id="contact"
@@ -82,6 +88,8 @@ function CitizenProfile() {
         <FormControl 
           label="Occupation"
           id="occupation" 
+          className='col-span-12 md:col-span-4 '
+
         >
             <Input
             id="occupation"
@@ -93,6 +101,8 @@ function CitizenProfile() {
         <FormControl 
           label="Date of Birth"
           id="dateOfBirth" 
+          className='col-span-12 md:col-span-4 '
+
         >
             <Input
             id="dateOfBirth"
@@ -104,6 +114,8 @@ function CitizenProfile() {
         </FormControl><FormControl 
           label="Gender"
           id="gender" 
+          className='col-span-12 md:col-span-4 '
+
         >
             <Select
               // variant={errors?.joiningAs ? 'destructive' : 'outline'}
@@ -112,9 +124,12 @@ function CitizenProfile() {
               size="small"
               placeholder="Select your Gender" 
            />
-        </FormControl><FormControl 
+        </FormControl>
+        <FormControl 
           label="County"
           id="county" 
+          className='col-span-12 md:col-span-4 '
+
         >
             <Input
             id="county"
@@ -125,7 +140,9 @@ function CitizenProfile() {
         </FormControl>
         <FormControl 
           label="Interests"
-          id="interests" 
+          id="interests"
+          className='col-span-12 md:col-span-4 '
+
         >
             <Select
               // variant={errors?.joiningAs ? 'destructive' : 'outline'}
@@ -138,17 +155,22 @@ function CitizenProfile() {
         <FormControl 
           label="National ID no"
           id="nationalId" 
+          className='col-span-12 md:col-span-6'
+
         >
             <Input
             id="nationalId"
             size="small"
             placeholder="National ID number"
             
+            
           />
         </FormControl>
         <FormControl 
           label="Address"
           id="address" 
+          className='col-span-12 md:col-span-6'
+
         >
             <Input
             id="address"
@@ -157,6 +179,20 @@ function CitizenProfile() {
             
           />
         </FormControl>
+        <FormControl 
+          label="Profile picture"
+          id="picture" 
+          className='col-span-12 md:col-span-6'
+
+        >
+            <Input
+            id="picture"
+            size="small"
+            type='file'
+            
+          />
+        </FormControl>
+        
       </form>
     </div>
     

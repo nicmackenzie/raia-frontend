@@ -76,9 +76,7 @@ function CitizenProfile() {
       <div className="space-x-3">
           <Button >My Profile</Button>
           <Button>change passwordd</Button>
-      </div>
-      <div>
-        <Avatar />
+          <Avatar src='https://i.pravatar.cc/48?u=123123'/>
       </div>
       <form>
       <FormControl 
