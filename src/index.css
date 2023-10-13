@@ -110,3 +110,6 @@
     @apply bg-transparent border border-border;
   }
 }
+.highlight{
+ color: blueviolet;
+}
