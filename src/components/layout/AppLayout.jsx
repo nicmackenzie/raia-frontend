@@ -12,7 +12,7 @@ function AppLayout() {
   return (
     <div className="h-dvh bg-secondary">
       {role === 'citizen' ||
-      (data.user.role === 'leader' && !data.user.verified) ? (
+      (data?.user.role === 'leader' && !data?.user.verified) ? (
         <CitizenLayout />
       ) : (
         <>
