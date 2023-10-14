@@ -63,8 +63,8 @@ function App() {
             <Route path="events" element={<Events />} />
             <Route path="events/:id" element={<EventDetail />} />
             <Route path="messages" element={<Messages />} />
-            <Route path="news-updates" element={<News />} />
-            <Route path="news/:slug" element={<NewsDetail />} />
+            <Route path="news-updates" exact element={<News />} />
+            <Route path="news-updates/:id" element={<NewsDetail />} />
             <Route path="notifications" element={<Notifications />} />
             <Route path="petitions" element={<Petitions />} />
             <Route path="petitions/:slug" element={<PetitionDetail />} />
