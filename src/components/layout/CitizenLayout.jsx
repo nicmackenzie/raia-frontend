@@ -8,7 +8,7 @@ function CitizenLayout() {
       <CitizenHeader />
       <div className="h-[calc(100dvh-4rem)] flex flex-col lg:flex-row lg:gap-8 md:p-2 ">
         <CitizenAside />
-        <main className="bg-green-100 flex-1 px-4 md:px-6">
+        <main className=" flex-1 px-4 md:px-6">
           <Outlet />
         </main>
         <CitizenRightSidebar />

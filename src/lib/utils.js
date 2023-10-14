@@ -40,7 +40,7 @@ export async function httpRequest(
   try {
     const response = await fetch(url, {
       method: method,
-      body: JSON.stringify(body),
+      body,
       headers: {
         'Content-Type': 'application/json',
         ...headers, // Additional headers can be passed as an object
@@ -56,5 +56,15 @@ export async function httpRequest(
     return data; // Return the response data on success
   } catch (error) {
     throw new Error(error.message);
+  }
+}
+
+export function numberFormatter(value) {
+  if (!isNaN(parseFloat(value))) {
+    return new Intl.NumberFormat(undefined, {
+      notation: 'compact',
+    }).format(value);
+  } else {
+    return 0;
   }
 }

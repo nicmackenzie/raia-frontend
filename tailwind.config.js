@@ -11,6 +11,7 @@ export default {
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         gold: 'hsl(var(--gold))',
+        tertiary: 'hsl(var(--gold-secondary-text))',
         primary: {
           DEFAULT: 'hsl(var(--primary))',
           foreground: 'hsl(var(--primary-foreground))',

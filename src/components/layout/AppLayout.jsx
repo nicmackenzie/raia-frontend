@@ -11,7 +11,8 @@ function AppLayout() {
 
   return (
     <div className="h-dvh bg-secondary">
-      {role === 'citizen' ? (
+      {role === 'citizen' ||
+      (data.user.role === 'leader' && !data.user.verified) ? (
         <CitizenLayout />
       ) : (
         <>
