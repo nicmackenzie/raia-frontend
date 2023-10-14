@@ -42,8 +42,7 @@ function NewsUpdate() {
         method: 'DELETE',
       })
         .then(() => {
-          console.log(`News update with ID ${id} has been deleted.`);
-          // Refresh the news update list
+          setNewsUpdates((prevNewsUpdates) => prevNewsUpdates.filter((newsUpdate) => newsUpdate.id !== id));
         })
         .catch((error) => {
           console.error('Error deleting news update:', error);
@@ -76,6 +75,7 @@ function NewsUpdate() {
       .then((data) => {
         let updatedNews = [...newsUpdates, data];
         setNewsUpdates(updatedNews);
+        setFormData({ title: '', content: '' });
       })
       .catch((error) => {
         console.error('Error Posting news update:', error);
@@ -84,7 +84,6 @@ function NewsUpdate() {
 
   return (
     <div className="container mx-auto p-8">
-      <h1 className="text-3xl font-bold mb-4">News and Updates</h1>
       <ul className="space-y-4">
         {newsUpdates.map((newsUpdate) => (
           <li key={newsUpdate.id} className="bg-white rounded-lg shadow-md p-4">
