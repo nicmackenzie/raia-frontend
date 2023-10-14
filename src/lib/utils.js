@@ -19,7 +19,7 @@ export function apiUrl() {
   if (import.meta.env.DEV) {
     return import.meta.env.VITE_DEV_API_URL;
   } else {
-    return import.meta.env.VITE_DEV_API_URL;
+    return import.meta.env.VITE_PROD_API_URL;
   }
 }
 
