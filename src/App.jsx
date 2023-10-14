@@ -2,6 +2,7 @@ import { Suspense, lazy } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Loader from './components/ui/Loader';
 import ProtectedRoute from './components/layout/ProtectedRoute';
+import EmailConfirmation from './pages/EmailConfirmation';
 import AppLayout from './components/layout/AppLayout';
 import { Toaster } from 'react-hot-toast';
 
@@ -39,6 +40,7 @@ function App() {
               </Suspense>
             }
           />
+          <Route path="/email-confirmation" element={<EmailConfirmation />} />
           <Route
             path="/leader-confirmation"
             element={
