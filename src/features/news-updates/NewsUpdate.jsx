@@ -21,21 +21,10 @@ function NewsUpdate() {
       });
   }
 
-  // function handleShow(id) {
-  //   fetch(`http://localhost:3000/news_and_updates/${id}`)
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       console.log('Showing news update:', data);
-  //     })
-  //     .catch((error) => {
-  //       console.error('Error fetching news update:', error);
-  //     });
+  // function handleEdit(id) {
+  //   fetch(`http://localhost:3000/news_and_updates/${id}`);
+  //   // Add edit logic here
   // }
-
-  function handleEdit(id) {
-    fetch(`http://localhost:3000/news_and_updates/${id}`);
-    // Add edit logic here
-  }
 
   function handleDelete(id) {
     if (window.confirm('Are you sure you want to delete this news update?')) {
@@ -96,21 +85,15 @@ function NewsUpdate() {
               Published Date: {newsUpdate.published_date}
             </p>
             <div className="flex space-x-2">
-              {/* <button
-                onClick={() => handleShow(newsUpdate.id)}
-                className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
-              >
-                Show
-              </button> */}
               <Link to={`/news-updates/${newsUpdate.id}`} className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
                 Show
               </Link>
-              <button
+              {/* <button
                 onClick={() => handleEdit(newsUpdate.id)}
                 className="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600"
               >
                 Edit
-              </button>
+              </button> */}
               <button
                 onClick={() => handleDelete(newsUpdate.id)}
                 className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
