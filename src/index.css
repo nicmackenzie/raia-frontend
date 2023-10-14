@@ -111,5 +111,21 @@
   }
 }
 .highlight{
- color: orange;
+ color: blueviolet;
+}
+:root {
+  --background-color: #ffffff;
+  --text-color: #000000;
+}
+
+.dark-mode {
+  --background-color: #121212;
+  --text-color: #ffffff;
+}
+.event-card {
+  display:inline-block;
+  background-color: rgb(205, 173, 234);
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 10px;
 }
