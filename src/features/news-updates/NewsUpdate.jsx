@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 function NewsUpdate() {
   const [newsUpdates, setNewsUpdates] = useState([]);
@@ -20,16 +21,16 @@ function NewsUpdate() {
       });
   }
 
-  function handleShow(id) {
-    fetch(`http://localhost:3000/news_and_updates/${id}`)
-      .then((response) => response.json())
-      .then((data) => {
-        console.log('Showing news update:', data);
-      })
-      .catch((error) => {
-        console.error('Error fetching news update:', error);
-      });
-  }
+  // function handleShow(id) {
+  //   fetch(`http://localhost:3000/news_and_updates/${id}`)
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       console.log('Showing news update:', data);
+  //     })
+  //     .catch((error) => {
+  //       console.error('Error fetching news update:', error);
+  //     });
+  // }
 
   function handleEdit(id) {
     fetch(`http://localhost:3000/news_and_updates/${id}`);
@@ -88,19 +89,22 @@ function NewsUpdate() {
         {newsUpdates.map((newsUpdate) => (
           <li key={newsUpdate.id} className="bg-white rounded-lg shadow-md p-4">
             <h2 className="text-xl font-bold mb-2">{newsUpdate.title}</h2>
-            <p className="text-gray-500 text-sm mb-2">
-              Published Date: {newsUpdate.published_date}
-            </p>
             <p className="text-gray-500 text-sm mb-2">Content: {newsUpdate.content}</p>
             <p className="text-gray-500 text-sm mb-2">County ID: {newsUpdate.county_id}</p>
             <p className="text-gray-500 text-sm mb-2">User ID: {newsUpdate.user_id}</p>
+            <p className="text-gray-500 text-sm mb-2">
+              Published Date: {newsUpdate.published_date}
+            </p>
             <div className="flex space-x-2">
-              <button
+              {/* <button
                 onClick={() => handleShow(newsUpdate.id)}
                 className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
               >
                 Show
-              </button>
+              </button> */}
+              <Link to={`/news-updates/${newsUpdate.id}`} className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+                Show
+              </Link>
               <button
                 onClick={() => handleEdit(newsUpdate.id)}
                 className="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600"

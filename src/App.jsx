@@ -1,7 +1,7 @@
 import { Suspense, lazy } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Loader from './components/ui/Loader';
-import ProtectedRoute from './components/layout/ProtectedRoute';
+// import ProtectedRoute from './components/layout/ProtectedRoute';
 import AppLayout from './components/layout/AppLayout';
 import { Toaster } from 'react-hot-toast';
 
@@ -52,9 +52,9 @@ function App() {
             path="/"
             element={
               <Suspense fallback={<Loader />}>
-                <ProtectedRoute>
+                {/* <ProtectedRoute> */}
                   <AppLayout />
-                </ProtectedRoute>
+                {/* </ProtectedRoute> */}
               </Suspense>
             }
           >
@@ -63,8 +63,8 @@ function App() {
             <Route path="events" element={<Events />} />
             <Route path="events/:id" element={<EventDetail />} />
             <Route path="messages" element={<Messages />} />
-            <Route path="news-updates" element={<News />} />
-            <Route path="news/:slug" element={<NewsDetail />} />
+            <Route path="news-updates" exact element={<News />} />
+            <Route path="news-updates/:id" element={<NewsDetail />} />
             <Route path="notifications" element={<Notifications />} />
             <Route path="petitions" element={<Petitions />} />
             <Route path="petitions/:slug" element={<PetitionDetail />} />
@@ -79,9 +79,9 @@ function App() {
             path="verification"
             element={
               <Suspense fallback={<Loader />}>
-                <ProtectedRoute>
+                {/* <ProtectedRoute> */}
                   <Verification />
-                </ProtectedRoute>
+                {/* </ProtectedRoute> */}
               </Suspense>
             }
           />
