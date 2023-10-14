@@ -129,3 +129,15 @@
   margin-top: 10px;
   border-radius: 10px;
 }
+.event-form{
+  padding:10px;
+  background-color: rgb(205, 173, 234);
+  border-radius: 10px;
+  display:flex;
+  flex-direction: column;
+  margin-top: 10px;
+  width:fit-content;
+}
+.event-form input{
+  border-radius: 5px;
+}
