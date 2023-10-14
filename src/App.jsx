@@ -1,7 +1,7 @@
 import { Suspense, lazy } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Loader from './components/ui/Loader';
-// import ProtectedRoute from './components/layout/ProtectedRoute';
+import ProtectedRoute from './components/layout/ProtectedRoute';
 import AppLayout from './components/layout/AppLayout';
 import { Toaster } from 'react-hot-toast';
 
@@ -52,9 +52,9 @@ function App() {
             path="/"
             element={
               <Suspense fallback={<Loader />}>
-                {/* <ProtectedRoute> */}
+                <ProtectedRoute>
                   <AppLayout />
-                {/* </ProtectedRoute> */}
+                </ProtectedRoute>
               </Suspense>
             }
           >
@@ -79,9 +79,9 @@ function App() {
             path="verification"
             element={
               <Suspense fallback={<Loader />}>
-                {/* <ProtectedRoute> */}
+                <ProtectedRoute>
                   <Verification />
-                {/* </ProtectedRoute> */}
+                </ProtectedRoute>
               </Suspense>
             }
           />
