@@ -8,19 +8,36 @@ import '../index.css'
 function Events() {
   const [tgl,setTgl] = useState(new Date())
   const [showEventDetails,setShowEventDetails]=useState(false)
-  const [event,setEvent]=useState(null)
+  const [event,setEvent]=useState([])
   const [createEvent,setCreateEvent] = useState(false)
   const navigate = useNavigate()
 const events = [
-  { date: '18-10-2023', event: 'Event A' },
-  { date: '19-10-2023', event: 'Event B' },
-  { date: '16-10-2023', event: 'Event C' },
-  { date: '17-10-2023', event: 'Event D' },
-  { date: '10-10-2023', event: 'Event E' },
-];
+  {
+    "id": 1,
+    "name": "Community Cleanup Day",
+    "description": "Join us for a day of cleaning up the local park and making our community a cleaner and more beautiful place.",
+    "date": '18-10-2023',
+    "county": "Los Angeles"
+  },
+  {
+    "id": 2,
+    "name": "Food Drive for the Homeless",
+    "description": "Help us collect non-perishable food items for the homeless population in our city. Every little bit helps!",
+    "date": '19-10-2023',
+    "county": "New York"
+  },
+  {
+    "id": 3,
+    "name": "Tech Workshop for Beginners",
+    "description": "Learn the basics of programming and get hands-on experience with different technologies. No prior experience required!",
+    "date": '16-10-2023',
+    "county": "San Francisco"
+  }
+]
+
   // console.log(tgl)
   function handleEventClick(){
-    navigate('events/1')
+    navigate(`${event.id}`)
   }
 function handleCreateEvent(){
   setCreateEvent(true)
@@ -32,7 +49,7 @@ function handleCreateEvent(){
       const dateObject = new Date(`${yearString}-${monthString}-${dayString}`);
       const formattedDate = dateObject.toLocaleDateString('en-GB'); // Format as 'dd-mm-yyyy'
       if(date.toLocaleDateString('en-GB') === formattedDate){
-        setEvent(day.event)
+        setEvent(day)
         return true
       }else{
         return false
@@ -69,8 +86,9 @@ function handleCreateEvent(){
 />
 {
   showEventDetails && <div className="event-card" onClick={handleEventClick}>
-    <h3>Upcoming event</h3>
-    {event}
+    <h3><u>Upcoming event</u></h3>
+    <p>{event.name}</p>
+    <p>{event.description}</p>
   </div>
 }
 {
