@@ -26,9 +26,9 @@ const titleOptions = [
 function CitizenProfile() {
   return (
     <div>
-      <div className="space-x-3">
+      <div className="flex justify-between space-x-">
           <Button >My Profile</Button>
-          <Button>change passwordd</Button>
+          <Button>change password</Button>
       </div>
       
       <form className='grid grid-cols-12 gap-6 bg-background px-6 pt-14 mt-14 pb-6 relative' >

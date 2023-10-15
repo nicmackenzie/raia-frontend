@@ -73,15 +73,18 @@ import Select from '../../components/ui/Select';
 function CitizenProfile() {
   return (
     <div>
-      <div className="space-x-3">
-          <Button >My Profile</Button>
-          <Button>change passwordd</Button>
-          <Avatar src='https://i.pravatar.cc/48?u=123123'/>
+      <div className="flex justify-between space-x-3">
+          <Button className='px-3'>My Profile</Button>
+          <Button>change password</Button>
+          {/* <Avatar src='https://i.pravatar.cc/48?u=123123'/> */}
       </div>
-      <form>
+      <form className='grid grid-cols-6 gap-6 bg-background px-6 pt-14 mt-14 pb-6 relative '>
+      <Avatar src='https://i.pravatar.cc/48?u=123123' className='absolute left-1/2 -translate-x-1/2 -top-6 ' size='lg'/>
+
       <FormControl 
           label="Full Name"
           id="fullName" 
+          className='col-span-6 md:col-span-2'
         >
             <Input
             id="fullName"
@@ -93,6 +96,8 @@ function CitizenProfile() {
         <FormControl 
           label="County"
           id="county" 
+          className='col-span-6 md:col-span-2'
+
         >
             <Select
               // variant={errors?.joiningAs ? 'destructive' : 'outline'}
@@ -105,6 +110,8 @@ function CitizenProfile() {
         <FormControl
           label="Elected Position"
           id="position"
+          className='col-span-6 md:col-span-2'
+
         >
             <Select
               // variant={errors?.joiningAs ? 'destructive' : 'outline'}
@@ -118,6 +125,8 @@ function CitizenProfile() {
         <FormControl 
           label="Email"
           id="email" 
+          className='col-span-6 md:col-span-2'
+
         >
             <Input
             id="email"
@@ -128,7 +137,9 @@ function CitizenProfile() {
         </FormControl>
         <FormControl 
           label="Contact"
-          id="contact" 
+          id="contact"
+          className='col-span-6 md:col-span-2'
+
         >
             <Input
             id="contact"
@@ -140,6 +151,8 @@ function CitizenProfile() {
         <FormControl 
           label="Date of Birth"
           id="dateOfBirth" 
+          className='col-span-6 md:col-span-2'
+
         >
             <Input
             id="dateOfBirth"
@@ -151,6 +164,8 @@ function CitizenProfile() {
         </FormControl><FormControl 
           label="Gender"
           id="gender" 
+          className='col-span-6 md:col-span-2'
+
         >
             <Select
               // variant={errors?.joiningAs ? 'destructive' : 'outline'}
@@ -163,6 +178,8 @@ function CitizenProfile() {
         <FormControl 
           label="National ID no"
           id="nationalId" 
+          className='col-span-6 md:col-span-2'
+
         >
             <Input
             id="nationalId"
@@ -174,6 +191,8 @@ function CitizenProfile() {
         <FormControl 
           label="Address"
           id="address" 
+          className='col=span-6 md:col-span-2'
+
         >
             <Input
             id="address"
