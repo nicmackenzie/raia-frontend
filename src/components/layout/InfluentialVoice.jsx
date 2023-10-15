@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { numberFormatter } from '../../lib/utils';
+// import { numberFormatter } from '../../lib/utils';
 import Avatar from '../ui/Avatar';
 import Button from '../ui/Button';
 import { Badge } from '../ui/Badge';
@@ -10,7 +10,7 @@ function InfluentialVoice({
   avatar,
   fullName,
   username,
-  points,
+  // points,
   leader,
   position,
   averageRating,
@@ -21,11 +21,14 @@ function InfluentialVoice({
       <div className="flex items-center gap-2">
         <Avatar src={avatar} alt={`${fullName} avatar`} size="sm" />
         <div className="flex flex-col">
-          <Link className="text-xs font-semibold" to={`/profile/${username}`}>
+          <Link
+            className="text-xs font-semibold capitalize"
+            to={`/profile/${username}`}
+          >
             {fullName}
           </Link>
           <span className="text-[10px] text-muted-foreground">
-            {leader ? position : numberFormatter(points) + ' points'}
+            {leader ? position.toUpperCase() : 'PIONEER'}
           </span>
         </div>
       </div>
