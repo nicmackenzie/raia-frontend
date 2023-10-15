@@ -74,7 +74,10 @@ function CitizenProfile() {
   return (
     <div>
       <div className="flex justify-between space-x-3">
-          <Button className='px-3'>My Profile</Button>
+          <Button 
+          className='px-3 hover:bg-primary text-black hover:text-white'
+          variant='outline'
+          >My Profile</Button>
           <Button>change password</Button>
           {/* <Avatar src='https://i.pravatar.cc/48?u=123123'/> */}
       </div>
