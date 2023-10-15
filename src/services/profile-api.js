@@ -30,3 +30,24 @@ export async function uploadLeaderCertificate(values) {
     throw new Error(error.message);
   }
 }
+
+export async function getTopVoicesAndLeaders() {
+  try {
+    const followers = await httpRequest(
+      url + '/users/not-following',
+      'GET',
+      undefined,
+      { Authorization: 'Bearer ' + getToken().access_token }
+    );
+    const leaders = await httpRequest(
+      url + '/users/my-leaders',
+      'GET',
+      undefined,
+      { Authorization: 'Bearer ' + getToken().access_token }
+    );
+
+    return { followers, leaders };
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}
