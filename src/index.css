@@ -141,3 +141,9 @@
 .event-form input{
   border-radius: 5px;
 }
+.event-form button{
+  background-color: rgb(184, 148, 217);
+  padding: 0;
+  border-radius: 5px;
+  margin-top: 5px;
+}

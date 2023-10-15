@@ -1,5 +1,6 @@
 import Button from "../components/ui/Button";
 import Calendar from 'react-calendar';
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import 'react-calendar/dist/Calendar.css'
 import '../index.css'
@@ -9,6 +10,7 @@ function Events() {
   const [showEventDetails,setShowEventDetails]=useState(false)
   const [event,setEvent]=useState(null)
   const [createEvent,setCreateEvent] = useState(false)
+  const navigate = useNavigate()
 const events = [
   { date: '18-10-2023', event: 'Event A' },
   { date: '19-10-2023', event: 'Event B' },
@@ -18,7 +20,7 @@ const events = [
 ];
   // console.log(tgl)
   function handleEventClick(){
-    console.log(event)
+    navigate('events/1')
   }
 function handleCreateEvent(){
   setCreateEvent(true)
