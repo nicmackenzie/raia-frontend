@@ -1,5 +1,7 @@
+import ReviewBox from '../features/reviews/ReviewBox';
+
 function Reviews() {
-  return <div></div>;
+  return <ReviewBox />;
 }
 
 export default Reviews;
