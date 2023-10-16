@@ -11,13 +11,12 @@ function AppLayout() {
 
   return (
     <div className="h-dvh bg-secondary">
-      {role === 'citizen' ||
-      (data?.user.role === 'leader' && !data?.user.verified) ? (
+      {role === 'citizen' || (data?.user?.role === 'leader' && !data?.user?.verified) ? (
         <CitizenLayout />
       ) : (
         <>
           <LeaderSideBar />
-          <main className=" lg:pl-72">
+          <main className="lg:pl-72">
             <LeaderNavBar />
             <ScrollArea className="h-[calc(100dvh-4rem)] p-4 md:p-6 lg:px-8 lg:py-6">
               <Outlet />
@@ -25,7 +24,6 @@ function AppLayout() {
           </main>
         </>
       )}
-      {/* <CitizenLayout /> */}
     </div>
   );
 }
