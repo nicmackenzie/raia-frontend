@@ -4,11 +4,13 @@ import Loader from './components/ui/Loader';
 import ProtectedRoute from './components/layout/ProtectedRoute';
 import AppLayout from './components/layout/AppLayout';
 import { Toaster } from 'react-hot-toast';
+// import DiscussonDetail from './features/discussions/DiscussonDetail';
 
 const Authenication = lazy(() => import('./pages/Authentication'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 const Home = lazy(() => import('./pages/Home'));
 const Discussions = lazy(() => import('./pages/Discussions'));
+const DiscussionDetail = lazy(() => import('./features/discussions/DiscussionDetail'));
 const Events = lazy(() => import('./pages/Events'));
 const EventDetail = lazy(() => import('./pages/EventDetail'));
 const Messages = lazy(() => import('./pages/Messages'));
@@ -59,6 +61,7 @@ function App() {
           >
             <Route index element={<Home />} />
             <Route path="discussions" element={<Discussions />} />
+            <Route path="discussions/:id" element={<DiscussionDetail />} />
             <Route path="events" element={<Events />} />
             <Route path="events/:id" element={<EventDetail />} />
             <Route path="messages" element={<Messages />} />
