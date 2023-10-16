@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import 'react-calendar/dist/Calendar.css'
 import '../index.css'
+import { Key } from "lucide-react";
 
 function Events() {
   const [tgl,setTgl] = useState(new Date())
@@ -32,36 +33,43 @@ const events = [
     "description": "Learn the basics of programming and get hands-on experience with different technologies. No prior experience required!",
     "date": '16-10-2023',
     "county": "San Francisco"
+  },
+  {
+    "id":4,
+    "name":"Leaders forum",
+    "description":"All leaders from chief level to governor level come to discuss current policies",
+    "date":'16-10-2023',
+    "county":"Kiambu"
   }
 ]
 
   // console.log(tgl)
-  function handleEventClick(){
-    navigate(`${event.id}`)
-  }
+  function handleEventClick(detail){
+ navigate(`${detail.id}`)
+  console.log(detail.id)
+}
 function handleCreateEvent(){
   setCreateEvent(true)
 }
-  function handleDateClick(date){
-    console.log(date)
-    const isHighlighted =  events.some((day) => {
+function handleDateClick(date) {
+  console.log(date);
+
+  const eventsForDate = events.filter(day => {
       const [dayString, monthString, yearString] = day.date.split('-');
       const dateObject = new Date(`${yearString}-${monthString}-${dayString}`);
       const formattedDate = dateObject.toLocaleDateString('en-GB'); // Format as 'dd-mm-yyyy'
-      if(date.toLocaleDateString('en-GB') === formattedDate){
-        setEvent(day)
-        return true
-      }else{
-        return false
-      }
-    });
-    console.log(isHighlighted)
-    if (isHighlighted){
-      setShowEventDetails(true)
-    }else{
-      setEvent("There is no event on this day")
-    }
+      return date.toLocaleDateString('en-GB') === formattedDate;
+  });
+
+  if (eventsForDate.length > 0) {
+      setEvent(eventsForDate);
+      setShowEventDetails(true);
+  } else {
+      setEvent(["There is no event on this day"]);
+      setShowEventDetails(true);
   }
+}
+
   return <div>
     <div>
       <Button children={"Create Event"} onClick={handleCreateEvent}/>
@@ -85,11 +93,13 @@ function handleCreateEvent(){
   }}
 />
 {
-  showEventDetails && <div className="event-card" onClick={handleEventClick}>
+  showEventDetails && event.map((detail)=>{ 
+return <div className="event-card" key={detail.id} onClick={()=>handleEventClick(detail)}>
     <h3><u>Upcoming event</u></h3>
-    <p>{event.name}</p>
-    <p>{event.description}</p>
+    <p>{detail.name}</p>
+    <p>{detail.description}</p>
   </div>
+  }) 
 }
 {
   createEvent && <form className="event-form">

@@ -1,10 +1,12 @@
-import { useState,useEffect} from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router";
+
 function EventDetail() {
-  const {id} = useParams()
-  console.log(id)
-  const [event,setEvent]=useState([])
- 
+  const { id } = useParams();
+  const eventId = parseInt(id); // Convert id to a number
+
+  const [event, setEvent] = useState({});
+
   const events = [
     {
       "id": 1,
@@ -27,16 +29,34 @@ function EventDetail() {
       "date": '16-10-2023',
       "county": "San Francisco"
     }
-  ]
-  useEffect(()=>{
-  const clickedEvent = events.filter(event=>event.id === id)
-  setEvent(()=>clickedEvent)
-  },[id])
-  return <div>
-    <h3>{event}</h3>
-    <div>{event.description}</div>
-    <div>{event.county}</div>
-  </div>;
+  ];
+
+  useEffect(() => {
+    // Check if eventId exists and is a valid number
+    if (eventId && !isNaN(eventId)) {
+      const clickedEvent = events.find(event => event.id === eventId);
+  
+      if (clickedEvent) {
+        setEvent(clickedEvent);
+      } else {
+        setEvent({
+          name: "Event not found",
+          description: "The requested event does not exist.",
+          county: ""
+        });
+      }
+    }
+  }, [eventId]);
+  
+
+  return (
+    <div>
+      <h3>{event.name}</h3>
+      <div>{event.description}</div>
+      <div>{event.county}</div>
+      
+    </div>
+  );
 }
 
 export default EventDetail;
