@@ -97,13 +97,24 @@ function NewsUpdate() {
     });
   };
 
+  function truncateContent(content, words) {
+    const contentWords = content.split(' ');
+    if (contentWords.length > words) {
+      const truncatedContent = contentWords.slice(0, words).join(' ');
+      return `${truncatedContent} ...`;
+    }
+    return content;
+  };  
+
   return (
     <div className="container mx-auto p-8">
       <ul className="space-y-4">
         {newsUpdates.map((newsUpdate) => (
           <li key={newsUpdate.id} className="bg-white rounded-lg shadow-md p-4">
             <h2 className="text-xl font-bold mb-2">{newsUpdate.title}</h2>
-            <p className="text-gray-500 text-sm mb-2">Content: {newsUpdate.content}</p>
+            <p className="text-gray-500 text-sm mb-2">
+               Content: {truncateContent(newsUpdate.content, 10)}
+            </p>
             <p className="text-gray-500 text-sm mb-2">County ID: {newsUpdate.county_id}</p>
             <p className="text-gray-500 text-sm mb-2">User ID: {newsUpdate.user_id}</p>
             <p className="text-gray-500 text-sm mb-2">
