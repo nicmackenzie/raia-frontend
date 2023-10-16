@@ -55,9 +55,9 @@ function App() {
             path="/"
             element={
               <Suspense fallback={<Loader />}>
-                <ProtectedRoute>
+                {/* <ProtectedRoute> */}
                   <AppLayout />
-                </ProtectedRoute>
+                {/* </ProtectedRoute> */}
               </Suspense>
             }
           >
