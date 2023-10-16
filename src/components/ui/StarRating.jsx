@@ -1,7 +1,12 @@
 import { useState } from 'react';
 import { cn } from '../../lib/utils';
 
-function StarRating({ maxRating = 5, defaultRating = 0, isClickable = true }) {
+function StarRating({
+  maxRating = 5,
+  defaultRating = 0,
+  isClickable = true,
+  displayValue = true,
+}) {
   const [rating, setRating] = useState(defaultRating);
   const [tempRating, setTempRating] = useState(0);
 
@@ -23,9 +28,11 @@ function StarRating({ maxRating = 5, defaultRating = 0, isClickable = true }) {
           />
         ))}
       </div>
-      <span className="text-tertiary text-xs font-semibold">
-        {tempRating || rating || ''}
-      </span>
+      {displayValue && (
+        <span className="text-tertiary text-xs font-semibold">
+          {tempRating || rating || ''}
+        </span>
+      )}
     </div>
   );
 }
