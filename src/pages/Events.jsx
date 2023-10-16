@@ -9,6 +9,12 @@ function Events() {
   const [tgl,setTgl] = useState(new Date())
   const [showEventDetails,setShowEventDetails]=useState(false)
   const [event,setEvent]=useState([])
+  const [FormData,setFormData]=useState({
+    name:'',
+    description:'',
+    date:'',
+    county:''
+  })
   const [createEvent,setCreateEvent] = useState(false)
   const navigate = useNavigate()
 const events = [
@@ -34,10 +40,24 @@ const events = [
     "county": "San Francisco"
   }
 ]
-
+    function handleEventSubmit(e){
+      e.preventDefault()
+      console.log(FormData)
+      setFormData({
+        name:'',
+        description:'',
+        county:'',
+        date:''
+      })
+    }
   // console.log(tgl)
   function handleEventClick(){
     navigate(`${event.id}`)
+  }
+  function handleInputChange(e){
+    setFormData(()=>({...FormData,
+      [e.target.name]:e.target.value  
+    }))
   }
 function handleCreateEvent(){
   setCreateEvent(true)
@@ -92,15 +112,15 @@ function handleCreateEvent(){
   </div>
 }
 {
-  createEvent && <form className="event-form">
+  createEvent && <form className="event-form" onSubmit={handleEventSubmit}>
     <label htmlFor="name">Enter event name:</label>
-    <input name="name" type="text"></input>
+    <input name="name" type="text" required value={FormData.name} onChange={handleInputChange}></input>
     <label htmlFor="description">Enter event description:</label>
-    <input name="description" type="text"></input>
+    <input name="description" type="text" required value={FormData.description} onChange={handleInputChange}></input>
     <label htmlFor="date">Enter date for event</label>
-    <input name="date" type="date"></input>
+    <input name="date" type="date" required value={FormData.date} onChange={handleInputChange}></input>
     <label htmlFor="county">Enter specific county</label>
-    <input name="county" type="text"></input>
+    <input name="county" type="text" required value={FormData.county} onChange={handleInputChange}></input>
     <button type="submit">Submit</button>
   </form>
 }
