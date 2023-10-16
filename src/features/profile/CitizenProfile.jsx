@@ -26,7 +26,7 @@ const titleOptions = [
 function CitizenProfile() {
   return (
     <div>
-      <div className="flex justify-between space-x-">
+      <div className="flex justify-between space-x-3">
           <Button >My Profile</Button>
           <Button>change password</Button>
       </div>
