@@ -6,12 +6,15 @@ function StarRating({
   defaultRating = 0,
   isClickable = true,
   displayValue = true,
+  size = 'default',
+  onRate,
 }) {
   const [rating, setRating] = useState(defaultRating);
   const [tempRating, setTempRating] = useState(0);
 
   function handleRating(rating) {
     setRating(rating);
+    onRate(rating);
   }
 
   return (
@@ -25,11 +28,17 @@ function StarRating({
             onHoverIn={() => isClickable && setTempRating(i + 1)}
             onHoverOut={() => isClickable && setTempRating(0)}
             isClickable={isClickable}
+            size={size}
           />
         ))}
       </div>
       {displayValue && (
-        <span className="text-tertiary text-xs font-semibold">
+        <span
+          className={cn(
+            'text-tertiary font-semibold',
+            size === 'default' ? 'text-xs' : 'text-base'
+          )}
+        >
           {tempRating || rating || ''}
         </span>
       )}
@@ -37,12 +46,14 @@ function StarRating({
   );
 }
 
-function Star({ onClick, full, onHoverIn, onHoverOut, isClickable }) {
+function Star({ onClick, full, onHoverIn, onHoverOut, isClickable, size }) {
+  const dimensions = size === 'default' ? 'w-4 h-4' : 'w-8 h-8';
   return (
     <span
       className={cn(
-        'block w-4 h-4  text-gold',
-        isClickable && 'cursor-pointer'
+        'block text-gold',
+        isClickable && 'cursor-pointer',
+        dimensions
       )}
       role="button"
       onClick={onClick}
