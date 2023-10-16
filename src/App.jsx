@@ -2,6 +2,7 @@ import { Suspense, lazy } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Loader from './components/ui/Loader';
 import ProtectedRoute from './components/layout/ProtectedRoute';
+import EmailConfirmation from './pages/EmailConfirmation';
 import AppLayout from './components/layout/AppLayout';
 import { Toaster } from 'react-hot-toast';
 
@@ -21,6 +22,7 @@ const PollsAndSurveys = lazy(() => import('./pages/PollsAndSurveys'));
 const Profile = lazy(() => import('./pages/Profile'));
 const Resources = lazy(() => import('./pages/Resources'));
 const Reviews = lazy(() => import('./pages/Reviews'));
+const Review = lazy(() => import('./pages/Review'));
 const Tickets = lazy(() => import('./pages/Tickets'));
 const LeaderConfirmation = lazy(() => import('./pages/LeaderConfirmation'));
 const Verification = lazy(() => import('./pages/Verification'));
@@ -39,6 +41,7 @@ function App() {
               </Suspense>
             }
           />
+          <Route path="/email-confirmation" element={<EmailConfirmation />} />
           <Route
             path="/leader-confirmation"
             element={
@@ -72,6 +75,7 @@ function App() {
             <Route path="my-profile" element={<Profile />} />
             <Route path="resources" element={<Resources />} />
             <Route path="reviews" element={<Reviews />} />
+            <Route path="review/:username" element={<Review />} />
             <Route path="tickets" element={<Tickets />} />
             <Route path="profile/:username" element={<UserProfile />} />
           </Route>

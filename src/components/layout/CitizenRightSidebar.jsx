@@ -1,20 +1,56 @@
+import { useQuery } from '@tanstack/react-query';
 import InfluentialVoice from './InfluentialVoice';
-import { INFLUENTIAL_VOICES, LEADERS } from './constants';
+import { getTopVoicesAndLeaders } from '../../services/profile-api';
+import { Loader } from 'lucide-react';
 
 function CitizenRightSidebar() {
+  const { data, isLoading } = useQuery({
+    queryFn: getTopVoicesAndLeaders,
+    queryKey: ['not-following', 'leaders'],
+  });
+
+  if (isLoading)
+    return <Loader className="w-6 h-6 mx-auto mt-8 animate-spin" />;
+
   return (
     <div className="hidden lg:inline-flex lg:flex-col gap-y-4 w-1/5">
       <div className="w-full p-2 space-y-3">
         <h3 className="text-sm font-bold text-tertiary">Top Voices</h3>
-        {INFLUENTIAL_VOICES.map(voice => (
-          <InfluentialVoice key={voice.username} {...voice} />
-        ))}
+        {data?.followers.length > 0 ? (
+          data?.followers?.map(voice => (
+            <InfluentialVoice
+              key={voice.id}
+              avatar={voice.profile_image}
+              fullName={voice.full_name}
+              points={0}
+              username={voice.username}
+            />
+          ))
+        ) : (
+          <p className="text-center text-muted-foreground text-xs">
+            We have no suggestions currently.
+          </p>
+        )}
       </div>
       <div className="w-full p-2 space-y-3">
         <h3 className="text-sm font-bold text-tertiary">Your Leaders</h3>
-        {LEADERS.map(voice => (
-          <InfluentialVoice key={voice.username} {...voice} leader />
-        ))}
+        {data?.leaders?.length > 0 ? (
+          data?.leaders?.map(voice => (
+            <InfluentialVoice
+              key={voice.id}
+              avatar={voice.profile_image}
+              averageRating={0}
+              position={voice.elected_position}
+              username={voice.username}
+              fullName={voice.full_name}
+              leader
+            />
+          ))
+        ) : (
+          <p className="text-center text-muted-foreground text-xs">
+            Unable to get your leaders.
+          </p>
+        )}
       </div>
     </div>
   );

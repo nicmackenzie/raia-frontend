@@ -50,7 +50,9 @@ export async function httpRequest(
     const data = await response.json();
 
     if (!response.ok) {
-      throw new Error(data.errors);
+      throw new Error(
+        data.errors || data.error || 'Something went wrong with your request'
+      );
     }
 
     return data; // Return the response data on success

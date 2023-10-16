@@ -1,5 +1,7 @@
+import ProfileView from '../features/profile/ProfileView';
+
 function UserProfile() {
-  return <div></div>;
+  return <ProfileView />;
 }
 
 export default UserProfile;
