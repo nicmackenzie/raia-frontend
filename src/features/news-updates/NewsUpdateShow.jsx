@@ -30,6 +30,11 @@ function NewsUpdateShow() {
       {newsUpdate ? (
         <div className="bg-white rounded-lg shadow-md p-4">
           <h2 className="text-2xl font-bold mb-4 text-center">{newsUpdate.title}</h2>
+          {newsUpdate.image && (
+            <div className="flex justify-center">
+              <img src={newsUpdate.image} alt={newsUpdate.title} className="mb-4" />
+            </div>
+          )}
           <p className="text-lg text-gray-700 mb-4">{newsUpdate.content}</p>
           <p className="text-gray-500 text-sm mb-2">Published Date: {newsUpdate.published_date}</p>
           <p className="text-gray-500 text-sm mb-2">County ID: {newsUpdate.county_id}</p>
