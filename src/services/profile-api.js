@@ -51,3 +51,18 @@ export async function getTopVoicesAndLeaders() {
     throw new Error(error.message);
   }
 }
+
+export async function getProfile(username) {
+  try {
+    const profile = await httpRequest(
+      `${url}/users/${username}`,
+      'GET',
+      undefined,
+      { Authorization: 'Bearer ' + getToken().access_token }
+    );
+
+    return profile;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}
