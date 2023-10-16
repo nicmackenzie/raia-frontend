@@ -1,6 +1,8 @@
 import { useState,useEffect} from "react";
-function EventDetail(params) {
-  const id = params.id;
+import { useParams } from "react-router";
+function EventDetail() {
+  const {id} = useParams()
+  console.log(id)
   const [event,setEvent]=useState([])
  
   const events = [
@@ -28,10 +30,10 @@ function EventDetail(params) {
   ]
   useEffect(()=>{
   const clickedEvent = events.filter(event=>event.id === id)
-  setEvent(clickedEvent)
-  },[params.id])
+  setEvent(()=>clickedEvent)
+  },[id])
   return <div>
-    <h3>{event.name}</h3>
+    <h3>{event}</h3>
     <div>{event.description}</div>
     <div>{event.county}</div>
   </div>;
