@@ -61,7 +61,7 @@ function ProfileView() {
                   displayValue={false}
                 />
                 <Link
-                  to="/review"
+                  to={`/review/${username}`}
                   className="text-xs text-primary font-semibold transition-all hover:underline"
                 >
                   Review {userInfo?.full_name}
