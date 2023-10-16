@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router";
+import Button from "../components/ui/Button";
 
 function EventDetail() {
   const { id } = useParams();
@@ -47,14 +48,26 @@ function EventDetail() {
       }
     }
   }, [eventId]);
-  
+
+  function handleConfirmation(){
+    console.log(event.name)
+  }
+  function fetchAllAttenders(){
+    console.log(event)
+  }
 
   return (
     <div>
+      <div className="nav-buttons">
+      <Button children={"Confirm attendance"} onClick={handleConfirmation}/>
+      <Button children={"See attendees"} onclick={fetchAllAttenders}/>
+      <Button children={"inquire about event"}/>
+      </div>
+    <div className="event-card">
       <h3>{event.name}</h3>
-      <div>{event.description}</div>
-      <div>{event.county}</div>
-      
+      <p>{event.description}</p>
+      <p>{event.county}</p>
+    </div>
     </div>
   );
 }

@@ -147,3 +147,8 @@
   border-radius: 5px;
   margin-top: 5px;
 }
+.nav-buttons{
+  display:flex;
+  flex-direction: row;
+  justify-content:space-between;
+}
