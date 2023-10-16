@@ -27,12 +27,11 @@ function NewsUpdateShow() {
 
   return (
     <div className="container mx-auto p-8">
-      <h1 className="text-3xl font-bold mb-4">News and Update Details</h1>
       {newsUpdate ? (
         <div className="bg-white rounded-lg shadow-md p-4">
-          <h2 className="text-2xl font-bold mb-4">{newsUpdate.title}</h2>
+          <h2 className="text-2xl font-bold mb-4 text-center">{newsUpdate.title}</h2>
+          <p className="text-lg text-gray-700 mb-4">{newsUpdate.content}</p>
           <p className="text-gray-500 text-sm mb-2">Published Date: {newsUpdate.published_date}</p>
-          <p className="text-gray-500 text-sm mb-2">Content: {newsUpdate.content}</p>
           <p className="text-gray-500 text-sm mb-2">County ID: {newsUpdate.county_id}</p>
           <p className="text-gray-500 text-sm mb-2">User ID: {newsUpdate.user_id}</p>
           <button
