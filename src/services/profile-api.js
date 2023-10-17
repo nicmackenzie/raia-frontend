@@ -34,13 +34,13 @@ export async function uploadLeaderCertificate(values) {
 export async function getTopVoicesAndLeaders() {
   try {
     const followers = await httpRequest(
-      url + '/users/not-following',
+      url + '/users/top_influencers',
       'GET',
       undefined,
       { Authorization: 'Bearer ' + getToken().access_token }
     );
     const leaders = await httpRequest(
-      url + '/users/my-leaders',
+      url + '/users/leaders',
       'GET',
       undefined,
       { Authorization: 'Bearer ' + getToken().access_token }
