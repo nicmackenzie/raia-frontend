@@ -43,6 +43,7 @@ export async function httpRequest(
       body,
       headers: {
         'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + getToken().access_token,
         ...headers, // Additional headers can be passed as an object
       },
     });

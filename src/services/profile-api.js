@@ -1,4 +1,4 @@
-import { httpRequest, url, getToken } from '../lib/utils';
+import { httpRequest, url } from '../lib/utils';
 import { supabase, supabaseUrl } from '../supabase/supabase';
 
 export async function uploadLeaderCertificate(values) {
@@ -21,10 +21,7 @@ export async function uploadLeaderCertificate(values) {
         upload_url: filePath,
         county_id: values.county,
         elected_position: values.position,
-      }),
-      {
-        Authorization: 'Bearer ' + getToken().access_token,
-      }
+      })
     );
   } catch (error) {
     throw new Error(error.message);
@@ -33,18 +30,8 @@ export async function uploadLeaderCertificate(values) {
 
 export async function getTopVoicesAndLeaders() {
   try {
-    const followers = await httpRequest(
-      url + '/users/not-following',
-      'GET',
-      undefined,
-      { Authorization: 'Bearer ' + getToken().access_token }
-    );
-    const leaders = await httpRequest(
-      url + '/users/my-leaders',
-      'GET',
-      undefined,
-      { Authorization: 'Bearer ' + getToken().access_token }
-    );
+    const followers = await httpRequest(url + '/users/top_influencers');
+    const leaders = await httpRequest(url + '/users/leaders');
 
     return { followers, leaders };
   } catch (error) {
@@ -55,10 +42,7 @@ export async function getTopVoicesAndLeaders() {
 export async function getProfile(username) {
   try {
     const profile = await httpRequest(
-      `${url}/users/${username}`,
-      'GET',
-      undefined,
-      { Authorization: 'Bearer ' + getToken().access_token }
+      `${url}/users/find_by_username/${username}`
     );
 
     return profile;
