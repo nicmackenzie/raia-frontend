@@ -1,11 +1,32 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { X, XCircle } from 'lucide-react';
 import { cva } from 'class-variance-authority';
 import { cn } from '../../lib/utils';
 
-function Alert({ message, variant, dismissable = true, className }) {
+function Alert({ message, variant, dismissable = true, className, onClose }) {
   const [closed, setClosed] = useState(false);
-  if (closed) return null;
+  const [displayMessage, setDisplayMessage] = useState(message);
+
+  function handleClose() {
+    setClosed(true);
+    setDisplayMessage('');
+    onClose();
+  }
+
+  useEffect(
+    function () {
+      let timer;
+
+      if (closed) {
+        timer = setTimeout(() => {
+          setClosed(false);
+        }, 1000);
+      }
+
+      return () => clearTimeout(timer);
+    },
+    [closed]
+  );
 
   const alertVariants = cva(
     'max-w-md py-2 px-4 mx-4 sm:mx-auto flex items-center justify-between rounded-lg',
@@ -27,16 +48,18 @@ function Alert({ message, variant, dismissable = true, className }) {
     }
   );
 
+  if (closed) return null;
+
   return (
     <div className={cn(alertVariants({ variant }), className)} role="alert">
       <p className="text-sm flex items-center gap-2 font-semibold">
         <XCircle className="w-4 h-4" aria-hidden />
-        <span>{message}.</span>
+        <span>{displayMessage}.</span>
       </p>
       {dismissable && (
         <button
           className="transition-transform hover:scale-110"
-          onClick={() => setClosed(true)}
+          onClick={handleClose}
         >
           <X className="w-4 h-4" />
         </button>
