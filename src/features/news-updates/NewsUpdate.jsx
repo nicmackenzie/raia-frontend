@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 function NewsUpdate() {
   const [newsUpdates, setNewsUpdates] = useState([]);
-  const [formData, setFormData] = useState({ title: '', content: '' });
+  const [formData, setFormData] = useState({ title: '', content: '', image: '' });
 
   useEffect(() => {
     fetchNewsUpdate();
@@ -88,7 +88,7 @@ function NewsUpdate() {
     .then((data) => {
       let updatedNews = [...newsUpdates, data];
       setNewsUpdates(updatedNews);
-      setFormData({ title: '', content: '' });
+      setFormData({ title: '', content: '', image: '' });
     })
     .catch((error) => {
       if (error.message !== 'Bad response') {
@@ -153,6 +153,16 @@ function NewsUpdate() {
               value={formData.title}
               onChange={handleChange}
               id="title"
+              className="border rounded w-full py-2 px-3"
+            />
+            <label htmlFor="image" className="block text-gray-700 text-sm font-bold mb-2">
+              Image:
+            </label>
+            <input
+              name="image"
+              value={formData.image}
+              onChange={handleChange}
+              id="image"
               className="border rounded w-full py-2 px-3"
             />
           </div>
