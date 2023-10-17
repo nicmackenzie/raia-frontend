@@ -9,12 +9,14 @@ function Events() {
   const [tgl,setTgl] = useState(new Date())
   const [showEventDetails,setShowEventDetails]=useState(false)
   const [event,setEvent]=useState([])
+
   const [FormData,setFormData]=useState({
     name:'',
     description:'',
     date:'',
     county:''
   })
+
   const [createEvent,setCreateEvent] = useState(false)
   const navigate = useNavigate()
 const events = [
@@ -40,6 +42,7 @@ const events = [
     "county": "San Francisco"
   }
 ]
+
     function handleEventSubmit(e){
       e.preventDefault()
       console.log(FormData)
@@ -50,15 +53,18 @@ const events = [
         date:''
       })
     }
+
   // console.log(tgl)
   function handleEventClick(){
     navigate(`${event.id}`)
   }
+
   function handleInputChange(e){
     setFormData(()=>({...FormData,
       [e.target.name]:e.target.value  
     }))
   }
+
 function handleCreateEvent(){
   setCreateEvent(true)
 }
