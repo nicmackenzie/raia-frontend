@@ -2,7 +2,9 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import Button from "../components/ui/Button";
 
+
 function EventDetail() {
+  const [confirmed,setConfirmed]=useState(false)
   const { id } = useParams();
   const eventId = parseInt(id); // Convert id to a number
 
@@ -50,16 +52,18 @@ function EventDetail() {
   }, [eventId]);
 
   function handleConfirmation(){
-    console.log(event.name)
+    // handle confirmation logic to backend
+    setConfirmed(true)
   }
   function fetchAllAttenders(){
+    // fetch all people attending backend
     console.log(event)
   }
 
   return (
     <div>
       <div className="nav-buttons">
-      <Button children={"Confirm attendance"} onClick={handleConfirmation}/>
+      <Button children={confirmed ?"Attendance confirmed":"Confirm attendance"} onClick={handleConfirmation}/>
       <Button children={"See attendees"} onclick={fetchAllAttenders}/>
       <Button children={"inquire about event"}/>
       </div>

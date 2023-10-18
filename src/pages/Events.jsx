@@ -1,7 +1,7 @@
 import Button from "../components/ui/Button";
 import Calendar from 'react-calendar';
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import 'react-calendar/dist/Calendar.css'
 import '../index.css'
 import { Key } from "lucide-react";
@@ -10,8 +10,14 @@ function Events() {
   const [tgl,setTgl] = useState(new Date())
   const [showEventDetails,setShowEventDetails]=useState(false)
   const [event,setEvent]=useState([])
+  // const [events,setEvents]=useState([])
   const [createEvent,setCreateEvent] = useState(false)
   const navigate = useNavigate()
+// useEffect(()=>{
+//   fetch("http://localhost:3000/events")
+//   .then(res=>res.json())
+//   .then(data=>setEvents(data))
+// },[])
 const events = [
   {
     "id": 1,
