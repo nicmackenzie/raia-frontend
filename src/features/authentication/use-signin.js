@@ -11,7 +11,11 @@ export function useSignIn() {
   const { isLoading, mutate: signin } = useMutation({
     mutationFn: signInWithPassword,
     onSuccess: () => {
-      navigate('/', { replace: true });
+      if (import.meta.env.DEV) {
+        navigate('/', { replace: true });
+      } else {
+        navigate('/email-confirmation', { replace: true });
+      }
     },
   });
 

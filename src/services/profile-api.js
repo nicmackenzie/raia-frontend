@@ -1,4 +1,4 @@
-import { httpRequest, url, getToken } from '../lib/utils';
+import { httpRequest, url } from '../lib/utils';
 import { supabase, supabaseUrl } from '../supabase/supabase';
 
 export async function uploadLeaderCertificate(values) {
@@ -17,15 +17,35 @@ export async function uploadLeaderCertificate(values) {
     await httpRequest(
       url + '/certificate-upload',
       'POST',
-      {
+      JSON.stringify({
         upload_url: filePath,
         county_id: values.county,
         elected_position: values.position,
-      },
-      {
-        Authorization: 'Bearer ' + getToken().access_token,
-      }
+      })
     );
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}
+
+export async function getTopVoicesAndLeaders() {
+  try {
+    const followers = await httpRequest(url + '/users/top_influencers');
+    const leaders = await httpRequest(url + '/users/leaders');
+
+    return { followers, leaders };
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}
+
+export async function getProfile(username) {
+  try {
+    const profile = await httpRequest(
+      `${url}/users/find_by_username/${username}`
+    );
+
+    return profile;
   } catch (error) {
     throw new Error(error.message);
   }

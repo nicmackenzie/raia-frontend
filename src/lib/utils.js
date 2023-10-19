@@ -19,7 +19,7 @@ export function apiUrl() {
   if (import.meta.env.DEV) {
     return import.meta.env.VITE_DEV_API_URL;
   } else {
-    return import.meta.env.VITE_DEV_API_URL;
+    return import.meta.env.VITE_PROD_API_URL;
   }
 }
 
@@ -40,9 +40,10 @@ export async function httpRequest(
   try {
     const response = await fetch(url, {
       method: method,
-      body: JSON.stringify(body),
+      body,
       headers: {
         'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + getToken().access_token,
         ...headers, // Additional headers can be passed as an object
       },
     });
@@ -50,11 +51,23 @@ export async function httpRequest(
     const data = await response.json();
 
     if (!response.ok) {
-      throw new Error(data.errors);
+      throw new Error(
+        data.errors || data.error || 'Something went wrong with your request'
+      );
     }
 
     return data; // Return the response data on success
   } catch (error) {
     throw new Error(error.message);
+  }
+}
+
+export function numberFormatter(value) {
+  if (!isNaN(parseFloat(value))) {
+    return new Intl.NumberFormat(undefined, {
+      notation: 'compact',
+    }).format(value);
+  } else {
+    return 0;
   }
 }
