@@ -2,7 +2,7 @@ import { useSearchParams } from 'react-router-dom';
 import Button from './Button';
 import { cn } from '../../lib/utils';
 
-export default function Filter({ options, filterKey }) {
+export default function Filter({ options, filterKey, className }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const selectedTab = searchParams.get(filterKey) || options.at(0)?.value;
 
@@ -12,10 +12,13 @@ export default function Filter({ options, filterKey }) {
     setSearchParams(searchParams);
   }
   return (
-    <div className="p-1 border rounded flex gap-1 items-center">
+    <div
+      className={cn('p-1 border rounded flex gap-1 items-center', className)}
+    >
       {options.map(option => (
         <Button
           key={option.value}
+          size="sm"
           className={cn(
             'py-2',
             selectedTab === option.value
