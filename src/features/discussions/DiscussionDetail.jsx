@@ -95,7 +95,7 @@ function DiscussionDetail() {
             className=' bg-white md:h-12 pt-2 '
             
           />
-          <Button className=''>T</Button>
+          <Button variant='secondary' type='submit' className='absolute top-0 right-0 z-2'>Post</Button>
         </FormControl>
       </form>
       
