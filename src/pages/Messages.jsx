@@ -1,5 +1,8 @@
+import Message from "../features/messages/Message.jsx";
 function Messages() {
-  return <div></div>;
+  return <div>
+    <Message />
+  </div>;
 }
 
 export default Messages;
