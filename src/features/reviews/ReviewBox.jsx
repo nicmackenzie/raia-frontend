@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import Select from '../../components/ui/Select';
-import { CATEGORY_OPTIONS } from '../../lib/utils';
+import { CATEGORY_OPTIONS, PAGE_SIZE } from '../../lib/utils';
 import ReviewStats from './ReviewStats';
 import { getReviews } from '../../services/reviews-api';
 import Loader from '../../components/ui/Loader';
@@ -9,8 +9,9 @@ import Filter from '../../components/ui/Filter';
 import Review from './Review';
 import notFound from '../../assets/not-found.svg';
 import { useSearchParams } from 'react-router-dom';
+import Pagination from '../../components/ui/Pagination';
 
-function ReviewBox() {
+function ReviewBox({ score, governance, utilization, development }) {
   const [searchParams] = useSearchParams();
   const filterValue = searchParams.get('category');
   const filter =
@@ -26,8 +27,12 @@ function ReviewBox() {
     error,
   } = useQuery({
     queryKey: ['reviews', filter, page],
-    queryFn: () => getReviews({ filter, page }),
+    queryFn: () => getReviews({ filter }),
   });
+
+  const start = (page - 1) * PAGE_SIZE;
+  const end = page * PAGE_SIZE;
+  const paginated = reviews?.slice(start, end);
 
   if (isLoading) return <Loader />;
   if (error)
@@ -35,7 +40,12 @@ function ReviewBox() {
 
   return (
     <div className="space-y-6 px-4">
-      <ReviewStats />
+      <ReviewStats
+        score={score}
+        governance={governance}
+        utilization={utilization}
+        development={development}
+      />
       <div className="flex justify-end my-6 w-full lg:hidden">
         <Select placeholder="Filter by..." options={CATEGORY_OPTIONS} />
       </div>
@@ -46,12 +56,13 @@ function ReviewBox() {
         />
       </div>
       <div className="space-y-4">
-        {reviews.length > 0 ? (
-          reviews.map(review => <Review key={review.id} {...review} />)
+        {paginated.length > 0 ? (
+          paginated.map(review => <Review key={review.id} {...review} />)
         ) : (
           <NoReviews />
         )}
       </div>
+      <Pagination count={reviews.length} style="modern" />
     </div>
   );
 }

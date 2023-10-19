@@ -88,3 +88,5 @@ export function ratingBadgeVariants(rating) {
     return { variant: 'success', comment: 'Good' };
   }
 }
+
+export const PAGE_SIZE = 10;

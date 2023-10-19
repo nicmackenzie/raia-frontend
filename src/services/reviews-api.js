@@ -10,12 +10,12 @@ export async function postReview(reviewDetails) {
   }
 }
 
-export async function getReviews({ filter, page }) {
+export async function getReviews({ filter }) {
   let params = '';
   if (filter) {
-    params += `?category=${filter.value}&page=${page}`;
+    params += `?category=${filter.value}`;
   } else {
-    params += '?page=' + page;
+    // params += '?page=' + page;
   }
 
   try {

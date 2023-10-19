@@ -1,33 +1,27 @@
 import RatingStatCard from './RatingStatCard';
 
-function ReviewStats() {
+function ReviewStats({ score, governance, utilization, development }) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6">
       <RatingStatCard
-        rating={3.5}
+        rating={score.average}
         title="Your Score"
-        totalReviews={2000}
-        variant="success"
-        remark="Good"
+        totalReviews={score.count}
       />
       <RatingStatCard
-        rating={2}
+        rating={governance.average}
         title="Goverance"
-        totalReviews={1876}
-        variant="destructive"
-        remark="Poor"
+        totalReviews={governance.count}
       />
       <RatingStatCard
-        rating={3}
+        rating={utilization.average}
         title="Fund utilization"
-        totalReviews={3002}
-        variant="warning"
-        remark="Fair"
+        totalReviews={utilization.count}
       />
       <RatingStatCard
-        rating={3}
+        rating={development.average}
         title="Development"
-        totalReviews={1767}
+        totalReviews={development.count}
         variant="warning"
         remark="Fair"
       />
