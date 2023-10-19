@@ -11,6 +11,7 @@ import { useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
 import { updateProfile } from '../../services/profile-api';
 import { DevTool } from '@hookform/devtools';
+import ButtonLoadingText from '../../components/ui/ButtonLoadingText';
 
   const genderOptions = [
     { value: 'male', label: 'Male' },
@@ -67,8 +68,11 @@ function CitizenProfile() {
   }));
 
   const onSubmit = (values) => {
-    console.log('values submitted', values)
-    // update(values)
+    // console.log('values submitted', values)
+    const formValues = {...values, id: userInfo.id}
+    console.log('values submitted', formValues)
+
+    update(formValues)
   }
   
 

@@ -54,7 +54,7 @@ export async function getProfile(username) {
 export async function updateProfile(values){
   try {
     await httpRequest(
-      url + '/users/',
+      url + `/users/${values.id}`,
       'PATCH',
       JSON.stringify({
         full_name: values.full_name,
