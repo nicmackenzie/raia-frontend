@@ -15,7 +15,7 @@ function LeaderNavBar() {
   }
 
   return (
-    <header className="h-16 bg-background border-b flex items-center px-2">
+    <header className="h-16 bg-secondary border-b flex items-center px-2">
       <Button variant="ghost" size="sm" className="lg:hidden" aria-label="menu">
         <Menu aria-hidden />
       </Button>
@@ -23,12 +23,12 @@ function LeaderNavBar() {
         <Input
           size="small"
           placeholder="Search..."
-          className="hidden md:inline-flex w-96"
+          className="hidden md:inline-flex w-96 bg-transparent dark:border-slate-600"
         />
       </form>
       <div className="ml-auto flex items-center gap-1">
         <Button
-          variant="outline"
+          variant="ghost"
           size="sm"
           className="lg:hidden w-8 h-8 p-0"
           aria-label="search"
@@ -36,7 +36,7 @@ function LeaderNavBar() {
           <Search aria-hidden className="w-4 h-4 text-primary" />
         </Button>
         <Button
-          variant="outline"
+          variant="ghost"
           size="sm"
           aria-label="notifications"
           className="w-8 h-8 p-0"
@@ -44,7 +44,7 @@ function LeaderNavBar() {
           <Bell aria-hidden className="w-4 h-4 text-primary" />
         </Button>
         <Button
-          variant="outline"
+          variant="ghost"
           size="sm"
           aria-label="notifications"
           className="w-8 h-8 p-0"

@@ -27,10 +27,14 @@ function CitizenHeader() {
     }
   }
   return (
-    <header className="h-16 px-6 bg-background border-b flex items-center justify-between ">
+    <header className="h-16 px-6 bg-secondary border-b flex items-center justify-between ">
       <img src={src} alt="Raia Logo?" className="h-12 w-auto" />
       <form className="hidden lg:inline-flex">
-        <Input placeholder="Search..." size="small" className="w-96" />
+        <Input
+          placeholder="Search..."
+          size="small"
+          className="w-96 bg-transparent dark:border-slate-600"
+        />
       </form>
       <div className="flex items-center gap-1">
         <Button
