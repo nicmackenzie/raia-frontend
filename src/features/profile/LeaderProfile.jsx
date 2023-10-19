@@ -4,6 +4,8 @@ import Avatar from '../../components/ui/Avatar'
 import FormControl from '../../components/ui/FormControl'
 import Input from '../../components/ui/Input';
 import Select from '../../components/ui/Select';
+import { useCounties } from '../../hooks/use-counties';
+
 
 
   const genderOptions = [
@@ -12,65 +14,27 @@ import Select from '../../components/ui/Select';
   ];
 
   const positionOptions = [
-    { value: 'senator', label: 'Senator' },
     { value: 'governor', label: 'Governor' },
-    { value: "women's rep", label: "Women's Representative "},
+    { value: 'senetaor', label: 'Senator' },
+    { value: 'mp', label: 'Member Of Parliament(MP)' },
+    { value: 'women-rep', label: 'Women Rep' },
     { value: 'mca', label: 'MCA' },
   ];
 
 
-  const countyOptions = [
-    {value: 'baringo', label:'Baringo County'},
-    {value: 'bomet', label: 'Bomet County'},
-    {value: 'busia', label: 'Busia County'},
-    {value: 'bungoma', label: 'Bungoma County'},
-    {value: 'embu', label: 'Embu County'},
-    {value: 'elgeiyoMarakwet', label: 'Elgeyo: Marakwet County'},
-    {value: 'homabay', label: 'Homa Bay County'},
-    {value: 'garissa', label: 'Garissa County'},
-    {value: 'kajiado', label: 'Kajiado County'},
-    {value: 'isiolo', label: 'Isiolo County'},
-    {value: 'kericho', label: 'Kericho County'},
-    {value: 'kakamega', label: 'Kakamega County'},
-    {value: 'kilifi', label: 'Kilifi County'},
-    {value: 'kiambu', label: 'Kiambu County'},
-    {value: 'kisii', label: 'Kisii County'},
-    {value: 'kirinyaga', label: 'Kirinyaga County'},
-    {value: 'kitui', label: 'Kitui County'},
-    {value: 'kisumu', label: 'Kisumu County'},
-    {value: 'laikipia', label: 'Laikipia County'},
-    {value: 'kwale', label: 'Kwale County'},
-    {value: 'machakos', label: 'Machakos County'},
-    {value: 'lamu', label: 'Lamu County'},
-    {value: 'mandera', label: 'Mandera County'},
-    {value: 'makueni', label: 'Makueni County'},
-    {value: 'migori', label: 'Migori County'},
-    {value: 'meru', label: 'Meru County'},
-    {value: 'mombasa', label: 'Mombasa County'},
-    {value: 'marsabit', label: 'Marsabit County'},
-    {value: 'nairobi', label: 'Nairobi County'},
-    {value: 'muranga', label: 'Muranga County'},
-    {value: 'nandi', label: 'Nandi County'},
-    {value: 'nakuru', label: 'Nakuru County'},
-    {value: 'nyamira', label: 'Nyamira County'},
-    {value: 'narok', label: 'Narok County'},
-    {value: 'nyeri', label: 'Nyeri County'},
-    {value: 'nyandarua', label: 'Nyandarua County'},
-    {value: 'siaya', label: 'Siaya County'},
-    {value: 'samburu', label: 'Samburu County'},
-    {value: 'tana river', label: 'Tana River County'},
-    {value: 'taita taveta', label: 'Taita Taveta County'},
-    {value: 'trans nzoia', label: 'Trans Nzoia County'},
-    {value: 'turkana', label: 'Turkana County'},
-    {value: 'tharaka nithi', label: 'Tharaka Nithi County'},
-    {value: 'vihiga', label: 'Vihiga County'},
-    {value: 'uasin gishu', label: 'Uasin Gishu County'},
-    {value: 'west pokot', label: 'West Pokot County'},
-    {value: 'wajir', label: 'Wajir County'},
-  ];
   
 
 function CitizenProfile() {
+  const { isLoading, counties } = useCounties();
+
+  const countyOptions = counties?.map(county => ({
+    value: county.id,
+    label: county.name,
+  }));
+  console.log(countyOptions)
+
+  if (isLoading) return null;
+
   return (
     <div>
       <div className="flex justify-between space-x-3">
@@ -91,6 +55,7 @@ function CitizenProfile() {
         >
             <Input
             id="fullName"
+            name='full_name'
             size="small"
             placeholder="Full Name"
             
@@ -141,11 +106,13 @@ function CitizenProfile() {
         <FormControl 
           label="Contact"
           id="contact"
+          
           className='col-span-6 md:col-span-2'
 
         >
             <Input
             id="contact"
+            name='contact'
             size="small"
             placeholder="Contact"
             
@@ -159,6 +126,8 @@ function CitizenProfile() {
         >
             <Input
             id="dateOfBirth"
+            name='date_of_birth'
+
             type="date"
             size="small"
             placeholder="Select date"
@@ -173,6 +142,7 @@ function CitizenProfile() {
             <Select
               // variant={errors?.joiningAs ? 'destructive' : 'outline'}
               id="gender"
+              name='gender'
               options={genderOptions}
               size="small"
               placeholder="Select your Gender" 
@@ -186,6 +156,7 @@ function CitizenProfile() {
         >
             <Input
             id="nationalId"
+            name='national_id'
             size="small"
             placeholder="National ID number"
             
@@ -199,6 +170,7 @@ function CitizenProfile() {
         >
             <Input
             id="address"
+            name='location'
             size="small"
             placeholder="Address"
             
