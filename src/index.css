@@ -63,7 +63,7 @@
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 217.2 32.6% 17.5%;
+    --border: 215 19% 35%;
     --input: 217.2 32.6% 17.5%;
     --ring: 224.3 76.3% 48%;
     --gold: 40 79% 37%;
@@ -112,8 +112,8 @@
     @apply bg-transparent border border-border;
   }
 }
-.highlight{
- color: blueviolet;
+.highlight {
+  color: blueviolet;
 }
 :root {
   --background-color: #ffffff;
@@ -125,27 +125,42 @@
   --text-color: #ffffff;
 }
 .event-card {
-  display:inline-block;
+  display: inline-block;
   background-color: rgb(205, 173, 234);
   padding: 10px;
   margin-top: 10px;
   border-radius: 10px;
 }
-.event-form{
-  padding:10px;
+.event-form {
+  padding: 10px;
   background-color: rgb(205, 173, 234);
   border-radius: 10px;
-  display:flex;
+  display: flex;
   flex-direction: column;
   margin-top: 10px;
-  width:fit-content;
+  width: fit-content;
 }
-.event-form input{
+.event-form input {
   border-radius: 5px;
 }
-.event-form button{
+.event-form button {
   background-color: rgb(184, 148, 217);
   padding: 0;
   border-radius: 5px;
   margin-top: 5px;
 }
+/* .dot {
+  position: relative;
+}
+
+.dot::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
+  background-color: hsl(256, 34%, 48%);
+  border-radius: 50%;
+} */
