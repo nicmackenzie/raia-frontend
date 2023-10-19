@@ -11,6 +11,8 @@ const NotFound = lazy(() => import('./pages/NotFound'));
 const Home = lazy(() => import('./pages/Home'));
 const Discussions = lazy(() => import('./pages/Discussions'));
 const Events = lazy(() => import('./pages/Events'));
+const EventTest = lazy(() => import('./pages/EventsTest'));
+const AddEditEvent = lazy(() => import('./features/events/EventForm'));
 const EventDetail = lazy(() => import('./pages/EventDetail'));
 const Messages = lazy(() => import('./pages/Messages'));
 const News = lazy(() => import('./pages/NewsUpdates'));
@@ -56,14 +58,16 @@ function App() {
             element={
               <Suspense fallback={<Loader />}>
                 {/* <ProtectedRoute> */}
-                  <AppLayout />
+                <AppLayout />
                 {/* </ProtectedRoute> */}
               </Suspense>
             }
           >
             <Route index element={<Home />} />
             <Route path="discussions" element={<Discussions />} />
-            <Route path="events" element={<Events />} />
+            {/* <Route path="events" element={<Events />} /> */}
+            <Route path="events" element={<EventTest />} />
+            <Route path="events/new" element={<AddEditEvent />} />
             <Route path="events/:id" element={<EventDetail />} />
             <Route path="messages" element={<Messages />} />
             <Route path="news-updates" exact element={<News />} />

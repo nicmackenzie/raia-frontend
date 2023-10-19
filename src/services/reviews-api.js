@@ -9,3 +9,19 @@ export async function postReview(reviewDetails) {
     throw new Error(error.message);
   }
 }
+
+export async function getReviews({ filter, page }) {
+  let params = '';
+  if (filter) {
+    params += `?category=${filter.value}&page=${page}`;
+  } else {
+    params += '?page=' + page;
+  }
+
+  try {
+    const reviews = await httpRequest(url + '/reviews/leader' + params);
+    return reviews;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}
