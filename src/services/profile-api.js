@@ -50,3 +50,26 @@ export async function getProfile(username) {
     throw new Error(error.message);
   }
 }
+
+export async function updateProfile(values){
+  try {
+    await httpRequest(
+      url + '/users',
+      'PATCH',
+      JSON.stringify({
+        full_name: values.full_name,
+        county: values.county,
+        elected_position: values.elected_position,
+        email: values.email,
+        contact: values.contact,
+        date_of_birth: values.date_of_birth,
+        gender: values.gender,
+        national_id: values.national_id,
+        location: values.address,
+        profile_image: values.profile_image
+  })
+    )
+  } catch (error) {
+    
+  }
+}
