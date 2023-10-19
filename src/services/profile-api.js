@@ -54,19 +54,19 @@ export async function getProfile(username) {
 export async function updateProfile(values){
   try {
     await httpRequest(
-      url + '/users',
+      url + '/users/',
       'PATCH',
       JSON.stringify({
         full_name: values.full_name,
-        county: values.county,
-        elected_position: values.elected_position,
-        email: values.email,
-        contact: values.contact,
-        date_of_birth: values.date_of_birth,
-        gender: values.gender,
-        national_id: values.national_id,
-        location: values.address,
-        profile_image: values.profile_image
+        county: values.county === '' ? null: values.county,
+        elected_position: values.elected_position === '' ? null : values.elected_position,
+        email: values.email === '' ? null : values.email,
+        contact: values.contact === '' ? null : values.contact,
+        date_of_birth: values.date_of_birth === '' ? null : values.date_of_birth,
+        gender: values.gender === '' ? null : values.gender,
+        national_id: values.national_id === '' ? null : values.national_id,
+        location: values.address === '' ? null : values.address,
+        profile_image: values.profile_image === '' ? null : values.profile_image
   })
     )
   } catch (error) {
