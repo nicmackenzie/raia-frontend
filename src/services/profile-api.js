@@ -58,8 +58,10 @@ export async function updateProfile(values){
       'PATCH',
       JSON.stringify({
         full_name: values.full_name,
+        occupation: values.occupation,
         county: values.county === '' ? null: values.county,
         elected_position: values.elected_position === '' ? null : values.elected_position,
+        interests: values.interests === '' ? null : values.interests,
         email: values.email === '' ? null : values.email,
         contact: values.contact === '' ? null : values.contact,
         date_of_birth: values.date_of_birth === '' ? null : values.date_of_birth,
