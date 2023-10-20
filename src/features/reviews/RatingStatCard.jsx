@@ -1,20 +1,14 @@
 import { Badge } from '../../components/ui/Badge';
-import { numberFormatter } from '../../lib/utils';
+import { numberFormatter, ratingBadgeVariants } from '../../lib/utils';
 
-function RatingStatCard({
-  title,
-  rating,
-  totalReviews = 0,
-  variant = 'default',
-  remark,
-}) {
+function RatingStatCard({ title, rating, totalReviews = 0 }) {
   return (
     <div className="p-2 bg-card shadow rounded-md flex items-center justify-between">
       <div>
         <h3 className="text-sm font-bold mb-1">{title}</h3>
         <div className="flex items-center gap-1">
-          <Badge size="sm" variant={variant}>
-            {remark}
+          <Badge size="sm" variant={ratingBadgeVariants(rating).variant}>
+            {ratingBadgeVariants(rating).comment}
           </Badge>
           <p className="text-muted-foreground text-[10px] font-medium">
             {numberFormatter(totalReviews)} reviews

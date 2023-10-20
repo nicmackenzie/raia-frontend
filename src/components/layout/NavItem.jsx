@@ -10,7 +10,7 @@ function NavItem({ label, path, icon: Icon }) {
         'block px-4 py-2 rounded-lg',
         pathname === path
           ? 'bg-primary/10 text-primary'
-          : 'bg-background hover:bg-primary/10 hover:text-primary'
+          : 'bg-secondary hover:bg-primary/10 hover:text-primary'
       )}
     >
       <Link to={path} className="w-full flex items-center gap-4">

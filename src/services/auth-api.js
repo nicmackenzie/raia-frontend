@@ -1,5 +1,5 @@
 import { supabase } from '@/supabase/supabase';
-import { apiUrl, getToken, httpRequest } from '../lib/utils';
+import { apiUrl, httpRequest } from '../lib/utils';
 /**
  * API code for all authentication functionality will be done from this file
  * Supabase docs for methods used can be found in https://supabase.com/docs/reference/javascript
@@ -19,9 +19,7 @@ export async function getCurrentUser() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const dbUser = await httpRequest(`${url}/me`, 'GET', undefined, {
-    Authorization: 'Bearer ' + getToken().access_token,
-  });
+  const dbUser = await httpRequest(`${url}/me`);
 
   user.user = dbUser; //combine user from database with user from supabase
 
@@ -60,23 +58,6 @@ export async function getSession() {
 }
 
 export async function signUp(details) {
-  const { data, error } = await supabase.auth.signUp({
-    email: details.email,
-    password: details.password,
-    options: {
-      data: {
-        fullName: details.fullName,
-        role: details.joiningAs,
-        contact: details.contact,
-        avatar_url: null,
-      },
-    },
-  });
-
-  if (error) throw new Error(error.message);
-
-  // console.log(data.user);
-
   try {
     const response = await fetch(url + '/signup', {
       method: 'POST',
@@ -85,7 +66,6 @@ export async function signUp(details) {
         full_name: details.fullName,
         role: details.joiningAs,
         contact: details.contact,
-        user_uid: data.user.id,
       }),
       headers: { 'Content-Type': 'application/json' },
     });
@@ -95,12 +75,36 @@ export async function signUp(details) {
     if (!response.ok) {
       throw new Error(resdata.errors);
     }
+
+    const { data, error } = await supabase.auth.signUp({
+      email: details.email,
+      password: details.password,
+      options: {
+        data: {
+          fullName: details.fullName,
+          role: details.joiningAs,
+          contact: details.contact,
+          avatar_url: null,
+        },
+      },
+    });
+
+    if (error) throw new Error(error.message);
+
+    try {
+      await httpRequest(
+        `${url}/session/set_uid/${resdata.id}`,
+        'PATCH',
+        JSON.stringify({ user_uid: data.user.id })
+      );
+    } catch (error) {
+      throw new Error(error.message);
+    }
+
+    return data;
   } catch (error) {
-    await supabase.auth.admin.deleteUser(data.user.id);
     throw new Error(error.message);
   }
-
-  return data;
 }
 
 export async function logout() {

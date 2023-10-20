@@ -1,6 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { signUp } from '../../services/auth-api';
-import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
 export function useSignup() {
@@ -11,9 +10,6 @@ export function useSignup() {
     onSuccess: data => {
       queryClient.setQueryData(['user'], data?.user);
       navigate('/', { replace: true });
-    },
-    onError: error => {
-      toast.error(error.message);
     },
   });
 
