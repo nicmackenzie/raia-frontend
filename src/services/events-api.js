@@ -22,3 +22,19 @@ export async function createEvent(details) {
     throw new Error(error.message);
   }
 }
+
+export async function getEventsByDateRange({ startDate, endDate }) {
+  if (!startDate || !endDate) throw new Error('Missing start or end date');
+  if (new Date(startDate).getTime() > new Date(endDate).getTime())
+    throw new Error('End date must be later than the start date');
+
+  try {
+    const events = await httpRequest(
+      `${url}/events/by_range?start_date=${startDate}&end_date=${endDate}`
+    );
+
+    return events;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}
