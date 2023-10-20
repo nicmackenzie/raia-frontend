@@ -152,3 +152,10 @@
   flex-direction: row;
   justify-content:space-between;
 }
+.user-cards{
+  background-Color: rgb(205, 173, 234);
+  padding: 20px;
+  border-radius: 8px;
+  max-width: fit-content;
+  margin-top: 10px;
+}
