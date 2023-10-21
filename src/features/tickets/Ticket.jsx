@@ -50,45 +50,50 @@ function Ticket () {
   };
 
   return (
-    <div className="bg-white p-4 shadow rounded-lg">
-      <h1 className="text-2xl font-semibold mb-4">Tickets</h1>
+        <div className="bg-white p-4 shadow rounded-lg">
+    <h1 className="text-2xl font-semibold mb-4">Tickets</h1>
 
-      {/* Form for Creating a Ticket */}
-      <form onSubmit={createTicket}>
+    {/* Form for Creating a Ticket */}
+    <form onSubmit={createTicket} className="mb-4">
         <input
-          type="text"
-          value={newTicket.title}
-          onChange={(e) => setNewTicket({ ...newTicket, title: e.target.value })}
-          className="w-full p-2 rounded-md border mb-2"
-          placeholder="Title"
+        type="text"
+        value={newTicket.title}
+        onChange={(e) => setNewTicket({ ...newTicket, title: e.target.value })}
+        className="w-full p-2 rounded-md border border-gray-300 mb-2 focus:outline-none"
+        placeholder="Title"
         />
         <input
-          type="text"
-          value={newTicket.description}
-          onChange={(e) => setNewTicket({ ...newTicket, description: e.target.value })}
-          className="w-full p-2 rounded-md border mb-2"
-          placeholder="Description"
+        type="text"
+        value={newTicket.description}
+        onChange={(e) => setNewTicket({ ...newTicket, description: e.target.value })}
+        className="w-full p-2 rounded-md border border-gray-300 mb-2 focus:outline-none"
+        placeholder="Description"
         />
-        <button type="submit" className="bg-blue-500 text-white p-2 rounded-md mb-4">
-          Create Ticket
+        <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 focus:outline-none">
+        Create Ticket
         </button>
-      </form>
+    </form>
 
-      {/* List of Tickets */}
-      {tickets.length > 0 && (
+    <hr className="border-gray-300 my-4" />
+
+    {/* List of Tickets */ }
+    {tickets.length > 0 && (
         <div>
-          {tickets.map((ticket) => (
-            <div key={ticket.id} className="mb-4">
-              <h2 className="text-xl font-semibold">{ticket.title}</h2>
-              <p>{ticket.description}</p>
-              <p>Status: {ticket.status}</p>
-              <button onClick={() => deleteTicket(ticket.id)} className="text-red-500">
+        {tickets.map((ticket) => (
+            <div key={ticket.id} className="mb-4 p-4 border border-gray-300 rounded-lg shadow-lg">
+            <h2 className="text-xl font-semibold text-blue-700">{ticket.title}</h2>
+            <p className="text-gray-600 mt-2">{ticket.description}</p>
+            <p className="text-sm text-gray-500 mt-2">Status: {ticket.status}</p>
+            <button
+                onClick={() => deleteTicket(ticket.id)}
+                className="mt-4 px-4 py-2 bg-red-500 text-white rounded-full hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500"
+            >
                 Delete
-              </button>
+            </button>
             </div>
-          ))}
+        ))}
         </div>
-      )}
+    )}
     </div>
   );
 };
