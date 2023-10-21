@@ -45,16 +45,17 @@ function Ticket () {
   };
 
   const deleteTicket = async (ticketId) => {
+    if (window.confirm('Are you sure you want to delete this ticket?')) {
     try {
       const response = await fetch(`http://localhost:3000/tickets/${ticketId}`, {
         method: 'DELETE',
       });
       if (response.ok) {
-        fetchTickets();
+        setTickets(tickets.filter((ticket) => ticket.id !== ticketId));
       }
     } catch (error) {
       console.error('Error deleting the ticket:', error);
-    }
+    }}
   };
 
   return (
