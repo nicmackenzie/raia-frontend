@@ -164,3 +164,16 @@
   background-color: hsl(256, 34%, 48%);
   border-radius: 50%;
 } */
+
+.nav-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.user-cards {
+  background-color: rgb(205, 173, 234);
+  padding: 20px;
+  border-radius: 8px;
+  max-width: fit-content;
+  margin-top: 10px;
+}
