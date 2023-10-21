@@ -20,16 +20,24 @@ function Ticket () {
     }
   };
 
-  const createTicket = async () => {
+  const createTicket = async (event) => {
+    event.preventDefault();
+    let newObject = {
+        ...newTicket,
+        status: "Open",
+        user_id: 1,
+        assigned_leader_id: 1,
+      };
     try {
       const response = await fetch('http://localhost:3000/tickets', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newTicket),
+        body: JSON.stringify(newObject),
       });
       if (response.ok) {
+        const data = await response.json();
         setNewTicket({ title: '', description: '' });
-        fetchTickets();
+        setTickets([...tickets, data]);
       }
     } catch (error) {
       console.error('Error creating a ticket:', error);
