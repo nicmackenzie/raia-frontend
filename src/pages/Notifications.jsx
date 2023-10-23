@@ -1,9 +1,7 @@
-import { useNotifications } from '../context/notifications-context';
+import NotificationsBox from '../features/notifications/NotificationsBox';
 
 function Notifications() {
-  const { data, unread } = useNotifications();
-  console.log(unread);
-  return <div></div>;
+  return <NotificationsBox />;
 }
 
 export default Notifications;

@@ -9,6 +9,11 @@ import { useNotifications } from '../../context/notifications-context';
 function LeaderNavBar() {
   const { setTheme, theme } = useTheme();
   const { unread } = useNotifications();
+
+  // const unread = notifications
+  //   ? notifications.filter(notification => notification.status === 'unread]')
+  //       .length
+  //   : 0;
   // console.log(count);
 
   function handleThemeToogle() {

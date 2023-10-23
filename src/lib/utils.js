@@ -1,4 +1,5 @@
 import { clsx } from 'clsx';
+import { formatDistance } from 'date-fns';
 import { twMerge } from 'tailwind-merge';
 
 export function cn(...inputs) {
@@ -87,6 +88,10 @@ export function ratingBadgeVariants(rating) {
   } else if (rating >= 4) {
     return { variant: 'success', comment: 'Good' };
   }
+}
+
+export function formatDateDistance(date, date2 = new Date()) {
+  return formatDistance(new Date(date), date2, { addSuffix: true });
 }
 
 export const PAGE_SIZE = 10;

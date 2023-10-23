@@ -1,10 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
-import { createContext, useContext } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
 import { getNotifications } from '../services/notification-api';
 
 const NotificationContext = createContext();
 
 export function NotificationProvider({ children }) {
+  const [notifications, setNotifications] = useState([]);
+
   const {
     isLoading: isLoadingNotifications,
     data,
@@ -12,17 +14,26 @@ export function NotificationProvider({ children }) {
   } = useQuery({
     queryKey: ['notifications'],
     queryFn: getNotifications,
-    refetchInterval: 2000,
+    refetchInterval: 10000,
   });
 
-  const count =
-    data.length > 0
-      ? data.filter(notification => notification.status === 'unread').length
-      : 0;
+  useEffect(
+    function () {
+      if (data) {
+        setNotifications(data);
+      }
+    },
+
+    [data]
+  );
+
+  const count = notifications.filter(
+    notification => notification.status === 'unread]'
+  ).length;
 
   return (
     <NotificationContext.Provider
-      value={{ isLoadingNotifications, data, error, unread: count }}
+      value={{ isLoadingNotifications, notifications, error, unread: count }}
     >
       {children}
     </NotificationContext.Provider>
