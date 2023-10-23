@@ -2,7 +2,8 @@ import { Link } from 'react-router-dom';
 import { Calendar, MapPin } from 'lucide-react';
 import noImagePlaceHolder from '../../assets/no-image.jpg';
 
-function formatDate(date) {
+// eslint-disable-next-line react-refresh/only-export-components
+export function formatDate(date) {
   return new Intl.DateTimeFormat('en-GB', {
     dateStyle: 'full',
     timeStyle: 'short',

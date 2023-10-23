@@ -38,3 +38,41 @@ export async function getEventsByDateRange({ startDate, endDate }) {
     throw new Error(error.message);
   }
 }
+
+export async function getEvent(id) {
+  try {
+    const event = httpRequest(`${url}/events/${id}`);
+    return event;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}
+
+export async function postEnquiry({ details, id }) {
+  try {
+    await httpRequest(
+      `${url}/events/${id}/enquiry`,
+      'POST',
+      JSON.stringify(details)
+    );
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}
+
+export async function registerEvent({ user_id, id }) {
+  try {
+    await httpRequest(
+      `${url}/events/${id}/attend`,
+      'POST',
+      JSON.stringify({ user_id })
+    );
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}
+
+export async function getEventAttendees(eventId) {
+  const events = await httpRequest(`${url}/events/${eventId}/attendees`);
+  return events;
+}

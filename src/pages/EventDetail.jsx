@@ -1,147 +1,152 @@
-import { useState, useEffect } from "react";
-import { useParams } from "react-router";
-import Button from "../components/ui/Button";
-import { JapaneseYen } from "lucide-react";
-
+import { useState, useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { useParams } from 'react-router';
+import { Calendar, MapPin } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import Avatar from '../components/ui/Avatar';
+import { getEvent } from '../services/events-api';
+import Loader from '../components/ui/Loader';
+import Alert from '../components/ui/Alert';
+import { formatDate } from '../features/events/Event';
+import userPlaceholder from '../assets/default-user.jpg';
+import posterPlaceholder from '../assets/no-image.jpg';
+import EventAttendee from '../features/events/EventAttendee';
+import EventEnquiryForm from '../features/events/EventEnquiryForm';
+import { useUser } from '../features/authentication/use-user';
+import EventActions from '../features/events/EventActions';
 
 function EventDetail() {
-  const [confirmed,setConfirmed]=useState(false)
   const { id } = useParams();
-  const eventId = parseInt(id); // Convert id to a number
-  const [users,setUsers]=useState([])
-  const [seeAttendees,setSeeAttendees]=useState(false)
-const [inquiring,setInquiring]=useState(false)
+  const { data } = useUser();
   const [event, setEvent] = useState({});
-  const usersInfo = [{
-    id:1,
-    name: 'Jane Smith',
-    age: 25,
-    email: 'jane.smith@example.com',
-    address: '456 Oak Ave, Townsville, USA',
-  },
-{
-  id:2,
-  name: 'James Brown',
-    age: 40,
-    email: 'james.brown@example.com',
-    address: '789 Maple Ln, Villageton, USA',
-},{
-  id:3,
-  name: 'Jill Johnson',
-  age: 35,
-  email: 'jill.johnson@example.com',
-  address: '101 Pine Rd, Hilltop, USA',
-}]
-  
-  
-  const events = [
-    {
-      "id": 1,
-      "name": "Community Cleanup Day",
-      "description": "Join us for a day of cleaning up the local park and making our community a cleaner and more beautiful place.",
-      "date": '18-10-2023',
-      "county": "Los Angeles"
-    },
-    {
-      "id": 2,
-      "name": "Food Drive for the Homeless",
-      "description": "Help us collect non-perishable food items for the homeless population in our city. Every little bit helps!",
-      "date": '19-10-2023',
-      "county": "New York"
-    },
-    {
-      "id": 3,
-      "name": "Tech Workshop for Beginners",
-      "description": "Learn the basics of programming and get hands-on experience with different technologies. No prior experience required!",
-      "date": '16-10-2023',
-      "county": "San Francisco"
-    }
-  ];
+  const {
+    isLoading,
+    data: fetchedEvent,
+    error,
+  } = useQuery({
+    queryFn: () => getEvent(id),
+    queryKey: ['events', id],
+  });
 
-  useEffect(() => {
-    // Check if eventId exists and is a valid number
-    if (eventId && !isNaN(eventId)) {
-      const clickedEvent = events.find(event => event.id === eventId);
-  
-      if (clickedEvent) {
-        setEvent(clickedEvent);
-      } else {
-        setEvent({
-          name: "Event not found",
-          description: "The requested event does not exist.",
-          county: ""
-        });
-      }
-    }
-  }, [eventId]);
+  useEffect(
+    function () {
+      setEvent(fetchedEvent);
+    },
+    [id, fetchedEvent]
+  );
 
-  function handleConfirmation(){
-    // handle confirmation logic to backend
-    const eventDetail={
-      user_id:1,
-      eventId:id,
-      is_attending:true
-    }
-    fetch(" http://localhost:3000/event_details",{
-      method:"POST",
-      headers:{
-        "Content-type":"application/json"
-      },
-      body:JSON.stringify(eventDetail)
-    }).then(res=>{
-      if(res.ok){
-        setConfirmed(true)
-      }
-      res.json()})
-    .then(data=>console.log(data))
-    
+  if (isLoading) {
+    <Loader type="spinner" size="md" />;
   }
-  function fetchAllAttenders(){
-    // fetch all people attending backend
-    setSeeAttendees(true)
-    setUsers(usersInfo)
-    // fetch(`http://localhost:3000/event_details/${id}`)
-    // .then(res=>res.json())
-    // .then(data=>setUsers(data))
+  if (error) {
+    <Alert message={error} variant="error" dismissable={false} />;
   }
-  function handleInquiry(){
-setInquiring(()=>true)
-  }
-  function handleSubmitInquiry(e){
-    e.preventDefault()
-  }
+
+  const isAttending = event?.event_attendees?.some(
+    attendee => attendee.user.id === data?.user?.id
+  );
+
+  const eventIsPast =
+    event?.date && new Date().getTime() > new Date(event?.date).getTime();
 
   return (
-    <div>
-      <div className="nav-buttons">
-      <Button children={confirmed ?"Attendance confirmed":"Confirm attendance"} onClick={handleConfirmation}/>
-      <Button children={"See attendees"} onClick={fetchAllAttenders}/>
-      <Button children={"inquire about event"} onClick={handleInquiry}/>
+    <article className="pb-6">
+      <img
+        src={event?.poster_url || posterPlaceholder}
+        alt={`Poster for ${event?.name}`}
+        className="block w-full aspect-video"
+      />
+      <div className="my-4">
+        <h1 className="text-lg md:text-2xl font-bold text-tertiary dark:text-gold">
+          {event?.name}
+        </h1>
+        <div className="my-4 flex flex-col lg:flex-row gap-4 lg:items-center">
+          <div className="flex items-center gap-1 ">
+            <Avatar src={event?.user?.profile_image || userPlaceholder} />
+            <div className="text-sm lg:pr-4 lg:border-r">
+              Hosted By:{' '}
+              <span className="text-primary font-medium">
+                {event?.user?.full_name}
+              </span>
+              <p className="text-xs text-muted-foreground">
+                @{event?.user?.username}
+              </p>
+            </div>
+          </div>
+          <div className="lg:pl-4 flex flex-col lg:flex-row gap-2 lg:items-center">
+            <div className="flex items-center gap-1 text-muted-foreground lg:pr-4 lg:border-r">
+              <Calendar className="w-6 h-6" />
+              <span className="text-xs md:text-sm">
+                {formatDate(event?.date ? new Date(event?.date) : new Date())}
+              </span>
+            </div>
+            <div className="flex items-center gap-1 text-muted-foreground lg:pl-4">
+              <MapPin className="w-6 h-6" />
+              <span className="text-xs md:text-sm">{event?.location}</span>
+            </div>
+          </div>
+          <EventActions
+            isOwner={event?.user?.id === data?.user?.id}
+            isAttending={isAttending}
+            eventId={event?.id}
+            userId={data?.user?.id}
+            eventIsPast={eventIsPast}
+          />
+        </div>
       </div>
-    <div className="event-card">
-      <h3>{event.name}</h3>
-      <p>{event.description}</p>
-      <p>{event.county}</p>
-    </div>
-   
-    {inquiring && <form onSubmit={handleSubmitInquiry} className="event-form" >
-      <label htmlFor="inquiry">Ask about event here:</label>
-      <textarea name="inquiry" type="text"></textarea>
-    <Button children={"send inquiry"} type="submit"/>
-    </form>}
-    {seeAttendees && users.length>0 && users.map((user)=>{
-      return <div className="user-cards" key={user.id}>
-        <p>name: {user.name}</p>
-        <p>email: {user.email}</p>
+      <div
+        className="event-description max-w-2xl text-sm"
+        dangerouslySetInnerHTML={{ __html: event?.description }}
+      />
+      <div className="max-w-2xl border rounded-md p-2">
+        <div className="flex items-center justify-between mb-6">
+          <h5 className="text-primary font-semibold">
+            Attendees({event?.event_attendees?.length || 0})
+          </h5>
+          <Link
+            to={`attendees`}
+            className="text-sm text-blue-800 dark:text-blue-300 transition-all hover:underline"
+          >
+            See all
+          </Link>
+        </div>
+        {event?.event_attendees?.length > 0 ? (
+          <div className="grid grid-cols-2 md:grid-cols-5">
+            {event?.event_attendees?.slice(0, 4).map(attendee => (
+              <EventAttendee
+                key={attendee.id}
+                full_name={attendee?.user?.full_name}
+                username={attendee?.user?.username}
+                profile_image={attendee?.user?.profile_image}
+                id={attendee?.user?.id}
+                hostid={event?.user?.id}
+              />
+            ))}
+            {event?.event_attendees?.length >= 10 && (
+              <div className="flex flex-col items-center gap-1">
+                <div className="h-16 w-16 rounded-full bg-secondary flex flex-col text-xs items-center justify-center uppercase text-secondary-foreground font-bold">
+                  +{event?.event_attendees?.length - 4}
+                  <span className="text-[10px]">others</span>
+                </div>
+              </div>
+            )}
+          </div>
+        ) : (
+          <p className="block text-center text-sm text-muted-foreground">
+            No attendees currently
+          </p>
+        )}
       </div>
-    })}
-    {
-      seeAttendees && users.length===0 && <div className="user-cards">
-        <p>No users have confirmed yet</p>
-      </div>
-    }
-    
-    </div>
+      {event?.user?.id !== data?.user?.id && (
+        <div className="mt-6">
+          <EventEnquiryForm
+            user_from={data?.user?.id}
+            event={event?.id}
+            event_user={event?.user?.id}
+          />
+        </div>
+      )}
+    </article>
   );
 }
 
