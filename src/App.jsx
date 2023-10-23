@@ -5,6 +5,7 @@ import ProtectedRoute from './components/layout/ProtectedRoute';
 import EmailConfirmation from './pages/EmailConfirmation';
 import AppLayout from './components/layout/AppLayout';
 import { Toaster } from 'react-hot-toast';
+import { NotificationProvider } from './context/notifications-context';
 // import CreateDiscussionForm from './features/discussions/CreateDiscussionForm';
 // import DiscussonDetail from './features/discussions/DiscussonDetail';
 
@@ -67,9 +68,11 @@ function App() {
             path="/"
             element={
               <Suspense fallback={<Loader />}>
-                {/* <ProtectedRoute> */}
-                <AppLayout />
-                {/* </ProtectedRoute> */}
+                <ProtectedRoute>
+                  <NotificationProvider>
+                    <AppLayout />
+                  </NotificationProvider>
+                </ProtectedRoute>
               </Suspense>
             }
           >
