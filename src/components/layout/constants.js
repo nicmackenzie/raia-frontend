@@ -1,6 +1,6 @@
 import {
   BadgeInfo,
-  Bell,
+  // Bell,
   Calendar,
   CheckSquare,
   File,
@@ -73,11 +73,11 @@ export const CITIZEN_NAVITEMS = [
     path: '/',
     icon: Home,
   },
-  {
-    label: 'Notifications',
-    path: '/notifications',
-    icon: Bell,
-  },
+  // {
+  //   label: 'Notifications',
+  //   path: '/notifications',
+  //   icon: Bell,
+  // },
   {
     label: 'Messages',
     path: '/messages',

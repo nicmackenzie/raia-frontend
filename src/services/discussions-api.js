@@ -6,11 +6,24 @@ export async function getDiscussions() {
   try {
     const response = await httpRequest(`${url}/discussions`);
 
-    // const data = await response.json();
-    // if (!response.ok) throw new Error(data.error);
-
     return response;
   } catch (error) {
     throw new Error(error.message);
   }
+}
+
+export async function createDiscussion(values){
+    try {
+        await httpRequest(
+            url + '/discussions',
+            'POST',
+            JSON.stringify({
+                title: values.title,
+                content: values.content,
+                user_id: values.id
+            })
+        )
+    } catch (error) {
+        
+    }
 }

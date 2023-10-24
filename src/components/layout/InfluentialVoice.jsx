@@ -28,7 +28,7 @@ function InfluentialVoice({
             {fullName}
           </Link>
           <span className="text-[10px] text-muted-foreground">
-            {leader ? position.toUpperCase() : 'PIONEER'}
+            {leader ? position?.toUpperCase() : 'PIONEER'}
           </span>
         </div>
       </div>

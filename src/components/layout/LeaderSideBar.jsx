@@ -12,7 +12,7 @@ function LeaderSideBar() {
   const { data } = useUser();
   const { isLoggingOut, logout } = useLogout();
   return (
-    <aside className="hidden w-72 h-full lg:flex lg:flex-col gap-6 lg:fixed md:fixed md:inset-y-0 z-[80] bg-background border-r pb-6">
+    <aside className="hidden w-72 h-full lg:flex lg:flex-col gap-6 lg:fixed md:fixed md:inset-y-0 z-[80] bg-secondary border-r pb-6">
       <div className="h-16 flex items-center px-4 lg:px-6 2xl:px-8">
         <div className="flex items-center gap-1">
           <Avatar size="sm" src={data?.user_metadata?.avatar_url || fallBack} />

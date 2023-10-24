@@ -1,9 +1,17 @@
 import { clsx } from 'clsx';
+import { formatDistance } from 'date-fns';
 import { twMerge } from 'tailwind-merge';
 
 export function cn(...inputs) {
   return twMerge(clsx(inputs));
 }
+
+export const CATEGORY_OPTIONS = [
+  { value: 'governance', label: 'Governance' },
+  { value: 'fund-utilization', label: 'Fund Utilization' },
+  { value: 'development', label: 'Development' },
+  { value: 'community-outreach', label: 'Community Outreach' },
+];
 
 export function getInitials(fullName) {
   const words = fullName.split(/\s+/);
@@ -71,3 +79,19 @@ export function numberFormatter(value) {
     return 0;
   }
 }
+
+export function ratingBadgeVariants(rating) {
+  if (rating < 2.5) {
+    return { variant: 'destructive', comment: 'Poor' };
+  } else if (rating >= 2.5 && rating < 4) {
+    return { variant: 'warning', comment: 'Fair' };
+  } else if (rating >= 4) {
+    return { variant: 'success', comment: 'Good' };
+  }
+}
+
+export function formatDateDistance(date, date2 = new Date()) {
+  return formatDistance(new Date(date), date2, { addSuffix: true });
+}
+
+export const PAGE_SIZE = 10;

@@ -10,8 +10,9 @@ function AppLayout() {
   const role = data?.user_metadata?.role.toLowerCase();
 
   return (
-    <div className="h-dvh bg-secondary">
-      {role === 'citizen' || (data?.user?.role === 'leader' && !data?.user?.verified) ? (
+    <div className="h-dvh bg-background">
+      {role === 'citizen' ||
+      (data?.user?.role === 'leader' && !data?.user?.verified) ? (
         <CitizenLayout />
       ) : (
         <>

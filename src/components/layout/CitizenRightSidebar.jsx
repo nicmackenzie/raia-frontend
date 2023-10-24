@@ -15,7 +15,9 @@ function CitizenRightSidebar() {
   });
 
   if (isLoading)
-    return <Loader className="w-6 h-6 mx-auto mt-8 animate-spin" />;
+    return (
+      <Loader className="hidden md:block w-6 h-6 mx-auto mt-8 animate-spin" />
+    );
 
   return (
     <div className="hidden lg:inline-flex lg:flex-col gap-y-4 w-1/5">
