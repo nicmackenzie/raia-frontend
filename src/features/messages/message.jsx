@@ -10,7 +10,7 @@ function Messages() {
   }, []);
 
   function fetchMessages() {
-    const endpoint = showSentMessages ? 'my_sent_messages/2' : 'my_received_messages/2'; // Replace '2' with the appropriate user ID
+    const endpoint = showSentMessages ? 'my_received_messages/2' : 'my_sent_messages/2'; // Replace '2' with the appropriate user ID
     fetch(`http://localhost:3000/messages/${endpoint}`)
       .then((response) => {
         if (!response.ok) {
@@ -68,12 +68,12 @@ function Messages() {
   return (
     <div className="container mx-auto p-8">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-2xl font-semibold">{showSentMessages ? 'Received Messages' : 'Sent Messages'}</h2>
+        <h2 className="text-2xl font-semibold">{showSentMessages ? 'Sent Messages' : 'Received Messages'}</h2>
         <button
           onClick={toggleMessages}
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
         >
-          {showSentMessages ? 'Show Sent' : 'Show Received'}
+          {showSentMessages ? 'Show Received' : 'Show Sent'}
         </button>
       </div>
       <ul className="space-y-4">
