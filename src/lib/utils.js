@@ -94,4 +94,14 @@ export function formatDateDistance(date, date2 = new Date()) {
   return formatDistance(new Date(date), date2, { addSuffix: true });
 }
 
+export function replaceEmptyStringsWithNull(obj) {
+  const result = {};
+
+  Object.keys(obj).forEach(key => {
+    result[key] = obj[key] === '' ? null : obj[key];
+  });
+
+  return result;
+}
+
 export const PAGE_SIZE = 10;
