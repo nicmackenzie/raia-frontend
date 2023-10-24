@@ -55,7 +55,7 @@ function CreateDiscussionForm() {
       const onsubmit = (values) => {
         const formValues = {...values, id: userInfo.id}
         console.log('values submitted', formValues)
-        upload(formValues)
+        // upload(formValues)
       }
 
 
@@ -84,7 +84,7 @@ function CreateDiscussionForm() {
                 options={topicOptions}
                 size="default"
                 placeholder="Select Topic"
-                {...register('ctopic', {
+                {...register('topic', {
                     required: { value: true, message: 'Please select a topic' },
                   })}
               />

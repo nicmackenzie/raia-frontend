@@ -2,36 +2,32 @@ import React from 'react'
 import { Card, CardHeader, CardTitle, CardDescription,CardContent, CardFooter } from '../../components/ui/Card'
 import Avatar from '../../components/ui/Avatar'
 import Button from '../../components/ui/Button'
-import discussions from './discussionData'
+// import discussions from './discussionData'
 import { useUser } from '../authentication/use-user'
 import { useNavigate, Link } from 'react-router-dom'
 import { getDiscussions } from '../../services/discussions-api'
 import { useQuery } from '@tanstack/react-query'
 import { Badge } from '../../components/ui/Badge'
 import { ChevronsUp, MessageSquare } from 'lucide-react'
+import timeElapsed from './dateTime'
 
-function DiscussionCard({title, id, created_by}) {
+function DiscussionCard({title, id, user, discussion_replies, created_at, content}) {
   const navigate = useNavigate();
-  const { isLoading: isFetching, data: user } = useUser();
-  const role = user?.user.role.toLowerCase();
+  // const { isLoading: isFetching, data: user } = useUser();
+  // const role = user?.user.role.toLowerCase();
 
-  if (isFetching){return null}
-  console.log(role)
+  // if (isFetching){return null}
+  // console.log(role)
  
 
-  const { isLoading, data } = useQuery({
-    queryFn: () => getDiscussions(),
-    queryKey: ['discussions'],
-  });
+  // const { isLoading, data } = useQuery({
+  //   queryFn: () => getDiscussions(),
+  //   queryKey: ['discussions'],
+  // });
 
+  // if (isLoading){return null};
 
-
-  if (isLoading){return null};
-
-  // const fetchedDiscussions = data?.discussions;
-
-
-  console.log(data)
+  // console.log(data);
 
 
   
@@ -45,23 +41,21 @@ function DiscussionCard({title, id, created_by}) {
             alt="avatar for user"
           />
           <div>
-            <div className="text-sm font-semibold">{created_by}</div>
-            <p className="text-xs text-muted-foreground">2 days ago</p>
+            <div className="text-sm font-semibold">{user.full_name}</div>
+            <p className="text-xs text-muted-foreground">{timeElapsed(created_at)}</p>
           </div>
         </div>
         <Badge size="sm">Education</Badge>
       </header>
       <div className="space-y-1.5">
-        <Link to={id}>
+        <Link to={`/discussions/${id}`}>
           <h3 className="text-base lg:text-lg font-semibold transition-colors hover:text-primary">
             {title}
           </h3>
         </Link>
         <p className="text-xs text-muted-foreground">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt
-          obcaecati facere repudiandae quidem, doloribus minima aliquam fugit
-          dolorum id voluptatem! Reiciendis debitis...{' '}
-          <Link to={id}>
+          {content}...{' '}
+          <Link to={`/discussions/${id}`}>
             <span className="font-semibold text-primary">Read More</span>
           </Link>
         </p>

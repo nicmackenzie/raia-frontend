@@ -1,8 +1,7 @@
 import { url, getToken, httpRequest } from '../lib/utils';
 
-// const url = apiUrl();
+
 export async function getDiscussions() {
-  //   console.log();
   try {
     const response = await httpRequest(`${url}/discussions`);
 
@@ -10,7 +9,17 @@ export async function getDiscussions() {
   } catch (error) {
     throw new Error(error.message);
   }
-}
+};
+
+export async function getDiscussionById(id) {
+    try {
+      const response = await httpRequest(`${url}/discussions/${id}`);
+  
+      return response;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
 
 export async function createDiscussion(values){
     try {
