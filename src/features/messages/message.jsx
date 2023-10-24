@@ -3,16 +3,18 @@ import React, { useState, useEffect } from 'react';
 function Messages() {
   const [messages, setMessages] = useState([]);
   const [formData, setFormData] = useState({ receiver: '', content: '' });
+  const [showSentMessages, setShowSentMessages] = useState(true);
 
   useEffect(() => {
     fetchMessages();
   }, []);
 
   function fetchMessages() {
-    fetch('http://localhost:3000/messages')
+    const endpoint = showSentMessages ? 'my_sent_messages/2' : 'my_received_messages/2'; // Replace '2' with the appropriate user ID
+    fetch(`http://localhost:3000/messages/${endpoint}`)
       .then((response) => {
         if (!response.ok) {
-          throw new Error('Failed to fetch messages');
+          throw new Error(`Failed to fetch ${showSentMessages ? 'sent' : 'received'} messages`);
         }
         return response.json();
       })
@@ -20,7 +22,7 @@ function Messages() {
         setMessages(data);
       })
       .catch((error) => {
-        console.error('Error fetching messages:', error);
+        console.error(`Error fetching ${showSentMessages ? 'sent' : 'received'} messages:`, error);
       });
   }
 
@@ -58,13 +60,27 @@ function Messages() {
       });
   };
 
+  const toggleMessages = () => {
+    setShowSentMessages(!showSentMessages);
+    fetchMessages();
+  };
+
   return (
     <div className="container mx-auto p-8">
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-2xl font-semibold">{showSentMessages ? 'Received Messages' : 'Sent Messages'}</h2>
+        <button
+          onClick={toggleMessages}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        >
+          {showSentMessages ? 'Show Sent' : 'Show Received'}
+        </button>
+      </div>
       <ul className="space-y-4">
         {messages.map((message) => (
           <li key={message.id} className="bg-white rounded-lg shadow-md p-4">
             <p className="text-gray-500 text-sm mb-2 text-blue-600 font-bold">
-              Message from {message.sender_id}
+              Sender: {message.sender_id}
             </p>
             <div className="border-t my-2"></div>
             <p className="text-lg mb-2">{message.content}</p>
