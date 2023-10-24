@@ -5,20 +5,38 @@ import Button from '../../components/ui/Button'
 import discussions from './discussionData'
 import { useUser } from '../authentication/use-user'
 import { useNavigate, Link } from 'react-router-dom'
+import { getDiscussions } from '../../services/discussions-api'
+import { useQuery } from '@tanstack/react-query'
 
 function DiscussionCard() {
   const navigate = useNavigate();
-  const data = useUser();
-  const role = data?.user_metadata?.role.toLowerCase;
+  const { isLoading: isFetching, data: user } = useUser();
+  const role = user?.user.role.toLowerCase();
 
-  // function handleClick(){
-  //   navigate('discussions/:id')
-  // };
-  // console.log(discussions);
+  if (isFetching){return null}
+  console.log(role)
+ 
+
+  const { isLoading, data } = useQuery({
+    queryFn: () => getDiscussions(),
+    queryKey: ['discussions'],
+  });
+
+
+
+  if (isLoading){return null};
+
+  // const fetchedDiscussions = data?.discussions;
+
+
+  console.log(data)
+
+
+  
 
   return (
     <div>
-      {role === "leader"? <Button>Start a discussion</Button> : <></>}
+      {/* {role === "leader"? <Button>Start a discussion</Button> : <></>} */}
       <div className='grid grid-cols-1 md:grid-cols-2 ' >
         { discussions.map((discussion) => {
           return (
