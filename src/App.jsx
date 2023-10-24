@@ -10,7 +10,6 @@ import { NotificationProvider } from './context/notifications-context';
 // import CreateDiscussionForm from './features/discussions/CreateDiscussionForm';
 // import DiscussonDetail from './features/discussions/DiscussonDetail';
 
-
 const Authenication = lazy(() => import('./pages/Authentication'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 const Home = lazy(() => import('./pages/Home'));
@@ -23,9 +22,6 @@ const DiscussionDetail = lazy(() =>
   import('./features/discussions/DiscussionDetail')
 );
 // const Events = lazy(() => import('./pages/Events'));
-
-const Events = lazy(() => import('./pages/Events'));
-
 const EventTest = lazy(() => import('./pages/EventsTest'));
 const AddEditEvent = lazy(() => import('./features/events/EventForm'));
 const EventDetail = lazy(() => import('./pages/EventDetail'));
@@ -46,6 +42,7 @@ const Verification = lazy(() => import('./pages/Verification'));
 const UserProfile = lazy(() => import('./pages/UserProfile'));
 const EventAttendees = lazy(() => import('./pages/EventAttendees'));
 const EventEnquiries = lazy(() => import('./pages/EventEnquiries'));
+const NewPetition = lazy(() => import('./pages/NewPetition'));
 
 function App() {
   return (
@@ -102,6 +99,7 @@ function App() {
             <Route path="news-updates/:id" element={<NewsDetail />} />
             <Route path="notifications" element={<Notifications />} />
             <Route path="petitions" element={<Petitions />} />
+            <Route path="petitions/new" element={<NewPetition />} />
             <Route path="petitions/:slug" element={<PetitionDetail />} />
             <Route path="polls-surveys" element={<PollsAndSurveys />} />
             <Route path="my-profile" element={<Profile />} />
