@@ -6,11 +6,28 @@ import EmailConfirmation from './pages/EmailConfirmation';
 import AppLayout from './components/layout/AppLayout';
 import { Toaster } from 'react-hot-toast';
 
+import { NotificationProvider } from './context/notifications-context';
+// import CreateDiscussionForm from './features/discussions/CreateDiscussionForm';
+// import DiscussonDetail from './features/discussions/DiscussonDetail';
+
+
 const Authenication = lazy(() => import('./pages/Authentication'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 const Home = lazy(() => import('./pages/Home'));
 const Discussions = lazy(() => import('./pages/Discussions'));
+
+const CreateDiscussionForm = lazy(() =>
+  import('./features/discussions/CreateDiscussionForm')
+);
+const DiscussionDetail = lazy(() =>
+  import('./features/discussions/DiscussionDetail')
+);
+// const Events = lazy(() => import('./pages/Events'));
+
 const Events = lazy(() => import('./pages/Events'));
+
+const EventTest = lazy(() => import('./pages/EventsTest'));
+const AddEditEvent = lazy(() => import('./features/events/EventForm'));
 const EventDetail = lazy(() => import('./pages/EventDetail'));
 const Messages = lazy(() => import('./pages/Messages'));
 const News = lazy(() => import('./pages/NewsUpdates'));
@@ -27,6 +44,8 @@ const Tickets = lazy(() => import('./pages/Tickets'));
 const LeaderConfirmation = lazy(() => import('./pages/LeaderConfirmation'));
 const Verification = lazy(() => import('./pages/Verification'));
 const UserProfile = lazy(() => import('./pages/UserProfile'));
+const EventAttendees = lazy(() => import('./pages/EventAttendees'));
+const EventEnquiries = lazy(() => import('./pages/EventEnquiries'));
 
 function App() {
   return (
@@ -55,16 +74,29 @@ function App() {
             path="/"
             element={
               <Suspense fallback={<Loader />}>
-                {/* <ProtectedRoute> */}
-                  <AppLayout />
-                {/* </ProtectedRoute> */}
+                <ProtectedRoute>
+                  <NotificationProvider>
+                    <AppLayout />
+                  </NotificationProvider>
+                </ProtectedRoute>
               </Suspense>
             }
           >
             <Route index element={<Home />} />
             <Route path="discussions" element={<Discussions />} />
-            <Route path="events" element={<Events />} />
+            {/* <Route path="events" element={<Events />} /> */}
+            <Route path="events" element={<EventTest />} />
+            <Route path="events/new" element={<AddEditEvent />} />
             <Route path="events/:id" element={<EventDetail />} />
+
+            <Route path="events/:id/attendees" element={<EventAttendees />} />
+            <Route path="events/:id/enquiries" element={<EventEnquiries />} />
+            <Route
+              path="discussions/create"
+              element={<CreateDiscussionForm />}
+            />
+            <Route path="discussions/:id" element={<DiscussionDetail />} />
+
             <Route path="messages" element={<Messages />} />
             <Route path="news-updates" exact element={<News />} />
             <Route path="news-updates/:id" element={<NewsDetail />} />
