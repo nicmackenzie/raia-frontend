@@ -1,57 +1,64 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useUser } from '../authentication/use-user';
+import { httpRequest } from '../../lib/utils';
 
 function NewsUpdate() {
   const [newsUpdates, setNewsUpdates] = useState([]);
   const [formData, setFormData] = useState({ title: '', content: '', image: '' });
-  const { userData } = useUser();
-  // console.log(userData?.user?.id)
+  const { data } = useUser();
+  console.log(data)
 
   useEffect(() => {
     fetchNewsUpdate();
   }, []);
 
-  function fetchNewsUpdate() {
-    fetch('http://localhost:3000/news_and_updates')
-      .then((response) => {
-        if (!response.ok) {
-          if (response.status === 401) {
-            console.log('Unauthorized');
-          } else {
-            // Handle other errors (e.g., network issues)
-            console.error('Error fetching news and updates:', response.status);
-          }
-          throw new Error('Unauthorized');
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setNewsUpdates(data);
-        // console.log(data);
-      })
-      .catch((error) => {
-        if (error.message !== 'Unauthorized') {
-          console.error('Error fetching news and updates:', error);
-        }
-      });
-  }
+  // function fetchNewsUpdate() {
+  //   fetch('http://localhost:3000/news_and_updates')
+  //     .then((response) => {
+  //       if (!response.ok) {
+  //         if (response.status === 401) {
+  //           console.log('Unauthorized');
+  //         } else {
+  //           // Handle other errors (e.g., network issues)
+  //           console.error('Error fetching news and updates:', response.status);
+  //         }
+  //         throw new Error('Unauthorized');
+  //       }
+  //       return response.json();
+  //     })
+  //     .then((data) => {
+  //       setNewsUpdates(data);
+  //       // console.log(data);
+  //     })
+  //     .catch((error) => {
+  //       if (error.message !== 'Unauthorized') {
+  //         console.error('Error fetching news and updates:', error);
+  //       }
+  //     });
+  // }
 
   // function handleEdit(id) {
   //   console.log("Editing")
   // }
 
-  function handleDelete(id) {
+ const fetchNewsUpdate = async () => {
+   try {
+     const data = await httpRequest('http://localhost:3000/news_and_updates');
+     setNewsUpdates(data);
+   } catch (error) {
+     console.error('Error fetching news and updates:', error);
+   }
+ }
+
+  async function handleDelete(id) {
     if (window.confirm('Are you sure you want to delete this news update?')) {
-      fetch(`http://localhost:3000/news_and_updates/${id}`, {
-        method: 'DELETE',
-      })
-        .then(() => {
-          setNewsUpdates((prevNewsUpdates) => prevNewsUpdates.filter((newsUpdate) => newsUpdate.id !== id));
-        })
-        .catch((error) => {
-          console.error('Error deleting news update:', error);
-        });
+      try {
+        await httpRequest(`http://localhost:3000/news_and_updates/${id}`, "DELETE");
+        setNewsUpdates((prevNewsUpdates) => prevNewsUpdates.filter((newsUpdate) => newsUpdate.id !== id));
+      } catch (error) {
+        console.error('Error deleting the news update:', error);
+      }
     }
   }
 
@@ -68,7 +75,7 @@ function NewsUpdate() {
     let newObject = {
       ...formData,
       county_id: 1,
-      user_id: userData?.user?.id && userData?.user?.id || 2,
+      user_id: data?.user?.id && data?.user?.id || 2,
       published_date: '2023-10-14',
     };
     fetch('http://localhost:3000/news_and_updates', {

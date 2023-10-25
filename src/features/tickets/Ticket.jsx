@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useUser } from '../authentication/use-user';
 
 function Ticket () {
-  const { userData } = useUser();
+  const { data } = useUser();
   const [tickets, setTickets] = useState([]);
   const [newTicket, setNewTicket] = useState({ title: '', description: '' });
 
@@ -27,7 +27,7 @@ function Ticket () {
     let newObject = {
         ...newTicket,
         status: "Open",
-        user_id: userData?.user?.id && userData?.user?.id || 2,
+        user_id: data?.user?.id && data?.user?.id || 2,
         assigned_leader_id: 1,
       };
     try {

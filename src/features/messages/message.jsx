@@ -5,7 +5,7 @@ function Messages() {
   const [messages, setMessages] = useState([]);
   const [formData, setFormData] = useState({ receiver: '', content: '' });
   const [showSentMessages, setShowSentMessages] = useState(true);
-  const { userData } = useUser();
+  const { data } = useUser();
 
   useEffect(() => {
     fetchMessages();
@@ -40,7 +40,7 @@ function Messages() {
     e.preventDefault();
     let newObj = {
       ...formData,
-      sender_id: userData?.user?.id && userData?.user?.id || 2,
+      sender_id: data?.user?.id && data?.user?.id || 2,
     };
     fetch('http://localhost:3000/messages', {
       method: 'POST',
