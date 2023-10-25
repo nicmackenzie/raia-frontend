@@ -83,6 +83,9 @@ export default {
           display: 'none',
         },
       },
+      gridTemplateColumns: {
+        comment: '48px 1fr',
+      },
     },
     fontFamily: {
       sans: [

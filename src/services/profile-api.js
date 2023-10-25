@@ -50,3 +50,28 @@ export async function getProfile(username) {
     throw new Error(error.message);
   }
 }
+
+export async function updateProfile({ values, id }) {
+  if (values.profile_image) {
+    const fileName = `${Math.random()}-${
+      values.profile_image[0].name
+    }`.replaceAll('/', '');
+
+    const { error } = await supabase.storage
+      .from('uploads')
+      .upload(fileName, values.profile_image[0]);
+
+    const filePath = `${supabaseUrl}/storage/v1/object/public/uploads/${fileName}`;
+    values.profile_image = filePath;
+
+    if (error) throw new Error(error.message);
+  } else {
+    if (!values.profile_image) delete values.profile_image;
+  }
+
+  try {
+    await httpRequest(url + `/users/${id}`, 'PATCH', JSON.stringify(values));
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}
