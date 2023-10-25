@@ -14,14 +14,11 @@ import { useRole } from '../../hooks/use-role';
 import Button from '../../components/ui/Button';
 import ButtonLoadingText from '../../components/ui/ButtonLoadingText';
 import { Separator } from '../../components/ui/Separator';
-import { replaceEmptyStringsWithNull } from '../../lib/utils';
+import {
+  notificationInitialState,
+  replaceEmptyStringsWithNull,
+} from '../../lib/utils';
 import { useUpdateProfile } from './use-update-profile';
-
-const notificationInitialState = {
-  displayed: false,
-  variant: 'info',
-  message: '',
-};
 
 function ProfileBox() {
   const { data } = useUser();

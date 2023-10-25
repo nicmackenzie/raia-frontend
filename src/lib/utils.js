@@ -119,4 +119,10 @@ export function generateSupabasePath(file, bucket = 'uploads') {
   return { fileName, filePath };
 }
 
+export const notificationInitialState = {
+  displayed: false,
+  variant: 'info',
+  message: '',
+};
+
 export const PAGE_SIZE = 10;
