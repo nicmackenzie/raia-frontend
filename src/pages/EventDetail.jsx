@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import Button from "../components/ui/Button";
-import { JapaneseYen } from "lucide-react";
+
 
 
 function EventDetail() {
@@ -9,8 +9,8 @@ function EventDetail() {
   const { id } = useParams();
   const eventId = parseInt(id); // Convert id to a number
   const [users,setUsers]=useState([])
+  const [inquiry,setInquiry]=useState("")
   const [seeAttendees,setSeeAttendees]=useState(false)
-const [inquiring,setInquiring]=useState(false)
   const [event, setEvent] = useState({});
   const usersInfo = [{
     id:1,
@@ -98,17 +98,31 @@ const [inquiring,setInquiring]=useState(false)
   }
   function fetchAllAttenders(){
     // fetch all people attending backend
-    setSeeAttendees(true)
-    setUsers(usersInfo)
-    // fetch(`http://localhost:3000/event_details/${id}`)
-    // .then(res=>res.json())
-    // .then(data=>setUsers(data))
+    // setSeeAttendees(true)
+    // setUsers(usersInfo)
+    fetch(`http://localhost:3000/event_details/${id}`)
+    .then(res=>res.json())
+    .then(data=>setUsers(data))
   }
-  function handleInquiry(){
-setInquiring(()=>true)
+  function handleInquiry(e){
+    console.log(e.target.name)
+    setInquiry(()=>e.target.value)
   }
+  
   function handleSubmitInquiry(e){
+    const question = {
+      inquiry:inquiry
+    }
     e.preventDefault()
+    fetch(`http://localhost:3000/event_details`,{
+      method:'POST',
+      headers:{
+        "Content-type":"application/json"
+      },
+      body:JSON.stringify(question)
+    })
+    .then(res=>res.json())
+    .then(data=>setUsers(data))
   }
 
   return (
@@ -116,7 +130,6 @@ setInquiring(()=>true)
       <div className="nav-buttons">
       <Button children={confirmed ?"Attendance confirmed":"Confirm attendance"} onClick={handleConfirmation}/>
       <Button children={"See attendees"} onClick={fetchAllAttenders}/>
-      <Button children={"inquire about event"} onClick={handleInquiry}/>
       </div>
     <div className="event-card">
       <h3>{event.name}</h3>
@@ -124,11 +137,11 @@ setInquiring(()=>true)
       <p>{event.county}</p>
     </div>
    
-    {inquiring && <form onSubmit={handleSubmitInquiry} className="event-form" >
+     <form onSubmit={handleSubmitInquiry} className="event-form" >
       <label htmlFor="inquiry">Ask about event here:</label>
-      <textarea name="inquiry" type="text"></textarea>
+      <textarea name="inquiry" type="text" onChange={handleInquiry} value={inquiry}></textarea>
     <Button children={"send inquiry"} type="submit"/>
-    </form>}
+    </form>
     {seeAttendees && users.length>0 && users.map((user)=>{
       return <div className="user-cards" key={user.id}>
         <p>name: {user.name}</p>
