@@ -1,9 +1,17 @@
 import { clsx } from 'clsx';
+import { formatDistance } from 'date-fns';
 import { twMerge } from 'tailwind-merge';
 
 export function cn(...inputs) {
   return twMerge(clsx(inputs));
 }
+
+export const CATEGORY_OPTIONS = [
+  { value: 'governance', label: 'Governance' },
+  { value: 'fund-utilization', label: 'Fund Utilization' },
+  { value: 'development', label: 'Development' },
+  { value: 'community-outreach', label: 'Community Outreach' },
+];
 
 export function getInitials(fullName) {
   const words = fullName.split(/\s+/);
@@ -19,7 +27,7 @@ export function apiUrl() {
   if (import.meta.env.DEV) {
     return import.meta.env.VITE_DEV_API_URL;
   } else {
-    return import.meta.env.VITE_DEV_API_URL;
+    return import.meta.env.VITE_PROD_API_URL;
   }
 }
 
@@ -40,9 +48,10 @@ export async function httpRequest(
   try {
     const response = await fetch(url, {
       method: method,
-      body: JSON.stringify(body),
+      body,
       headers: {
         'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + getToken().access_token,
         ...headers, // Additional headers can be passed as an object
       },
     });
@@ -50,7 +59,9 @@ export async function httpRequest(
     const data = await response.json();
 
     if (!response.ok) {
-      throw new Error(data.errors);
+      throw new Error(
+        data.errors || data.error || 'Something went wrong with your request'
+      );
     }
 
     return data; // Return the response data on success
@@ -58,3 +69,29 @@ export async function httpRequest(
     throw new Error(error.message);
   }
 }
+
+export function numberFormatter(value) {
+  if (!isNaN(parseFloat(value))) {
+    return new Intl.NumberFormat(undefined, {
+      notation: 'compact',
+    }).format(value);
+  } else {
+    return 0;
+  }
+}
+
+export function ratingBadgeVariants(rating) {
+  if (rating < 2.5) {
+    return { variant: 'destructive', comment: 'Poor' };
+  } else if (rating >= 2.5 && rating < 4) {
+    return { variant: 'warning', comment: 'Fair' };
+  } else if (rating >= 4) {
+    return { variant: 'success', comment: 'Good' };
+  }
+}
+
+export function formatDateDistance(date, date2 = new Date()) {
+  return formatDistance(new Date(date), date2, { addSuffix: true });
+}
+
+export const PAGE_SIZE = 10;
