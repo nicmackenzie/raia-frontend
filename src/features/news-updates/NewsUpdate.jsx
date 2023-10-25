@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+// import { useUser } from '../authentication/use-user';
 
 function NewsUpdate() {
   const [newsUpdates, setNewsUpdates] = useState([]);
   const [formData, setFormData] = useState({ title: '', content: '', image: '' });
+  // const { data } = useUser();
+  // console.log(data.user_metadata)
 
   useEffect(() => {
     fetchNewsUpdate();
@@ -25,7 +28,7 @@ function NewsUpdate() {
       })
       .then((data) => {
         setNewsUpdates(data);
-        console.log(data);
+        // console.log(data);
       })
       .catch((error) => {
         if (error.message !== 'Unauthorized') {
@@ -34,10 +37,9 @@ function NewsUpdate() {
       });
   }
 
-  function handleEdit(id) {
-    // fetch(`http://localhost:3000/news_and_updates/${id}`);
-    console.log("Editing")
-  }
+  // function handleEdit(id) {
+  //   console.log("Editing")
+  // }
 
   function handleDelete(id) {
     if (window.confirm('Are you sure you want to delete this news update?')) {
@@ -116,7 +118,7 @@ function NewsUpdate() {
                Content: {truncateContent(newsUpdate.content, 10)}
             </p>
             <p className="text-gray-500 text-sm mb-2">County ID: {newsUpdate.county_id}</p>
-            <p className="text-gray-500 text-sm mb-2">User ID: {newsUpdate.user_id}</p>
+            {/* <p className="text-gray-500 text-sm mb-2">User ID: {newsUpdate.user_id}</p> */}
             <p className="text-gray-500 text-sm mb-2">
               Published Date: {newsUpdate.published_date}
             </p>
@@ -124,12 +126,12 @@ function NewsUpdate() {
               <Link to={`/news-updates/${newsUpdate.id}`} className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
                 Show
               </Link>
-              <button
+              {/* <button
                 onClick={() => handleEdit(newsUpdate.id)}
                 className="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600"
               >
                 Edit
-              </button>
+              </button> */}
               <button
                 onClick={() => handleDelete(newsUpdate.id)}
                 className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"

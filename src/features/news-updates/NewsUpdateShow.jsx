@@ -95,7 +95,7 @@ function NewsUpdateShow() {
           <p className="text-lg text-gray-700 mb-4 flex justify-center">{newsUpdate.content}</p>
           <p className="text-gray-500 text-sm mb-2">Published Date: {newsUpdate.published_date}</p>
           <p className="text-gray-500 text-sm mb-2">County ID: {newsUpdate.county_id}</p>
-          <p className="text-gray-500 text-sm mb-2">User ID: {newsUpdate.user_id}</p>
+          {/* <p className="text-gray-500 text-sm mb-2">User ID: {newsUpdate.user_id}</p> */}
 
           <h3 className="text-2xl font-bold mt-8 flex justify-center mb-2"><u>Comments</u></h3>
           <div className="mt-4 flex justify-between mb-4">
