@@ -1,4 +1,4 @@
-import Message from "../features/messages/Message.jsx";
+import Message from "../features/messages/message.jsx";
 function Messages() {
   return <div>
     <Message />
