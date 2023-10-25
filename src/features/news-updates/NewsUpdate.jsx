@@ -14,7 +14,7 @@ function NewsUpdate() {
       .then((response) => {
         if (!response.ok) {
           if (response.status === 401) {
-            alert('Unauthorized');
+            console.log('Unauthorized');
           } else {
             // Handle other errors (e.g., network issues)
             console.error('Error fetching news and updates:', response.status);
