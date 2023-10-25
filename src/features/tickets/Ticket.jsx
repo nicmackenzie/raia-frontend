@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { useUser } from '../authentication/use-user';
 
 function Ticket () {
+  const { userData } = useUser();
   const [tickets, setTickets] = useState([]);
   const [newTicket, setNewTicket] = useState({ title: '', description: '' });
 
@@ -25,7 +27,7 @@ function Ticket () {
     let newObject = {
         ...newTicket,
         status: "Open",
-        user_id: 1,
+        user_id: userData?.user?.id && userData?.user?.id || 2,
         assigned_leader_id: 1,
       };
     try {
@@ -78,6 +80,13 @@ function Ticket () {
         className="w-full p-2 rounded-md border border-gray-300 mb-2 focus:outline-none"
         placeholder="Description"
         />
+        {/* <input
+        type="text"
+        value={newTicket.assigned_leader}
+        onChange={(e) => setNewTicket({ ...newTicket, assigned_leader: e.target.value })}
+        className="w-full p-2 rounded-md border border-gray-300 mb-2 focus:outline-none"
+        placeholder="Assigned Leader"
+        /> */}
         <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 focus:outline-none">
         Create Ticket
         </button>

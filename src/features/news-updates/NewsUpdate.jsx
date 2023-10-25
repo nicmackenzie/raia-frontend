@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-// import { useUser } from '../authentication/use-user';
+import { useUser } from '../authentication/use-user';
 
 function NewsUpdate() {
   const [newsUpdates, setNewsUpdates] = useState([]);
   const [formData, setFormData] = useState({ title: '', content: '', image: '' });
-  // const { data } = useUser();
-  // console.log(data.user_metadata)
+  const { userData } = useUser();
+  // console.log(userData?.user?.id)
 
   useEffect(() => {
     fetchNewsUpdate();
@@ -68,7 +68,7 @@ function NewsUpdate() {
     let newObject = {
       ...formData,
       county_id: 1,
-      user_id: 1,
+      user_id: userData?.user?.id && userData?.user?.id || 2,
       published_date: '2023-10-14',
     };
     fetch('http://localhost:3000/news_and_updates', {

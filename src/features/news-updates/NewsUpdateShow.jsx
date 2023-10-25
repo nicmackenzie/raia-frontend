@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useUser } from '../authentication/use-user';
 
 function NewsUpdateShow() {
+  const { userData } = useUser();
   const [newsUpdate, setNewsUpdate] = useState(null);
   const { id } = useParams();
   const navigate = useNavigate();
@@ -35,7 +37,7 @@ function NewsUpdateShow() {
 
     let newObject = {
       content: comment,
-      user_id: 1,
+      user_id: userData?.user?.id && userData?.user?.id || 2,
       news_and_update_id: 22,
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),

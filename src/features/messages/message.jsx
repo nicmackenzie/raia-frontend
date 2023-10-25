@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { useUser } from '../authentication/use-user';
 
 function Messages() {
   const [messages, setMessages] = useState([]);
   const [formData, setFormData] = useState({ receiver: '', content: '' });
   const [showSentMessages, setShowSentMessages] = useState(true);
+  const { userData } = useUser();
 
   useEffect(() => {
     fetchMessages();
@@ -38,7 +40,7 @@ function Messages() {
     e.preventDefault();
     let newObj = {
       ...formData,
-      sender_id: 2,
+      sender_id: userData?.user?.id && userData?.user?.id || 2,
     };
     fetch('http://localhost:3000/messages', {
       method: 'POST',
