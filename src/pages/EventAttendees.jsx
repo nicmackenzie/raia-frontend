@@ -34,7 +34,7 @@ function EventAttendees() {
         <span className="text-tertiary font-semibold">{data?.event_name}</span>
       </h1>
       <div className="grid grid-cols-2 gap-6 lg:grid-cols-4">
-        {eventAttendees.length > 0 &&
+        {eventAttendees?.length > 0 &&
           eventAttendees.map(attendee => (
             <EventAttendee
               key={attendee.id}
