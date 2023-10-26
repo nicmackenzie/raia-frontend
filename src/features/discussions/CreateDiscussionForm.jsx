@@ -121,6 +121,7 @@ function CreateDiscussionForm() {
                   })}
 
               />
+              <p>Upload any fesources you would like included in this discussion</p>
             </FormControl>
             <FormControl
               label="Resources"
@@ -136,6 +137,37 @@ function CreateDiscussionForm() {
               <span className="block text-xs text-muted-foreground">
                 PNG, JPG or PDF (MAX. 2MB)
               </span>
+            </FormControl>
+            <p>Schedule this Discussion</p>
+            <FormControl 
+               label="Date" 
+               id="date"
+            >
+              <Input
+                // variant={errors?.joiningAs ? 'destructive' : 'outline'}
+                id="date"
+                size="default"
+                type="date"
+                {...register("date", {
+                    required: { value: true, message: 'date is required' },
+                  })}
+
+              />
+            </FormControl>
+            <FormControl 
+               label="Time" 
+               id="time"
+            >
+              <Input
+                // variant={errors?.joiningAs ? 'destructive' : 'outline'}
+                id="time"
+                size="default"
+                type="time"
+                {...register("time", {
+                    required: { value: true, message: 'time is required' },
+                  })}
+
+              />
             </FormControl>
             <Button className='col-span-12 md:col-span-2' type="submit" disabled={isUploading} >
                 {isUploading? (
