@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useUser } from '../authentication/use-user';
+import { httpRequest } from '../../lib/utils';
 
 function NewsUpdateShow() {
   const { data } = useUser();
@@ -13,15 +14,18 @@ function NewsUpdateShow() {
     fetchNewsUpdate(id);
   }, [id]);
 
-  function fetchNewsUpdate(id) {
-    fetch(`http://localhost:3000/news_and_updates/${id}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setNewsUpdate(data);
-      })
-      .catch((error) => {
-        console.error('Error fetching news and update:', error);
-      });
+  async function fetchNewsUpdate(id) {
+    try {
+      const response = await httpRequest(`http://localhost:3000/news_and_updates/${id}`);
+      if (!response.ok) {
+        console.error('Error fetching news and update:', response.status);
+        return;
+      }
+      const data = await response.json();
+      setNewsUpdate(data);
+    } catch (error) {
+      console.error('Error fetching news and update:', error);
+    }
   }
 
   const goBack = () => {
@@ -32,10 +36,10 @@ function NewsUpdateShow() {
     setComment(e.target.value);
   };
 
-  const handleSubmitComment = (event) => {
-    event.preventDefault()
+  async function handleSubmitComment(event) {
+    event.preventDefault();
 
-    let newObject = {
+    const newObject = {
       content: comment,
       user_id: data?.user?.id && data?.user?.id || 2,
       news_and_update_id: 22,
@@ -43,23 +47,24 @@ function NewsUpdateShow() {
       updated_at: new Date().toISOString(),
     };
 
-    fetch('http://localhost:3000/news_and_update_comments', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(newObject),
-  })
-    .then((response) => {
+    try {
+      const response = await httpRequest('http://localhost:3000/news_and_update_comments', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newObject),
+      });
+
       if (!response.ok) {
         if (response.status === 401) {
           alert('Unauthorized.');
         } else {
-          console.error('Error Posting news update:', response.status);
+          console.error('Error Posting news comment:', response.status);
         }
         throw new Error('Bad response');
       }
-      return response.json();
-    })
-    .then((data) => {
+
+      const data = await response.json();
+
       setNewsUpdate((prevUpdate) => ({
         ...prevUpdate,
         news_and_update_comments: [
@@ -74,15 +79,14 @@ function NewsUpdateShow() {
           },
         ],
       }));
-    })
-    .catch((error) => {
+    } catch (error) {
       if (error.message !== 'Bad response') {
         console.error('Error Posting news comment:', error);
       }
-    });
+    }
 
     setComment('');
-  };
+  }
 
   return (
     <div className="container mx-auto p-8">
@@ -116,7 +120,6 @@ function NewsUpdateShow() {
             </button>
           </div>
 
-
           <div className="space-y-4">
             {newsUpdate.news_and_update_comments.map((comment) => (
               <div key={comment.id} className="bg-gray-100 p-4 rounded-lg">
@@ -124,7 +127,6 @@ function NewsUpdateShow() {
               </div>
             ))}
           </div>
-
 
           <button
             onClick={goBack}
