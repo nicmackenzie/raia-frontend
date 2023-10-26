@@ -24,21 +24,20 @@ function Ticket() {
     event.preventDefault();
     let newObject = {
       ...newTicket,
-      status: "Open",
+      status: 'Open',
       user_id: data?.user?.id && data?.user?.id || 2,
       assigned_leader_id: 1,
     };
+  
     try {
-      const response = await fetch('http://localhost:3000/tickets', {
+      const data = await httpRequest('http://localhost:3000/tickets', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newObject),
       });
-      if (response.ok) {
-        const data = await response.json();
-        setNewTicket({ title: '', description: '' });
-        setTickets([...tickets, data]);
-      }
+  
+      setNewTicket({ title: '', description: '' });
+      setTickets([...tickets, data]);
     } catch (error) {
       console.error('Error creating a ticket:', error);
     }
@@ -47,12 +46,11 @@ function Ticket() {
   const deleteTicket = async (ticketId) => {
     if (window.confirm('Are you sure you want to delete this ticket?')) {
       try {
-        const response = await fetch(`http://localhost:3000/tickets/${ticketId}`, {
+        await httpRequest(`http://localhost:3000/tickets/${ticketId}`, {
           method: 'DELETE',
         });
-        if (response.ok) {
-          setTickets(tickets.filter((ticket) => ticket.id !== ticketId));
-        }
+
+        setTickets(tickets.filter((ticket) => ticket.id !== ticketId));
       } catch (error) {
         console.error('Error deleting the ticket:', error);
       }
