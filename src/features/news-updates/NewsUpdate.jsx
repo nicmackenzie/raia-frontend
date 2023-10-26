@@ -31,6 +31,10 @@ function NewsUpdate() {
         setNewsUpdates((prevNewsUpdates) => prevNewsUpdates.filter((newsUpdate) => newsUpdate.id !== id));
       } else if (response.status === 404) {
         console.error('News update not found');
+      } else if (response.status === 401) {
+        alert('Unauthorized.');
+      } else if (response.status === 200) {
+        setNewsUpdates((prevNewsUpdates) => prevNewsUpdates.filter((newsUpdate) => newsUpdate.id !== id));
       } else {
         console.error('Error deleting the news update:', response.status);
       }
@@ -39,7 +43,6 @@ function NewsUpdate() {
     }
   }
 }
-
 
   const handleChange = (e) => {
     const { name, value } = e.target;
