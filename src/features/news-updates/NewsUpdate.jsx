@@ -7,40 +7,11 @@ function NewsUpdate() {
   const [newsUpdates, setNewsUpdates] = useState([]);
   const [formData, setFormData] = useState({ title: '', content: '', image: '' });
   const { data } = useUser();
-  console.log(data)
+  // console.log(data)
 
   useEffect(() => {
     fetchNewsUpdate();
   }, []);
-
-  // function fetchNewsUpdate() {
-  //   fetch('http://localhost:3000/news_and_updates')
-  //     .then((response) => {
-  //       if (!response.ok) {
-  //         if (response.status === 401) {
-  //           console.log('Unauthorized');
-  //         } else {
-  //           // Handle other errors (e.g., network issues)
-  //           console.error('Error fetching news and updates:', response.status);
-  //         }
-  //         throw new Error('Unauthorized');
-  //       }
-  //       return response.json();
-  //     })
-  //     .then((data) => {
-  //       setNewsUpdates(data);
-  //       // console.log(data);
-  //     })
-  //     .catch((error) => {
-  //       if (error.message !== 'Unauthorized') {
-  //         console.error('Error fetching news and updates:', error);
-  //       }
-  //     });
-  // }
-
-  // function handleEdit(id) {
-  //   console.log("Editing")
-  // }
 
  const fetchNewsUpdate = async () => {
    try {
@@ -51,16 +22,24 @@ function NewsUpdate() {
    }
  }
 
-  async function handleDelete(id) {
-    if (window.confirm('Are you sure you want to delete this news update?')) {
-      try {
-        await httpRequest(`http://localhost:3000/news_and_updates/${id}`, "DELETE");
+ async function handleDelete(id) {
+  if (window.confirm('Are you sure you want to delete this news update?')) {
+    try {
+      const response = await httpRequest(`http://localhost:3000/news_and_updates/${id}`, "DELETE");
+
+      if (response.status === 204) {
         setNewsUpdates((prevNewsUpdates) => prevNewsUpdates.filter((newsUpdate) => newsUpdate.id !== id));
-      } catch (error) {
-        console.error('Error deleting the news update:', error);
+      } else if (response.status === 404) {
+        console.error('News update not found');
+      } else {
+        console.error('Error deleting the news update:', response.status);
       }
+    } catch (error) {
+      console.error('Error deleting the news update:', error);
     }
   }
+}
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -70,20 +49,23 @@ function NewsUpdate() {
     });
   };
 
-  const handleSubmit = (e) => {
+  async function handleSubmit(e) {
     e.preventDefault();
-    let newObject = {
-      ...formData,
-      county_id: 1,
-      user_id: data?.user?.id && data?.user?.id || 2,
-      published_date: '2023-10-14',
-    };
-    fetch('http://localhost:3000/news_and_updates', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(newObject),
-  })
-    .then((response) => {
+    
+    try {
+      const newObject = {
+        ...formData,
+        county_id: 1,
+        user_id: data?.user?.id || 2,
+        published_date: '2023-10-14',
+      };
+  
+      const response = await fetch('http://localhost:3000/news_and_updates', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newObject),
+      });
+  
       if (!response.ok) {
         if (response.status === 401) {
           alert('Unauthorized.');
@@ -92,19 +74,18 @@ function NewsUpdate() {
         }
         throw new Error('Bad response');
       }
-      return response.json();
-    })
-    .then((data) => {
-      let updatedNews = [...newsUpdates, data];
+  
+      const dataRes = await response.json();
+      let updatedNews = [...newsUpdates, dataRes];
       setNewsUpdates(updatedNews);
       setFormData({ title: '', content: '', image: '' });
-    })
-    .catch((error) => {
+    } catch (error) {
       if (error.message !== 'Bad response') {
         console.error('Error Posting news update:', error);
       }
-    });
-  };
+    }
+  }
+  
 
   function truncateContent(content, words) {
     const contentWords = content.split(' ');
