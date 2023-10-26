@@ -25,21 +25,16 @@ function NewsUpdate() {
  async function handleDelete(id) {
   if (window.confirm('Are you sure you want to delete this news update?')) {
     try {
-      const response = await httpRequest(`http://localhost:3000/news_and_updates/${id}`, "DELETE");
-
-      if (response.status === 204) {
-        setNewsUpdates((prevNewsUpdates) => prevNewsUpdates.filter((newsUpdate) => newsUpdate.id !== id));
-      } else if (response.status === 404) {
-        console.error('News update not found');
-      } else if (response.status === 401) {
-        alert('Unauthorized.');
-      } else if (response.status === 200) {
-        setNewsUpdates((prevNewsUpdates) => prevNewsUpdates.filter((newsUpdate) => newsUpdate.id !== id));
+      const response = await fetch(`http://localhost:3000/news_and_updates/${id}`, {
+        method: "DELETE",
+      });
+      if (!response.ok) {
+        console.error('Error deleting news update:', response.status);
       } else {
-        console.error('Error deleting the news update:', response.status);
+        setNewsUpdates((prevNewsUpdates) => prevNewsUpdates.filter((newsUpdate) => newsUpdate.id !== id));
       }
     } catch (error) {
-      console.error('Error deleting the news update:', error);
+      console.error('Error deleting news update:', error);
     }
   }
 }
