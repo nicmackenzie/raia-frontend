@@ -30,9 +30,11 @@ export const topicOptions = [
 function CreateDiscussionForm() {
     const { isLoading: isFetching, data } = useUser();
     const userInfo = data?.user
+    
 
     const { isLoading: isUploading, mutate: upload } = useMutation({
         mutationFn: createDiscussion,
+        onSuccess: () => {reset();}
       });
 
     
@@ -48,9 +50,12 @@ function CreateDiscussionForm() {
         formState: { errors, isSubmitSuccessful },
       } = useForm({
         defaultValues: {
+          topic: '',
           title: '',
           content: '',
-          file: ''
+          file: '',
+          date: '',
+          time: '',
         },
       });
 
@@ -59,14 +64,6 @@ function CreateDiscussionForm() {
         console.log('values submitted', formValues)
         upload(formValues)
       };
-
-      useEffect(() => {
-        if (isSubmitSuccessful){
-          reset()
-        }
-      },[isSubmitSuccessful,reset])
-
-      console.log(isSubmitSuccessful)
 
 
   const goBack = useMoveBack();
@@ -121,7 +118,7 @@ function CreateDiscussionForm() {
                   })}
 
               />
-              <p>Upload any fesources you would like included in this discussion</p>
+              
             </FormControl>
             <FormControl
               label="Resources"
@@ -130,7 +127,7 @@ function CreateDiscussionForm() {
             >
               <Input
                 id="resources"
-                variant={errors?.certificate ? 'destructive' : 'default'}
+                variant={errors?.file ? 'destructive' : 'default'}
                 type="file"
                 {...register('file')}
               />

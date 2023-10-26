@@ -28,7 +28,7 @@ function DiscussionDetail() {
   });
 
   const { isLoading: isGetting, data: replies } = useQuery({
-    queryFn: () => getDiscussionResponses(),
+    queryFn: () => getDiscussionResponses(id),
     queryKey: ['discussion-reply'],
   });
 
