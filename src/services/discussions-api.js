@@ -33,6 +33,8 @@ export async function getDiscussionById(id) {
 
 
 export async function createDiscussion(values){
+  if (values.file.length > 0)  
+  {
     const fileName = `${Math.random()}-${values.file[0].name}`.replaceAll(
         '/',
         ''
@@ -43,6 +45,7 @@ export async function createDiscussion(values){
         .upload(fileName, values.file[0]);
     
       if (error) throw new Error(error.message);
+  }
       
     try {
         await httpRequest(

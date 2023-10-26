@@ -11,7 +11,7 @@ import Input from '../../components/ui/Input';
 import Button from '../../components/ui/Button';
 import { ChevronLeft } from 'lucide-react';
 import { useMoveBack } from '../../hooks/use-move-back';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useUser } from '../authentication/use-user';
 import { useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
@@ -35,6 +35,7 @@ function CreateDiscussionForm() {
         mutationFn: createDiscussion,
       });
 
+    
     if(isFetching){
         return null
     };
@@ -43,7 +44,8 @@ function CreateDiscussionForm() {
         register,
         control,
         handleSubmit,
-        formState: { errors },
+        reset,
+        formState: { errors, isSubmitSuccessful },
       } = useForm({
         defaultValues: {
           title: '',
@@ -55,8 +57,16 @@ function CreateDiscussionForm() {
       const onsubmit = (values) => {
         const formValues = {...values, id: userInfo.id}
         console.log('values submitted', formValues)
-        // upload(formValues)
-      }
+        upload(formValues)
+      };
+
+      useEffect(() => {
+        if (isSubmitSuccessful){
+          reset()
+        }
+      },[isSubmitSuccessful,reset])
+
+      console.log(isSubmitSuccessful)
 
 
   const goBack = useMoveBack();

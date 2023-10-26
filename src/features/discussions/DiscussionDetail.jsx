@@ -5,7 +5,6 @@ import FormControl from '../../components/ui/FormControl';
 import { useParams } from 'react-router-dom';
 import Button from '../../components/ui/Button';
 import timeElapsed from './dateTime';
-import { useQuery } from '@tanstack/react-query';
 import { getDiscussionById, postResponse, getDiscussionResponses } from '../../services/discussions-api';
 import { useState, useEffect } from 'react';
 import { Textarea } from '../../components/ui/TextArea';
@@ -13,8 +12,7 @@ import { ActionCable } from 'actioncable';
 import { useForm } from 'react-hook-form';
 import { useUser } from '../authentication/use-user';
 import { DevTool } from '@hookform/devtools';
-
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient, useQuery } from '@tanstack/react-query';
 import ButtonLoadingText from '../../components/ui/ButtonLoadingText';
 
 
@@ -22,6 +20,8 @@ import ButtonLoadingText from '../../components/ui/ButtonLoadingText';
 function DiscussionDetail() {
   const [responses, setResponses] = useState([]);
   const [newMessage, setNewMessage] = useState('');
+
+  const queryclient = useQueryClient()
   const { isLoading, data } = useQuery({
     queryFn: () => getDiscussionById(id),
     queryKey: ['discussion'],
@@ -35,38 +35,19 @@ function DiscussionDetail() {
 
   const { isLoading: isPosting, mutate: post } = useMutation({
     mutationFn: postResponse,
+    onSuccess: () => {
+      queryclient.invalidateQueries({queryKey: ['discussion-reply']})
+    }
   });
+
+
 
   const { isLoading: isFetching, data: user } = useUser();
 
-  // CommanduseState(() => {
-  //   setResponses(replies  // },[])
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      getDiscussionResponses().then((newReplies) => {
-        setResponses(newReplies);
-        console.log(responses)
-      });
-    }, 500);
-  
-    return () => clearInterval(interval);
-  }, []);
-
-  // useEffect(() => {
-  //   const interval = setInterval(getDiscussionResponses, 500 )
-  //   console.log(replies)
-  //   return () => clearInterval(interval);
-  // },[])
   
 
   const params = useParams();
   const id = parseInt(params.id);
-
-  // const cable = ActionCable.createConsumer('ws://localhost:3000/cable');
-
-  
-
 
   const handleReceivedMessage = (response) => {
     setResponses((prevResponses) => [...prevResponses, response]) 
@@ -80,6 +61,7 @@ function DiscussionDetail() {
   } = useForm({
     defaultValues: {
       content: '',
+      file: '',
     },
   });
 
@@ -94,13 +76,6 @@ function DiscussionDetail() {
   const userInfo = user?.user;
   if (isLoading){return null};
   if (isGetting){return null};
-
-  
-
- 
-  // console.log(comments)
-
-
 
   return (
     <div>
