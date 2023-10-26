@@ -1,5 +1,7 @@
+import PetiotionBox from '../features/petitions/PetiotionBox';
+
 function Petitions() {
-  return <div></div>;
+  return <PetiotionBox />;
 }
 
 export default Petitions;

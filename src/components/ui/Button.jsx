@@ -1,5 +1,7 @@
 import { cva } from 'class-variance-authority';
 import { cn } from '../../lib/utils';
+import { ChevronLeft } from 'lucide-react';
+import { useMoveBack } from '../../hooks/use-move-back';
 
 export const buttonVariants = cva(
   'inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
@@ -49,6 +51,21 @@ function Button({
     >
       {children}
     </button>
+  );
+}
+
+export function BackButton() {
+  const goBack = useMoveBack();
+  return (
+    <Button
+      size="sm"
+      variant="ghost"
+      className="text-xs transition-all hover:text-primary"
+      onClick={goBack}
+    >
+      <ChevronLeft className="w-4 h-4" />
+      <span>&nbsp;Back</span>
+    </Button>
   );
 }
 
