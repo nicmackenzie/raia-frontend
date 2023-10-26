@@ -7,8 +7,8 @@ function RatingStatCard({ title, rating, totalReviews = 0 }) {
       <div>
         <h3 className="text-sm font-bold mb-1">{title}</h3>
         <div className="flex items-center gap-1">
-          <Badge size="sm" variant={ratingBadgeVariants(rating).variant}>
-            {ratingBadgeVariants(rating).comment}
+          <Badge size="sm" variant={ratingBadgeVariants(rating)?.variant}>
+            {ratingBadgeVariants(rating)?.comment}
           </Badge>
           <p className="text-muted-foreground text-[10px] font-medium">
             {numberFormatter(totalReviews)} reviews
@@ -16,7 +16,7 @@ function RatingStatCard({ title, rating, totalReviews = 0 }) {
         </div>
       </div>
       <div className="h-full aspect-square w-auto bg-primary/10 text-primary text-base md:text-lg font-bold flex items-center justify-center rounded-full">
-        {rating}
+        {isNaN(rating) ? 0 : rating}
       </div>
     </div>
   );

@@ -21,6 +21,7 @@ export async function createPetition(values) {
   const { filePath, fileName } = generateSupabasePath(
     values.petition_poster[0]
   );
+
   const { error } = await supabase.storage
     .from('uploads')
     .upload(fileName, values.petition_poster[0]);
