@@ -11,6 +11,13 @@ import Input from '../../components/ui/Input';
 import Button from '../../components/ui/Button';
 import { ChevronLeft } from 'lucide-react';
 import { useMoveBack } from '../../hooks/use-move-back';
+import React, { useEffect } from 'react';
+import { useUser } from '../authentication/use-user';
+import { useForm } from 'react-hook-form';
+import { useMutation } from '@tanstack/react-query';
+import { DevTool } from '@hookform/devtools';
+import ButtonLoadingText from '../../components/ui/ButtonLoadingText';
+import { createDiscussion } from '../../services/discussions-api';
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const topicOptions = [
@@ -21,6 +28,44 @@ export const topicOptions = [
 ];
 
 function CreateDiscussionForm() {
+    const { isLoading: isFetching, data } = useUser();
+    const userInfo = data?.user
+    
+
+    const { isLoading: isUploading, mutate: upload } = useMutation({
+        mutationFn: createDiscussion,
+        onSuccess: () => {reset();}
+      });
+
+    
+    if(isFetching){
+        return null
+    };
+
+    const {
+        register,
+        control,
+        handleSubmit,
+        reset,
+        formState: { errors, isSubmitSuccessful },
+      } = useForm({
+        defaultValues: {
+          topic: '',
+          title: '',
+          content: '',
+          file: '',
+          date: '',
+          time: '',
+        },
+      });
+
+      const onsubmit = (values) => {
+        const formValues = {...values, id: userInfo.id}
+        console.log('values submitted', formValues)
+        upload(formValues)
+      };
+
+
   const goBack = useMoveBack();
   return (
     <>
@@ -38,7 +83,7 @@ function CreateDiscussionForm() {
           <CardTitle>Start a Discussion</CardTitle>
         </CardHeader>
         <CardContent>
-          <form className="gap-6 relative space-y-3">
+          <form className="gap-6 relative space-y-3" onSubmit={handleSubmit(onsubmit)} >
             <FormControl label="Topic" id="topic">
               <Select
                 // variant={errors?.joiningAs ? 'destructive' : 'outline'}
@@ -46,6 +91,9 @@ function CreateDiscussionForm() {
                 options={topicOptions}
                 size="default"
                 placeholder="Select Topic"
+                {...register('topic', {
+                    required: { value: true, message: 'Please select a topic' },
+                  })}
               />
             </FormControl>
             <FormControl label="Title" id="discussionTitle">
@@ -55,13 +103,78 @@ function CreateDiscussionForm() {
                 options={topicOptions}
                 size="default"
                 placeholder="Title"
+                {...register("title", {
+                    required: { value: true, message: 'Title is required' },
+                  })}
+
               />
             </FormControl>
             <FormControl label="Description" id="discussionDescription">
-              <Textarea />
+              <Textarea 
+                id="discussionDescription"
+                placeholder="Your Discussion Description here"
+                {...register("content", {
+                    required: { value: true, message: 'Description is required' },
+                  })}
+
+              />
+              
             </FormControl>
-            <Button>Create discussion</Button>
+            <FormControl
+              label="Resources"
+              id="resources"
+              
+            >
+              <Input
+                id="resources"
+                variant={errors?.file ? 'destructive' : 'default'}
+                type="file"
+                {...register('file')}
+              />
+              <span className="block text-xs text-muted-foreground">
+                PNG, JPG or PDF (MAX. 2MB)
+              </span>
+            </FormControl>
+            <p>Schedule this Discussion</p>
+            <FormControl 
+               label="Date" 
+               id="date"
+            >
+              <Input
+                // variant={errors?.joiningAs ? 'destructive' : 'outline'}
+                id="date"
+                size="default"
+                type="date"
+                {...register("date", {
+                    required: { value: true, message: 'date is required' },
+                  })}
+
+              />
+            </FormControl>
+            <FormControl 
+               label="Time" 
+               id="time"
+            >
+              <Input
+                // variant={errors?.joiningAs ? 'destructive' : 'outline'}
+                id="time"
+                size="default"
+                type="time"
+                {...register("time", {
+                    required: { value: true, message: 'time is required' },
+                  })}
+
+              />
+            </FormControl>
+            <Button className='col-span-12 md:col-span-2' type="submit" disabled={isUploading} >
+                {isUploading? (
+                    <ButtonLoadingText loadingText='Posting...'/>
+                ): (
+                    'create Discussion'
+                )}
+            </Button>
           </form>
+          <DevTool control={control}/>
         </CardContent>
       </Card>
     </>
