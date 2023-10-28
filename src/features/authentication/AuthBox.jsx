@@ -14,7 +14,7 @@ function AuthBox() {
   }
 
   return (
-    <div className="h-dvh bg-primary/30 flex items-center justify-center">
+    <div className="h-dvh bg-primary/10 flex items-center justify-center">
       {authType === 'login' ? (
         <LoginForm onAuthTypeChange={handleChangeAuth} />
       ) : (

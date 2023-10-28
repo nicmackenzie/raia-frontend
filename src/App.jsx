@@ -43,6 +43,7 @@ const UserProfile = lazy(() => import('./pages/UserProfile'));
 const EventAttendees = lazy(() => import('./pages/EventAttendees'));
 const EventEnquiries = lazy(() => import('./pages/EventEnquiries'));
 const NewPetition = lazy(() => import('./pages/NewPetition'));
+const ResetPassword = lazy(() => import('./pages/ResetPassword'));
 
 function App() {
   return (
@@ -58,6 +59,7 @@ function App() {
             }
           />
           <Route path="/email-confirmation" element={<EmailConfirmation />} />
+          <Route path="/password-reset" element={<ResetPassword />} />
           <Route
             path="/leader-confirmation"
             element={
