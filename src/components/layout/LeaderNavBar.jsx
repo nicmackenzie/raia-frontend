@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { cn } from '../../lib/utils';
 import { useNotifications } from '../../context/notifications-context';
 
-function LeaderNavBar() {
+function LeaderNavBar({ onOpen }) {
   const { setTheme, theme } = useTheme();
   const { unread } = useNotifications();
 
@@ -26,7 +26,13 @@ function LeaderNavBar() {
 
   return (
     <header className="h-16 bg-secondary border-b flex items-center px-2">
-      <Button variant="ghost" size="sm" className="lg:hidden" aria-label="menu">
+      <Button
+        variant="ghost"
+        size="sm"
+        className="lg:hidden"
+        aria-label="menu"
+        onClick={onOpen}
+      >
         <Menu aria-hidden />
       </Button>
       <form>
