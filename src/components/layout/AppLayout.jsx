@@ -5,6 +5,7 @@ import LeaderSideBar from './LeaderSideBar';
 import CitizenLayout from './CitizenLayout';
 import { useUser } from '../../features/authentication/use-user';
 import MobileNavLeader from './MobileNavLeader';
+import MobileNavCitizen from './MobileNavCitizen';
 import { useState } from 'react';
 
 function AppLayout() {
@@ -23,7 +24,15 @@ function AppLayout() {
     <div className="h-dvh bg-background">
       {role === 'citizen' ||
       (data?.user?.role === 'leader' && !data?.user?.verified) ? (
-        <CitizenLayout />
+        <>
+          {isSidebarOpen && (
+            <MobileNavCitizen
+              onClose={closeSideBar}
+              isSidebarOpen={isSidebarOpen}
+            />
+          )}
+          <CitizenLayout onOpen={openSideBar} />
+        </>
       ) : (
         <>
           {isSidebarOpen && (
