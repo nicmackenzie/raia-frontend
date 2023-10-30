@@ -107,6 +107,11 @@ export async function signUp(details) {
   }
 }
 
+export async function sendResetPassword(email) {
+  const { error } = await supabase.auth.resetPasswordForEmail(email);
+  if (error) throw new Error(error.message);
+}
+
 export async function logout() {
   const { error } = await supabase.auth.signOut();
 

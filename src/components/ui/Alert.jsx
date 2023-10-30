@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { X, XCircle } from 'lucide-react';
+import { CheckSquare, Info, X, XCircle } from 'lucide-react';
 import { cva } from 'class-variance-authority';
 import { cn } from '../../lib/utils';
 
@@ -53,7 +53,11 @@ function Alert({ message, variant, dismissable = true, className, onClose }) {
   return (
     <div className={cn(alertVariants({ variant }), className)} role="alert">
       <p className="text-sm flex items-center gap-2 font-semibold">
-        <XCircle className="w-4 h-4" aria-hidden />
+        {variant === 'error' && <XCircle className="w-4 h-4" aria-hidden />}
+        {variant === 'success' && (
+          <CheckSquare className="w-4 h-4" aria-hidden />
+        )}
+        {variant === 'info' && <Info className="w-4 h-4" aria-hidden />}
         <span>{displayMessage}.</span>
       </p>
       {dismissable && (

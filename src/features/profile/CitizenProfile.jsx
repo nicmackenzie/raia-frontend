@@ -11,6 +11,7 @@ import { updateProfile } from '../../services/profile-api';
 import { DevTool } from '@hookform/devtools';
 import ButtonLoadingText from '../../components/ui/ButtonLoadingText';
 
+
 const titleOptions = [
     { value: 'parent', label: 'Parent' },
     { value: 'teacher', label: 'Teacher' },
@@ -67,7 +68,7 @@ function CitizenProfile() {
     const formValues = {...values, id: userInfo.id}
     console.log('values submitted', formValues)
 
-    // update(formValues)
+    update(formValues)
   }
 
 
@@ -75,7 +76,7 @@ function CitizenProfile() {
   return (
     <div>
       <div className="flex justify-between space-x-3">
-          <Button >My Profile</Button>
+          <Button onClick={navigate()} >My Profile</Button>
           <Button>change password</Button>
       </div>
       
@@ -252,14 +253,14 @@ function CitizenProfile() {
             
           />
         </FormControl>
-        <Button type="submit" disabled={isUpdating}>
+        <Button className='col-span-12 md:col-span-2' type="submit" disabled={isUpdating}>
                 {isUpdating? (
                   <ButtonLoadingText loadingText="Updating..." />
                 ) : (
                   'Save Changes'
                 )}
               </Button>
-        <Button>Cancel</Button>
+        <Button className='col-span-12 md:col-span-2' >Cancel</Button>
         
       </form>
       <DevTool control={control}/>

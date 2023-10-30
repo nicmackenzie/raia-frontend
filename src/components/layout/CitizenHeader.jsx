@@ -6,7 +6,7 @@ import { useTheme } from '../../context/theme-provider';
 import { useUser } from '../../features/authentication/use-user';
 import Input from '../ui/Input';
 import Button from '../ui/Button';
-import { BadgeHelp, LogOut, Moon, Search, Sun } from 'lucide-react';
+import { BadgeHelp, LogOut, Moon, Search, Sun, MenuIcon } from 'lucide-react';
 import Avatar from '../ui/Avatar';
 import { cn } from '../../lib/utils';
 import { Fragment } from 'react';
@@ -14,7 +14,7 @@ import { Link } from 'react-router-dom';
 import { MENU_ITEMS } from './constants';
 import { useLogout } from './use-logout';
 
-function CitizenHeader() {
+function CitizenHeader({ onOpen }) {
   const { theme, setTheme } = useTheme();
   const { logout } = useLogout();
   const { data } = useUser();
@@ -28,7 +28,16 @@ function CitizenHeader() {
   }
   return (
     <header className="h-16 px-6 bg-secondary border-b flex items-center justify-between ">
-      <img src={src} alt="Raia Logo?" className="h-12 w-auto" />
+      <img src={src} alt="Raia Logo?" className="hidden lg:block h-12 w-auto" />
+      <Button
+        variant="ghost"
+        size="sm"
+        className="lg:hidden"
+        aria-label="menu"
+        onClick={onOpen}
+      >
+        <MenuIcon aria-hidden />
+      </Button>
       <form className="hidden lg:inline-flex">
         <Input
           placeholder="Search..."

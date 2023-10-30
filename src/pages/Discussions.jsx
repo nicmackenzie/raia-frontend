@@ -8,23 +8,35 @@ import DiscussionCard from '../features/discussions/DiscussionCard';
 import { cn } from '../lib/utils';
 import discussions from '../features/discussions/discussionData';
 import { topicOptions } from '../features/discussions/CreateDiscussionForm';
+import { getDiscussions } from '../services/discussions-api';
+import { useQuery } from '@tanstack/react-query';
 
 function Discussions() {
-  // const { data } = useUser();
   const role = useRole();
 
-  // const role = data?.user_metadata?.role.toLowerCase();
+  const { isLoading, data } = useQuery({
+    queryFn: () => getDiscussions(),
+    queryKey: ['discussions'],
+  });
+
+  if (isLoading){return null};
+
+  console.log(data);
+ 
+  
+
+ 
   return (
     <>
       <div className="flex items-center">
-        {role === 'leader' ? (
+        
           <Link
             to="/discussions/create"
             className={cn(buttonVariants({ variant: 'default', size: 'sm' }))}
           >
             Start Discussion
           </Link>
-        ) : null}
+        
         <Filter
           filterKey="topic"
           options={[{ value: 'all', label: 'All' }, ...topicOptions]}
@@ -33,7 +45,7 @@ function Discussions() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 mt-6 gap-6">
-        {discussions.map(discussion => (
+        {data.map(discussion => (
           <DiscussionCard key={discussion.id} {...discussion} />
         ))}
       </div>
