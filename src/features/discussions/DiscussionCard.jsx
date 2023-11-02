@@ -1,36 +1,24 @@
-import React from 'react'
-import { Card, CardHeader, CardTitle, CardDescription,CardContent, CardFooter } from '../../components/ui/Card'
-import Avatar from '../../components/ui/Avatar'
-import Button from '../../components/ui/Button'
-// import discussions from './discussionData'
-import { useUser } from '../authentication/use-user'
-import { useNavigate, Link } from 'react-router-dom'
-import { getDiscussions } from '../../services/discussions-api'
-import { useQuery } from '@tanstack/react-query'
-import { Badge } from '../../components/ui/Badge'
-import { ChevronsUp, MessageSquare } from 'lucide-react'
-import timeElapsed from './dateTime'
+import Avatar from '../../components/ui/Avatar';
+import { Link } from 'react-router-dom';
+import { Badge } from '../../components/ui/Badge';
+import { Calendar, Clock } from 'lucide-react';
+import timeElapsed from './dateTime';
+import { format } from 'date-fns';
+import {
+  dateDiffInMinutes,
+  formatMinutesToHoursAndMinutes,
+} from '../../lib/utils';
 
-function DiscussionCard({title, id, user, discussion_replies, created_at, content}) {
-  const navigate = useNavigate();
-  // const { isLoading: isFetching, data: user } = useUser();
-  // const role = user?.user.role.toLowerCase();
-
-  // if (isFetching){return null}
-  // console.log(role)
- 
-
-  // const { isLoading, data } = useQuery({
-  //   queryFn: () => getDiscussions(),
-  //   queryKey: ['discussions'],
-  // });
-
-  // if (isLoading){return null};
-
-  // console.log(data);
-
-
-  
+function DiscussionCard({
+  title,
+  id,
+  user,
+  created_at,
+  content,
+  date,
+  end_datetime,
+}) {
+  const minutes = dateDiffInMinutes(end_datetime, date);
 
   return (
     <div className="bg-background rounded-lg shadow-md py-2 px-4 space-y-4">
@@ -42,7 +30,9 @@ function DiscussionCard({title, id, user, discussion_replies, created_at, conten
           />
           <div>
             <div className="text-sm font-semibold">{user.full_name}</div>
-            <p className="text-xs text-muted-foreground">{timeElapsed(created_at)}</p>
+            <p className="text-xs text-muted-foreground">
+              {timeElapsed(created_at)}
+            </p>
           </div>
         </div>
         <Badge size="sm">Education</Badge>
@@ -62,15 +52,16 @@ function DiscussionCard({title, id, user, discussion_replies, created_at, conten
       </div>
       <footer className="flex items-center gap-4">
         <div className="flex gap-1 items-center">
-          <MessageSquare className="w-4 h-4 text-primary" />
+          <Calendar className="w-4 h-4 text-primary/50" />
           <span className="text-muted-foreground text-xs font-medium">
-            12k replies
+            {format(new Date(date), 'dd MMM yy')} at{' '}
+            {format(new Date(date), 'HH:mm')}
           </span>
         </div>
         <div className="flex gap-0.5 items-center">
-          <ChevronsUp className="w-4 h-4 text-primary" />
+          <Clock className="w-4 h-4 text-primary/50" />
           <span className="text-muted-foreground text-xs font-medium">
-            12k upvotes
+            {formatMinutesToHoursAndMinutes(minutes)}
           </span>
         </div>
       </footer>

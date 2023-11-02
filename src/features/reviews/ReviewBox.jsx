@@ -39,7 +39,7 @@ function ReviewBox({ score, governance, utilization, development }) {
     return <Alert message={error} variant="error" dismissable={false} />;
 
   return (
-    <div className="space-y-6 px-4">
+    <div className="space-y-6 p-4">
       <ReviewStats
         score={score}
         governance={governance}

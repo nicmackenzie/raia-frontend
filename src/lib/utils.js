@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import { formatDistance } from 'date-fns';
+import { differenceInMinutes, formatDistance } from 'date-fns';
 import { twMerge } from 'tailwind-merge';
 import { supabaseUrl } from '../supabase/supabase';
 
@@ -124,5 +124,32 @@ export const notificationInitialState = {
   variant: 'info',
   message: '',
 };
+
+export function createDateTime(date, time) {
+  return new Date(`${date} ${time}`);
+}
+
+export function dateDiffInMinutes(date1, date2) {
+  return differenceInMinutes(new Date(date1), new Date(date2));
+}
+
+export function formatMinutesToHoursAndMinutes(minutes) {
+  if (minutes < 60) {
+    return `${minutes} minutes`;
+  } else {
+    const hours = Math.floor(minutes / 60);
+    const remainingMinutes = minutes % 60;
+    const formattedHours = hours > 1 ? `${hours} hours` : `${hours} hour`;
+    const formattedMinutes =
+      remainingMinutes > 1
+        ? `${remainingMinutes} minutes`
+        : `${remainingMinutes} minute`;
+    if (remainingMinutes === 0) {
+      return formattedHours;
+    } else {
+      return `${formattedHours} ${formattedMinutes}`;
+    }
+  }
+}
 
 export const PAGE_SIZE = 10;

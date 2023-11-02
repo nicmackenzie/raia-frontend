@@ -37,10 +37,10 @@ function Reviews() {
 
   return (
     <ReviewBox
-      score={getStat(reviews)}
-      governance={getStat(reviews, 'governance')}
-      utilization={getStat(reviews, 'fund-utilization')}
-      development={getStat(reviews, 'development')}
+      score={getStat(reviews || [])}
+      governance={getStat(reviews || [], 'governance')}
+      utilization={getStat(reviews || [], 'fund-utilization')}
+      development={getStat(reviews || [], 'development')}
     />
   );
 }
