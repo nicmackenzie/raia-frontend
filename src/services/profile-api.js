@@ -51,27 +51,27 @@ export async function getProfile(username) {
   }
 }
 
-export async function updateProfile(values){
+export async function updateProfile({ values, id }) {
+  if (values.profile_image) {
+    const fileName = `${Math.random()}-${
+      values.profile_image[0].name
+    }`.replaceAll('/', '');
+
+    const { error } = await supabase.storage
+      .from('uploads')
+      .upload(fileName, values.profile_image[0]);
+
+    const filePath = `${supabaseUrl}/storage/v1/object/public/uploads/${fileName}`;
+    values.profile_image = filePath;
+
+    if (error) throw new Error(error.message);
+  } else {
+    if (!values.profile_image) delete values.profile_image;
+  }
+
   try {
-    await httpRequest(
-      url + `/users/${values.id}`,
-      'PATCH',
-      JSON.stringify({
-        full_name: values.full_name,
-        occupation: values.occupation,
-        county: values.county === '' ? null: values.county,
-        elected_position: values.elected_position === '' ? null : values.elected_position,
-        interests: values.interests === '' ? null : values.interests,
-        email: values.email === '' ? null : values.email,
-        contact: values.contact === '' ? null : values.contact,
-        date_of_birth: values.date_of_birth === '' ? null : values.date_of_birth,
-        gender: values.gender === '' ? null : values.gender,
-        national_id: values.national_id === '' ? null : values.national_id,
-        location: values.address === '' ? null : values.address,
-        profile_image: values.profile_image === '' ? null : values.profile_image
-  })
-    )
+    await httpRequest(url + `/users/${id}`, 'PATCH', JSON.stringify(values));
   } catch (error) {
-    
+    throw new Error(error.message);
   }
 }

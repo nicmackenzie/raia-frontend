@@ -1,5 +1,6 @@
+import PetitionDetails from '../features/petitions/PetitionDetail';
 function PetitionDetail() {
-  return <div></div>;
+  return <PetitionDetails />;
 }
 
 export default PetitionDetail;

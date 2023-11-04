@@ -1,5 +1,6 @@
 import {
   BadgeInfo,
+  Bell,
   // Bell,
   Calendar,
   CheckSquare,
@@ -32,7 +33,7 @@ export const NAVITEMS = [
   },
   {
     label: 'Polls & Surverys',
-    path: '/discussions',
+    path: '/polls',
     icon: CheckSquare,
   },
   {
@@ -94,6 +95,11 @@ export const CITIZEN_NAVITEMS = [
     icon: Calendar,
   },
   {
+    label: 'Tickets',
+    path: '/tickets',
+    icon: ScrollText,
+  },
+  {
     label: 'Petitions & Surveys',
     path: '/petitions',
     icon: FileText,
@@ -102,6 +108,29 @@ export const CITIZEN_NAVITEMS = [
     label: 'Resources',
     path: '/resources',
     icon: File,
+  },
+];
+
+export const CITIZEN_NAV_FOOTER = [
+  {
+    label: 'Home',
+    path: '/',
+    icon: Home,
+  },
+  {
+    label: 'Barazas',
+    path: '/discussions',
+    icon: LayoutGrid,
+  },
+  {
+    label: 'Notifications',
+    path: '/notifications',
+    icon: Bell,
+  },
+  {
+    label: 'Messages',
+    path: '/messages',
+    icon: MessageSquare,
   },
 ];
 

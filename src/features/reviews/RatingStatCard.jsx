@@ -7,8 +7,8 @@ function RatingStatCard({ title, rating, totalReviews = 0 }) {
       <div>
         <h3 className="text-sm font-bold mb-1">{title}</h3>
         <div className="flex items-center gap-1">
-          <Badge size="sm" variant={ratingBadgeVariants(rating).variant}>
-            {ratingBadgeVariants(rating).comment}
+          <Badge size="sm" variant={ratingBadgeVariants(rating)?.variant}>
+            {ratingBadgeVariants(rating)?.comment}
           </Badge>
           <p className="text-muted-foreground text-[10px] font-medium">
             {numberFormatter(totalReviews)} reviews

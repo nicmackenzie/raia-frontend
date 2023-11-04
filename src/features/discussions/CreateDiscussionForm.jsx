@@ -11,7 +11,7 @@ import Input from '../../components/ui/Input';
 import Button from '../../components/ui/Button';
 import { ChevronLeft } from 'lucide-react';
 import { useMoveBack } from '../../hooks/use-move-back';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useUser } from '../authentication/use-user';
 import { useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
@@ -30,11 +30,14 @@ export const topicOptions = [
 function CreateDiscussionForm() {
     const { isLoading: isFetching, data } = useUser();
     const userInfo = data?.user
+    
 
     const { isLoading: isUploading, mutate: upload } = useMutation({
         mutationFn: createDiscussion,
+        onSuccess: () => {reset();}
       });
 
+    
     if(isFetching){
         return null
     };
@@ -43,20 +46,24 @@ function CreateDiscussionForm() {
         register,
         control,
         handleSubmit,
-        formState: { errors },
+        reset,
+        formState: { errors, isSubmitSuccessful },
       } = useForm({
         defaultValues: {
+          topic: '',
           title: '',
           content: '',
-          file: ''
+          file: '',
+          date: '',
+          time: '',
         },
       });
 
       const onsubmit = (values) => {
         const formValues = {...values, id: userInfo.id}
         console.log('values submitted', formValues)
-        // upload(formValues)
-      }
+        upload(formValues)
+      };
 
 
   const goBack = useMoveBack();
@@ -111,6 +118,7 @@ function CreateDiscussionForm() {
                   })}
 
               />
+              
             </FormControl>
             <FormControl
               label="Resources"
@@ -119,13 +127,44 @@ function CreateDiscussionForm() {
             >
               <Input
                 id="resources"
-                variant={errors?.certificate ? 'destructive' : 'default'}
+                variant={errors?.file ? 'destructive' : 'default'}
                 type="file"
                 {...register('file')}
               />
               <span className="block text-xs text-muted-foreground">
                 PNG, JPG or PDF (MAX. 2MB)
               </span>
+            </FormControl>
+            <p>Schedule this Discussion</p>
+            <FormControl 
+               label="Date" 
+               id="date"
+            >
+              <Input
+                // variant={errors?.joiningAs ? 'destructive' : 'outline'}
+                id="date"
+                size="default"
+                type="date"
+                {...register("date", {
+                    required: { value: true, message: 'date is required' },
+                  })}
+
+              />
+            </FormControl>
+            <FormControl 
+               label="Time" 
+               id="time"
+            >
+              <Input
+                // variant={errors?.joiningAs ? 'destructive' : 'outline'}
+                id="time"
+                size="default"
+                type="time"
+                {...register("time", {
+                    required: { value: true, message: 'time is required' },
+                  })}
+
+              />
             </FormControl>
             <Button className='col-span-12 md:col-span-2' type="submit" disabled={isUploading} >
                 {isUploading? (
