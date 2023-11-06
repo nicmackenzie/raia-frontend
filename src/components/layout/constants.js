@@ -33,7 +33,7 @@ export const NAVITEMS = [
   },
   {
     label: 'Polls & Surverys',
-    path: '/polls',
+    path: '/polls-surveys',
     icon: CheckSquare,
   },
   {

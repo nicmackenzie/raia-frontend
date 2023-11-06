@@ -44,6 +44,7 @@ const EventAttendees = lazy(() => import('./pages/EventAttendees'));
 const EventEnquiries = lazy(() => import('./pages/EventEnquiries'));
 const NewPetition = lazy(() => import('./pages/NewPetition'));
 const ResetPassword = lazy(() => import('./pages/ResetPassword'));
+const CreatePoll = lazy(() => import('./pages/CreatePoll'));
 
 function App() {
   return (
@@ -104,6 +105,7 @@ function App() {
             <Route path="petitions/new" element={<NewPetition />} />
             <Route path="petitions/:slug" element={<PetitionDetail />} />
             <Route path="polls-surveys" element={<PollsAndSurveys />} />
+            <Route path="polls-surveys/polls/new" element={<CreatePoll />} />
             <Route path="my-profile" element={<Profile />} />
             <Route path="resources" element={<Resources />} />
             <Route path="reviews" element={<Reviews />} />
