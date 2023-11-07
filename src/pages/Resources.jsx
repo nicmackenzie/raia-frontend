@@ -1,5 +1,7 @@
+import Resource from "../features/resources/Resource";
+
 function Resources() {
-  return <div></div>;
+  return <div><Resource /></div>;
 }
 
 export default Resources;
