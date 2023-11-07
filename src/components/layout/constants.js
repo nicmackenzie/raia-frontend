@@ -95,6 +95,11 @@ export const CITIZEN_NAVITEMS = [
     icon: Calendar,
   },
   {
+    label: 'Polls & Surverys',
+    path: '/polls-surveys',
+    icon: CheckSquare,
+  },
+  {
     label: 'Tickets',
     path: '/tickets',
     icon: ScrollText,

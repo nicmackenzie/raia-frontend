@@ -152,4 +152,11 @@ export function formatMinutesToHoursAndMinutes(minutes) {
   }
 }
 
+export function formatDate(date, includeTime = true) {
+  return new Intl.DateTimeFormat('en-GB', {
+    dateStyle: 'full',
+    timeStyle: includeTime ? 'short' : undefined,
+  }).format(date);
+}
+
 export const PAGE_SIZE = 10;
