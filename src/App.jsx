@@ -6,7 +6,7 @@ import EmailConfirmation from './pages/EmailConfirmation';
 import AppLayout from './components/layout/AppLayout';
 import { Toaster } from 'react-hot-toast';
 
-import { NotificationProvider } from './context/notifications-context';
+// import { NotificationProvider } from './context/notifications-context';
 // import CreateDiscussionForm from './features/discussions/CreateDiscussionForm';
 // import DiscussonDetail from './features/discussions/DiscussonDetail';
 
@@ -44,6 +44,8 @@ const EventAttendees = lazy(() => import('./pages/EventAttendees'));
 const EventEnquiries = lazy(() => import('./pages/EventEnquiries'));
 const NewPetition = lazy(() => import('./pages/NewPetition'));
 const ResetPassword = lazy(() => import('./pages/ResetPassword'));
+const CreatePoll = lazy(() => import('./pages/CreatePoll'));
+const PollDetails = lazy(() => import('./pages/PollDetails'));
 
 function App() {
   return (
@@ -74,9 +76,9 @@ function App() {
             element={
               <Suspense fallback={<Loader />}>
                 <ProtectedRoute>
-                  <NotificationProvider>
-                    <AppLayout />
-                  </NotificationProvider>
+                  {/* <NotificationProvider> */}
+                  <AppLayout />
+                  {/* </NotificationProvider> */}
                 </ProtectedRoute>
               </Suspense>
             }
@@ -104,6 +106,8 @@ function App() {
             <Route path="petitions/new" element={<NewPetition />} />
             <Route path="petitions/:slug" element={<PetitionDetail />} />
             <Route path="polls-surveys" element={<PollsAndSurveys />} />
+            <Route path="polls-surveys/polls/new" element={<CreatePoll />} />
+            <Route path="polls-surveys/:id" element={<PollDetails />} />
             <Route path="my-profile" element={<Profile />} />
             <Route path="resources" element={<Resources />} />
             <Route path="reviews" element={<Reviews />} />

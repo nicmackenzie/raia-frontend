@@ -33,7 +33,7 @@ export const NAVITEMS = [
   },
   {
     label: 'Polls & Surverys',
-    path: '/polls',
+    path: '/polls-surveys',
     icon: CheckSquare,
   },
   {
@@ -93,6 +93,11 @@ export const CITIZEN_NAVITEMS = [
     label: 'Events',
     path: '/events',
     icon: Calendar,
+  },
+  {
+    label: 'Polls & Surverys',
+    path: '/polls-surveys',
+    icon: CheckSquare,
   },
   {
     label: 'Tickets',

@@ -46,7 +46,7 @@ function EventsBox() {
   }
 
   return (
-    <div className="flex flex-col-reverse justify-center lg:justify-start lg:flex-row gap-4 lg:gap-6">
+    <div className="flex flex-col-reverse justify-center lg:justify-start lg:flex-row gap-4 lg:gap-6 p-4">
       <div className="flex-1 rounded-sm border self-start p-4 ">
         <h2 className="font-medium text-base md:text-lg mb-6">
           Upcoming Events

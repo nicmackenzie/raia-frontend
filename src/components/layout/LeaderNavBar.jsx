@@ -4,11 +4,11 @@ import Input from '../ui/Input';
 import { useTheme } from '../../context/theme-provider';
 import { Link } from 'react-router-dom';
 import { cn } from '../../lib/utils';
-import { useNotifications } from '../../context/notifications-context';
+// import { useNotifications } from '../../context/notifications-context';
 
 function LeaderNavBar({ onOpen }) {
   const { setTheme, theme } = useTheme();
-  const { unread } = useNotifications();
+  // const { unread } = useNotifications();
 
   // const unread = notifications
   //   ? notifications.filter(notification => notification.status === 'unread]')
@@ -60,12 +60,12 @@ function LeaderNavBar({ onOpen }) {
           )}
         >
           <Bell aria-hidden className="w-4 h-4 text-primary" />
-          {unread > 0 && (
+          {/* {unread > 0 && (
             <NotificationCount
               className="absolute -top-0.5 right-1"
               count={unread}
             />
-          )}
+          )} */}
         </Link>
         {/* <Button
           variant="ghost"

@@ -1,5 +1,7 @@
+import PollSurveyBox from '../features/polls-and-survey/PollSurveyBox';
+
 function PollsAndSurveys() {
-  return <div></div>;
+  return <PollSurveyBox />;
 }
 
 export default PollsAndSurveys;
