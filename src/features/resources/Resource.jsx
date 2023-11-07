@@ -12,7 +12,7 @@ const Resource = () => {
 
   const fetchResources = async () => {
     try {
-      const response = await axios.get('/api/resources');
+      const response = await axios.get('http://localhost:3000/resources');
       setResources(response.data);
     } catch (error) {
       console.error('Error fetching resources:', error);
@@ -21,7 +21,7 @@ const Resource = () => {
 
   const createResource = async () => {
     try {
-      await axios.post('/api/resources', newResource);
+      await axios.post('http://localhost:3000/resources', newResource);
       setNewResource({ title: '', description: '', image: '' });
       fetchResources();
     } catch (error) {
@@ -31,7 +31,7 @@ const Resource = () => {
 
   const updateResource = async (id) => {
     try {
-      await axios.put(`/api/resources/${id}`, editingResource);
+      await axios.put(`http://localhost:3000/resources/${id}`, editingResource);
       setEditingResource(null);
       fetchResources();
     } catch (error) {
@@ -41,7 +41,7 @@ const Resource = () => {
 
   const deleteResource = async (id) => {
     try {
-      await axios.delete(`/api/resources/${id}`);
+      await axios.delete(`http://localhost:3000/resources/${id}`);
       fetchResources();
     } catch (error) {
       console.error('Error deleting resource:', error);
