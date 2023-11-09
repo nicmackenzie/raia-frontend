@@ -1,10 +1,12 @@
 import { Suspense, lazy } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
+
 import Loader from './components/ui/Loader';
 import ProtectedRoute from './components/layout/ProtectedRoute';
 import EmailConfirmation from './pages/EmailConfirmation';
 import AppLayout from './components/layout/AppLayout';
-import { Toaster } from 'react-hot-toast';
+import { MessageProvider } from './context/messages-context';
 
 // import { NotificationProvider } from './context/notifications-context';
 // import CreateDiscussionForm from './features/discussions/CreateDiscussionForm';
@@ -76,9 +78,9 @@ function App() {
             element={
               <Suspense fallback={<Loader />}>
                 <ProtectedRoute>
-                  {/* <NotificationProvider> */}
-                  <AppLayout />
-                  {/* </NotificationProvider> */}
+                  <MessageProvider>
+                    <AppLayout />
+                  </MessageProvider>
                 </ProtectedRoute>
               </Suspense>
             }

@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { MoreVertical } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 import Avatar from '../../components/ui/Avatar';
 import { Badge } from '../../components/ui/Badge';
@@ -9,14 +10,29 @@ import Button from '../../components/ui/Button';
 import Loader from '../../components/ui/Loader';
 import { getProfile } from '../../services/profile-api';
 import StarRating from '../../components/ui/StarRating';
+import { createConversation } from '../../services/conversations-api';
+import { useMessage } from '../../context/messages-context';
 
 function ProfileView() {
   const [userInfo, setUserInfo] = useState({});
   const { username } = useParams();
+  const navigate = useNavigate();
+  const { onConversationSelect } = useMessage();
 
   const { isLoading, data } = useQuery({
     queryFn: () => getProfile(username),
     queryKey: ['user-profile', username],
+  });
+
+  const { isLoading: isCreating, mutate } = useMutation({
+    mutationFn: createConversation,
+    onSuccess: data => {
+      onConversationSelect(data?.conversation_id);
+      navigate('/messages');
+    },
+    onError: error => {
+      toast.error(error.message);
+    },
   });
 
   useEffect(
@@ -27,6 +43,10 @@ function ProfileView() {
   );
 
   if (isLoading) return <Loader />;
+
+  function handleConversation() {
+    mutate(data.id);
+  }
 
   return (
     <header className="min-h-[13rem] bg-background shadow rounded-sm pb-8">
@@ -49,7 +69,7 @@ function ProfileView() {
             <Badge variant="default" className="text-[10px] py-[1px]">
               {userInfo?.role === 'citizen'
                 ? 'Pioneer'
-                : userInfo?.elected_position.toUpperCase()}
+                : userInfo?.elected_position?.toUpperCase()}
             </Badge>
           </div>
           <div className="mt-1 flex items-center gap-1">
@@ -71,13 +91,15 @@ function ProfileView() {
           </div>
         </div>
         <div className="flex items-center gap-1">
-          <Button size="xs">Message</Button>
+          <Button size="xs" onClick={handleConversation} disabled={isCreating}>
+            Message
+          </Button>
           {userInfo?.role === 'citizen' && (
-            <Button size="xs" variant="secondary">
+            <Button size="xs" variant="secondary" disabled={isCreating}>
               Follow
             </Button>
           )}
-          <Button variant="ghost" size="xs">
+          <Button variant="ghost" size="xs" disabled={isCreating}>
             <MoreVertical />
           </Button>
         </div>

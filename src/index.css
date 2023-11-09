@@ -2,6 +2,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -34,6 +35,10 @@
     --radius: 0.5rem;
     --gold: 37 96% 61%;
     --gold-secondary-text: 36 61% 24%;
+
+    --scrollbar-bg: #e2e8f0;
+    --scrollbar-color: #cbd5e1;
+    --scrollbar-hover-color: #94a3b8;
   }
 
   .dark {
@@ -68,7 +73,32 @@
     --ring: 224.3 76.3% 48%;
     --gold: 40 79% 37%;
     --gold-secondary-text: 37 96% 61%;
+
+    --scrollbar-bg: #0f172a;
+    --scrollbar-color: #334155;
+    --scrollbar-hover-color: #475569;
   }
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-bg);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-color);
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-hover-color);
 }
 
 @layer base {
