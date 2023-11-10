@@ -28,3 +28,9 @@ export async function getConversations(userId) {
   const data = await httpRequest(url + '/conversations/' + userId);
   return data;
 }
+
+export async function getMessages(conversationId) {
+  if (!conversationId) return [];
+  const data = await httpRequest(url + '/messages/' + conversationId);
+  return data;
+}

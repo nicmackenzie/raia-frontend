@@ -1,10 +1,20 @@
 import Avatar from '../../components/ui/Avatar';
 import defaultImage from '../../assets/default-user.jpg';
 import { formatDateDistance } from '../../lib/utils';
+import { useMessage } from '../../context/messages-context';
 
-function Conversation({ lastMessage, otherUserId }) {
+function Conversation({ id, lastMessage, otherUserId }) {
+  const { onConversationSelect } = useMessage();
+
+  function handleSelect() {
+    onConversationSelect(id);
+  }
+
   return (
-    <div className="flex items-center gap-2 py-2 px-4 border-b cursor-pointer transition-colors hover:bg-secondary">
+    <div
+      className="flex items-center gap-2 py-2 px-4 border-b cursor-pointer transition-colors hover:bg-secondary"
+      onClick={handleSelect}
+    >
       <Avatar
         src={otherUserId?.profile_image || defaultImage}
         alt={`Avatar for ${otherUserId.full_name}`}

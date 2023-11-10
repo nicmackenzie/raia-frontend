@@ -1,14 +1,16 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { useMessage } from '../../context/messages-context';
-import { cn } from '../../lib/utils';
+
 import MessageArea from './MessageArea';
-import { useUser } from '../authentication/use-user';
-import { getConversations } from '../../services/conversations-api';
-import { useState } from 'react';
 import Conversation from './Conversation';
-// import { pusher } from '../../lib/pusher';
-// import Pusher from 'pusher-js';
+import { ScrollArea } from '../../components/ui/ScrollArea';
+import Loader from '../../components/ui/Loader';
+import Alert from '../../components/ui/Alert';
+
+import { cn } from '../../lib/utils';
+import { getConversations } from '../../services/conversations-api';
+import { useUser } from '../authentication/use-user';
+import { useMessage } from '../../context/messages-context';
 
 function MessageBox() {
   const { currentConversation } = useMessage();
@@ -19,7 +21,7 @@ function MessageBox() {
   } = useUser();
   const { isLoading, data, error } = useQuery({
     queryFn: () => getConversations(user?.id),
-    queryKey: ['messages', user?.id],
+    queryKey: ['conversations', user?.id],
   });
 
   useEffect(
@@ -53,11 +55,28 @@ function MessageBox() {
 
   return (
     <div className="flex">
-      <div className="h-[calc(100dvh-4rem)] md:inline-flex flex-col overflow-y-auto md:fixed w-full md:w-72 lg:w-96 border-r">
+      <ScrollArea className="h-[calc(100dvh-4rem)] md:inline-flex flex-col overflow-y-auto md:fixed w-full md:w-72 lg:w-96 border-r">
+        {isLoading && <Loader type="spinner" />}
+        {!isLoading && error && (
+          <Alert
+            variant="error"
+            message={error.message}
+            dismissable={false}
+            className="w-11/12 mt-4"
+          />
+        )}
+        {!isLoading &&
+          !error &&
+          (!conversations || conversations.length === 0) && (
+            <p className="text-muted-foreground text-center mt-4">
+              You don&apos;t have any conversation
+            </p>
+          )}
         {conversations?.length > 0 &&
           conversations.map(conversation => (
             <Conversation
               key={conversation.id}
+              id={conversation.id}
               lastMessage={conversation.last_message}
               otherUserId={
                 conversation.user_1.id === user?.id
@@ -66,7 +85,7 @@ function MessageBox() {
               }
             />
           ))}
-      </div>
+      </ScrollArea>
       <div
         className={cn(
           'hidden md:flex flex-col md:grow h-[calc(100dvh-4rem)]',
