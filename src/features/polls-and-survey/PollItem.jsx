@@ -40,6 +40,7 @@ function PollItem({ question, endDate, user, votes, options, id, voters }) {
             votes={votes}
             isOwner={isOwner}
             user={user}
+            question={question}
             hasVoted={hasVoted}
           />
         </Link>
@@ -51,6 +52,7 @@ function PollItem({ question, endDate, user, votes, options, id, voters }) {
           <Poll
             days={days}
             votes={votes}
+            question={question}
             isOwner={isOwner}
             user={user}
             hasVoted={hasVoted}
