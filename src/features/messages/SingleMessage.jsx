@@ -1,5 +1,5 @@
 import { format } from 'timeago.js';
-import { cn, formatDateDistance } from '../../lib/utils';
+import { cn } from '../../lib/utils';
 
 function SingleMessage({ date, isMine, message }) {
   return (
