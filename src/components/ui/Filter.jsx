@@ -2,9 +2,10 @@ import { useSearchParams } from 'react-router-dom';
 import Button from './Button';
 import { cn } from '../../lib/utils';
 
-export default function Filter({ options, filterKey, className }) {
+export default function Filter({ options, filterKey, className, defaultTab }) {
   const [searchParams, setSearchParams] = useSearchParams();
-  const selectedTab = searchParams.get(filterKey) || options.at(0)?.value;
+  const selectedTab =
+    searchParams.get(filterKey) || defaultTab || options.at(0)?.value;
 
   function handleClick(value) {
     searchParams.set(filterKey, value);
