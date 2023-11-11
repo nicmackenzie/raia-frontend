@@ -39,6 +39,7 @@ const Resources = lazy(() => import('./pages/Resources'));
 const Reviews = lazy(() => import('./pages/Reviews'));
 const Review = lazy(() => import('./pages/Review'));
 const Tickets = lazy(() => import('./pages/Tickets'));
+const NewTicket = lazy(() => import('./pages/CreateTicket'));
 const LeaderConfirmation = lazy(() => import('./pages/LeaderConfirmation'));
 const Verification = lazy(() => import('./pages/Verification'));
 const UserProfile = lazy(() => import('./pages/UserProfile'));
@@ -115,6 +116,7 @@ function App() {
             <Route path="reviews" element={<Reviews />} />
             <Route path="review/:username" element={<Review />} />
             <Route path="tickets" element={<Tickets />} />
+            <Route path="tickets/new" element={<NewTicket />} />
             <Route path="profile/:username" element={<UserProfile />} />
           </Route>
           <Route
