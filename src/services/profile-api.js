@@ -39,6 +39,16 @@ export async function getTopVoicesAndLeaders() {
   }
 }
 
+export async function getLeaders() {
+  try {
+    const leaders = await httpRequest(url + '/users/leaders');
+
+    return leaders;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}
+
 export async function getProfile(username) {
   try {
     const profile = await httpRequest(
