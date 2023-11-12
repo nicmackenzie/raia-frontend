@@ -30,7 +30,7 @@ function Ticket() {
     };
   
     try {
-      const data = await httpRequest('http://localhost:3000/tickets', {
+      const data = await fetch('http://localhost:3000/tickets', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newObject),
@@ -46,7 +46,7 @@ function Ticket() {
   const deleteTicket = async (ticketId) => {
     if (window.confirm('Are you sure you want to delete this ticket?')) {
       try {
-        await httpRequest(`http://localhost:3000/tickets/${ticketId}`, {
+        await fetch(`http://localhost:3000/tickets/${ticketId}`, {
           method: 'DELETE',
         });
 
