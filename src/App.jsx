@@ -8,7 +8,7 @@ import EmailConfirmation from './pages/EmailConfirmation';
 import AppLayout from './components/layout/AppLayout';
 import { MessageProvider } from './context/messages-context';
 
-// import { NotificationProvider } from './context/notifications-context';
+import { NotificationProvider } from './context/notifications-context';
 // import CreateDiscussionForm from './features/discussions/CreateDiscussionForm';
 // import DiscussonDetail from './features/discussions/DiscussonDetail';
 
@@ -79,9 +79,11 @@ function App() {
             element={
               <Suspense fallback={<Loader />}>
                 <ProtectedRoute>
-                  <MessageProvider>
-                    <AppLayout />
-                  </MessageProvider>
+                  <NotificationProvider>
+                    <MessageProvider>
+                      <AppLayout />
+                    </MessageProvider>
+                  </NotificationProvider>
                 </ProtectedRoute>
               </Suspense>
             }
