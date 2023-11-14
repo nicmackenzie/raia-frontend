@@ -9,6 +9,7 @@ import AppLayout from './components/layout/AppLayout';
 import { MessageProvider } from './context/messages-context';
 
 import { NotificationProvider } from './context/notifications-context';
+
 // import CreateDiscussionForm from './features/discussions/CreateDiscussionForm';
 // import DiscussonDetail from './features/discussions/DiscussonDetail';
 
@@ -20,9 +21,13 @@ const Discussions = lazy(() => import('./pages/Discussions'));
 const CreateDiscussionForm = lazy(() =>
   import('./features/discussions/CreateDiscussionForm')
 );
+// const DiscussionDetail = lazy(() =>
+//   import('./features/discussions/DiscussionDetail')
+// );
 const DiscussionDetail = lazy(() =>
-  import('./features/discussions/DiscussionDetail')
+  import('./features/discussions/DiscussionDetailsNew')
 );
+
 // const Events = lazy(() => import('./pages/Events'));
 const EventTest = lazy(() => import('./pages/EventsTest'));
 const AddEditEvent = lazy(() => import('./features/events/EventForm'));
@@ -49,6 +54,7 @@ const NewPetition = lazy(() => import('./pages/NewPetition'));
 const ResetPassword = lazy(() => import('./pages/ResetPassword'));
 const CreatePoll = lazy(() => import('./pages/CreatePoll'));
 const PollDetails = lazy(() => import('./pages/PollDetails'));
+const TicketDetails = lazy(() => import('./pages/TicketDetails'));
 
 function App() {
   return (
@@ -119,6 +125,7 @@ function App() {
             <Route path="review/:username" element={<Review />} />
             <Route path="tickets" element={<Tickets />} />
             <Route path="tickets/new" element={<NewTicket />} />
+            <Route path="tickets/:ticketId" element={<TicketDetails />} />
             <Route path="profile/:username" element={<UserProfile />} />
           </Route>
           <Route
