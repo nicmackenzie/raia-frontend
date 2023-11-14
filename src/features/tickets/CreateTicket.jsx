@@ -100,7 +100,7 @@ function CreateTicket() {
   function onSubmit(values) {
     const formObj = {
       ...values,
-      assigned_leader_id: values.leader,
+      assignedLeaderId: values.leader,
     };
 
     create(formObj);

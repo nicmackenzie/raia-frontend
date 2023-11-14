@@ -31,8 +31,8 @@ function TicketTable({ tickets }) {
           </tr>
         </thead>
         <tbody>
-          {tickets.length > 0 ? (
-            tickets.map(ticket => (
+          {tickets.data.length > 0 ? (
+            tickets.data.map(ticket => (
               <tr
                 key={ticket.id}
                 className="w-full border-b py-3 text-sm capitalize [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg cursor-pointer"
@@ -61,7 +61,7 @@ function TicketTable({ tickets }) {
                   </Badge>
                 </td>
                 <td className="whitespace-nowrap px-3 py-3">
-                  {ticket.assigned_leader_id.full_name}
+                  {ticket.assignedleader.fullName}
                 </td>
                 <td className="whitespace-nowrap px-3 py-3">
                   {format(new Date(ticket.created_at), 'dd MMM yy')}
