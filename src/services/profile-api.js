@@ -30,8 +30,10 @@ export async function uploadLeaderCertificate(values) {
 
 export async function getTopVoicesAndLeaders() {
   try {
-    const followers = await httpRequest(url + '/users/top_influencers');
-    const leaders = await httpRequest(url + '/users/leaders');
+    // const followers = await httpRequest(url + '/users/top_influencers');
+    // const leaders = await httpRequest(url + '/users/leaders');
+    const followers = [];
+    const leaders = [];
 
     return { followers, leaders };
   } catch (error) {
