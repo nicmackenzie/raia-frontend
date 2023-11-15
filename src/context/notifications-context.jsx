@@ -13,21 +13,41 @@ export function NotificationProvider({ children }) {
   });
   const { data } = useUser();
 
-  useEffect(
-    function () {
-      socket.on(`notification:new:${data?.user?.id}`, data => {
-        setNotificationDetails(prev => {
-          if (prev.notifications.includes(data.id)) return prev;
+  useEffect(() => {
+    const handleNotification = data => {
+      setNotificationDetails(prev => {
+        if (prev.notifications.includes(data.id)) return prev;
 
-          return {
-            count: prev.count + 1,
-            notifications: [...prev.notifications, data.id],
-          };
-        });
+        return {
+          count: prev.count + 1,
+          notifications: [...prev.notifications, data.id],
+        };
       });
-    },
-    [data?.user]
-  );
+    };
+
+    socket.on(`notification:new:${data?.user?.id}`, handleNotification);
+
+    // Cleanup function
+    return () => {
+      socket.off(`notification:new:${data?.user?.id}`, handleNotification);
+    };
+  }, [data?.user]);
+
+  // useEffect(
+  //   function () {
+  //     socket.on(`notification:new:${data?.user?.id}`, data => {
+  //       setNotificationDetails(prev => {
+  //         if (prev.notifications.includes(data.id)) return prev;
+
+  //         return {
+  //           count: prev.count + 1,
+  //           notifications: [...prev.notifications, data.id],
+  //         };
+  //       });
+  //     });
+  //   },
+  //   [data?.user]
+  // );
 
   return (
     <NotificationContext.Provider value={{ count: notificationDetails.count }}>
