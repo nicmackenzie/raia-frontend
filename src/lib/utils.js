@@ -1,7 +1,8 @@
 import { clsx } from 'clsx';
-import { formatDistance } from 'date-fns';
+import { differenceInMinutes, formatDistance } from 'date-fns';
 import { twMerge } from 'tailwind-merge';
 import { supabaseUrl } from '../supabase/supabase';
+import { io } from 'socket.io-client';
 
 export function cn(...inputs) {
   return twMerge(clsx(inputs));
@@ -39,6 +40,7 @@ export function getToken() {
 }
 
 export const url = apiUrl();
+export const secUrl = import.meta.env.VITE_DEV_SEC_API_URL;
 
 export async function httpRequest(
   url,
@@ -124,5 +126,41 @@ export const notificationInitialState = {
   variant: 'info',
   message: '',
 };
+
+export function createDateTime(date, time) {
+  return new Date(`${date} ${time}`);
+}
+
+export function dateDiffInMinutes(date1, date2) {
+  return differenceInMinutes(new Date(date1), new Date(date2));
+}
+
+export function formatMinutesToHoursAndMinutes(minutes) {
+  if (minutes < 60) {
+    return `${minutes} minutes`;
+  } else {
+    const hours = Math.floor(minutes / 60);
+    const remainingMinutes = minutes % 60;
+    const formattedHours = hours > 1 ? `${hours} hours` : `${hours} hour`;
+    const formattedMinutes =
+      remainingMinutes > 1
+        ? `${remainingMinutes} minutes`
+        : `${remainingMinutes} minute`;
+    if (remainingMinutes === 0) {
+      return formattedHours;
+    } else {
+      return `${formattedHours} ${formattedMinutes}`;
+    }
+  }
+}
+
+export function formatDate(date, includeTime = true) {
+  return new Intl.DateTimeFormat('en-GB', {
+    dateStyle: 'full',
+    timeStyle: includeTime ? 'short' : undefined,
+  }).format(date);
+}
+
+export const socket = io('http://localhost:8000');
 
 export const PAGE_SIZE = 10;

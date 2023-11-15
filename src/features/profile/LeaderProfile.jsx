@@ -6,7 +6,6 @@ import Input from '../../components/ui/Input';
 import Select from '../../components/ui/Select';
 import { useCounties } from '../../hooks/use-counties';
 import { useUser } from '../authentication/use-user';
-// import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
 import { updateProfile } from '../../services/profile-api';
@@ -247,14 +246,14 @@ function CitizenProfile() {
           />
         </FormControl>
         
-        <Button type="submit" disabled={isUpdating}>
+        <Button className='col-span-12 md:col-span-2' type="submit" disabled={isUpdating}>
                 {isUpdating? (
                   <ButtonLoadingText loadingText="Updating..." />
                 ) : (
                   'Save Changes'
                 )}
               </Button>
-        <Button>Cancel</Button>
+        <Button className='col-span-12 md:col-span-2' >Cancel</Button>
       </form>
       <DevTool control={control} />
     </div>

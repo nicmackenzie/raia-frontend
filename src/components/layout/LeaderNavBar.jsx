@@ -6,15 +6,9 @@ import { Link } from 'react-router-dom';
 import { cn } from '../../lib/utils';
 import { useNotifications } from '../../context/notifications-context';
 
-function LeaderNavBar() {
+function LeaderNavBar({ onOpen }) {
   const { setTheme, theme } = useTheme();
-  const { unread } = useNotifications();
-
-  // const unread = notifications
-  //   ? notifications.filter(notification => notification.status === 'unread]')
-  //       .length
-  //   : 0;
-  // console.log(count);
+  const { count } = useNotifications();
 
   function handleThemeToogle() {
     if (theme === 'light') {
@@ -26,7 +20,13 @@ function LeaderNavBar() {
 
   return (
     <header className="h-16 bg-secondary border-b flex items-center px-2">
-      <Button variant="ghost" size="sm" className="lg:hidden" aria-label="menu">
+      <Button
+        variant="ghost"
+        size="sm"
+        className="lg:hidden"
+        aria-label="menu"
+        onClick={onOpen}
+      >
         <Menu aria-hidden />
       </Button>
       <form>
@@ -54,10 +54,10 @@ function LeaderNavBar() {
           )}
         >
           <Bell aria-hidden className="w-4 h-4 text-primary" />
-          {unread > 0 && (
+          {count > 0 && (
             <NotificationCount
               className="absolute -top-0.5 right-1"
-              count={unread}
+              count={count}
             />
           )}
         </Link>

@@ -3,12 +3,12 @@ import { cn } from '../../lib/utils';
 import NavItem from './NavItem';
 import { CITIZEN_NAVITEMS } from './constants';
 import { Bell } from 'lucide-react';
-import { NotificationCount } from './LeaderNavBar';
-import { useNotifications } from '../../context/notifications-context';
+// import { NotificationCount } from './LeaderNavBar';
+// import { useNotifications } from '../../context/notifications-context';
 
 function CitizenAside() {
   const { pathname } = useLocation();
-  const { unread } = useNotifications();
+  // const { unread } = useNotifications();
 
   return (
     <aside className="hidden md:inline-flex  w-60 bg-secondary rounded-lg pt-4">
@@ -31,7 +31,7 @@ function CitizenAside() {
             >
               <Bell className="w-4 h-4" />
               <span className="text-xs font-semibold">Notifications</span>
-              {unread > 0 && <NotificationCount count={unread} />}
+              {/* {unread > 0 && <NotificationCount count={unread} />} */}
             </Link>
           </li>
         </ul>
