@@ -1,4 +1,4 @@
-import { url, httpRequest } from '../lib/utils';
+import { url, httpRequest, secUrl } from '../lib/utils';
 import { supabase, supabaseUrl } from '../supabase/supabase';
 
 export async function getDiscussions() {
@@ -13,7 +13,7 @@ export async function getDiscussions() {
 
 export async function getDiscussionById(id) {
   try {
-    const response = await httpRequest(`${url}/discussions/${id}`);
+    const response = await httpRequest(`${secUrl}/discussions/${id}`);
 
     return response;
   } catch (error) {
@@ -81,8 +81,11 @@ export async function postResponse(values) {
 }
 
 export async function getChats(id) {
+  if (!id)
+    throw new Error('Could not fetch as baraza details not well defined');
+
   try {
-    const chats = await httpRequest(url + `/discussions/${id}/chats`);
+    const chats = await httpRequest(secUrl + `/discussions/${id}/chats`);
 
     return chats;
   } catch (error) {
@@ -93,9 +96,21 @@ export async function getChats(id) {
 export async function chat({ message, id }) {
   try {
     await httpRequest(
-      url + `/discussions/${id}/chat`,
+      secUrl + `/discussions/${id}/chat`,
       'POST',
       JSON.stringify({ message })
+    );
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}
+
+export async function createComment({ content, id }) {
+  try {
+    await httpRequest(
+      secUrl + `/discussions/${id}/reply`,
+      'POST',
+      JSON.stringify({ content })
     );
   } catch (error) {
     throw new Error(error.message);

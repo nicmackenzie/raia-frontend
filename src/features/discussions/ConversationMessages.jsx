@@ -35,6 +35,7 @@ function ConversationMessages() {
   useEffect(
     function () {
       socket.on(`chat:${id}`, data => {
+        console.log(data);
         setChats(prev => {
           if (find(prev, { id: data.id })) return prev;
 

@@ -11,6 +11,7 @@ import { getDiscussionById } from '../../services/discussions-api';
 function DiscussionDetailsNew() {
   const { id } = useParams();
   const [searchParams] = useSearchParams();
+  // const { data } = useUser();
 
   const {
     isLoading,
