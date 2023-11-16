@@ -12,8 +12,25 @@ import {
 } from '../../lib/utils';
 import { differenceInMinutes } from 'date-fns';
 import CommentSection from './CommentSections';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { upvote as upvoteApi } from '../../services/discussions-api';
+import { useParams } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
-function BarazaDetails({ isLoading, error, data, locked }) {
+function BarazaDetails({ isLoading, error, data, locked, upvotes, upvoted }) {
+  console.log(upvoted);
+  const { id } = useParams();
+  const queryClient = useQueryClient();
+  const { isLoading: isUpvoting, mutate: upvote } = useMutation({
+    mutationFn: upvoteApi,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['barazas'] });
+    },
+    onError: err => {
+      toast.error(err.message);
+    },
+  });
+
   if (isLoading) return <Loader type="spinner" />;
   if (error)
     return (
@@ -31,17 +48,24 @@ function BarazaDetails({ isLoading, error, data, locked }) {
     date &&
     end_datetime &&
     differenceInMinutes(new Date(end_datetime), new Date(date));
+
   return (
     <div
       className={cn('px-4 py-2 space-y-6', locked ? 'space-y-12' : 'space-y-8')}
     >
       <article className="space-y-4">
         <header className="text-center space-y-2 flex items-center gap-4 justify-center">
-          <ActionToolTip label="Upvote baraza">
-            <button className="px-2 border border-primary/10 py-1 self-stretch rounded-xl transition-colors hover:bg-primary/10">
-              <ChevronsUp className="text-gold" />
-            </button>
-          </ActionToolTip>
+          {!upvoted && (
+            <ActionToolTip label="Upvote baraza">
+              <button
+                disabled={isUpvoting}
+                onClick={() => upvote(id)}
+                className="px-2 border border-primary/10 py-1 self-stretch rounded-xl transition-colors hover:bg-primary/10"
+              >
+                <ChevronsUp className="text-gold" />
+              </button>
+            </ActionToolTip>
+          )}
           <div>
             <h1 className="text-lg md:text-2xl font-bold">{title}</h1>
             <p className="text-sm text-muted-foreground max-w-lg mx-auto">
@@ -72,7 +96,9 @@ function BarazaDetails({ isLoading, error, data, locked }) {
           </div>
           <div className="flex gap-1 items-center">
             <ChevronsUp className="w-4 h-4 text-primary/50" />
-            <span className="text-xs text-tertiary font-medium">0 upvotes</span>
+            <span className="text-xs text-tertiary font-medium">
+              {upvotes} {upvotes === 1 ? 'upvote' : 'upvotes'}
+            </span>
           </div>
           <Badge variant="ghost" className="bg-primary/10 text-primary">
             {topic.toUpperCase()}

@@ -116,3 +116,12 @@ export async function createComment({ content, id }) {
     throw new Error(error.message);
   }
 }
+
+export async function upvote(id) {
+  if (!id) throw new Error('Baraza not found');
+  try {
+    await httpRequest(secUrl + `/discussions/${id}/upvote`, 'POST');
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}

@@ -30,8 +30,6 @@ function DiscussionDetailsNew() {
     socket.emit('online:baraza:users', user);
 
     const handleOnlineUsers = updatedOnlineUsers => {
-      console.log('Updated Online Users:', updatedOnlineUsers);
-      // Update your state to display online users
       setOnlineUsers(updatedOnlineUsers);
     };
 
@@ -40,6 +38,7 @@ function DiscussionDetailsNew() {
     return () => {
       socket.off('online:users', handleOnlineUsers);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data?.user, socket]);
 
   // useEffect(
@@ -84,6 +83,8 @@ function DiscussionDetailsNew() {
           <BarazaDetails
             isLoading={isLoading}
             data={discussion?.data}
+            upvotes={discussion?.upvotes}
+            upvoted={discussion?.hasUpvoted}
             error={error}
             locked={locked}
           />
