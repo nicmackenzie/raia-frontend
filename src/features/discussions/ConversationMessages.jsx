@@ -32,19 +32,35 @@ function ConversationMessages() {
     [data]
   );
 
-  useEffect(
-    function () {
-      socket.on(`chat:${id}`, data => {
-        console.log(data);
-        setChats(prev => {
-          if (find(prev, { id: data.id })) return prev;
+  useEffect(() => {
+    const handleChat = data => {
+      setChats(prev => {
+        if (find(prev, { id: data.id })) return prev;
 
-          return [...prev, data];
-        });
+        return [...prev, data];
       });
-    },
-    [id]
-  );
+    };
+
+    socket.on(`chat:${id}`, handleChat);
+
+    // Cleanup function
+    return () => {
+      socket.off(`chat:${id}`, handleChat);
+    };
+  }, [id]);
+
+  // useEffect(
+  //   function () {
+  //     socket.on(`chat:${id}`, data => {
+  //       setChats(prev => {
+  //         if (find(prev, { id: data.id })) return prev;
+
+  //         return [...prev, data];
+  //       });
+  //     });
+  //   },
+  //   [id]
+  // );
 
   useEffect(
     function () {
