@@ -3,11 +3,7 @@ import Picker from '@emoji-mart/react';
 import data from '@emoji-mart/data';
 import { useTheme } from 'next-themes';
 
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover';
+import { Popover, PopoverContent, PopoverTrigger } from '../ui/Popover';
 
 export const EmojiPicker = ({ onChange }) => {
   const { resolvedTheme } = useTheme();
