@@ -161,6 +161,6 @@ export function formatDate(date, includeTime = true) {
   }).format(date);
 }
 
-export const socket = io('http://localhost:8000');
+export const socket = io(secUrl);
 
 export const PAGE_SIZE = 10;
