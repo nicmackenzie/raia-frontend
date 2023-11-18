@@ -18,6 +18,7 @@ import { useForm } from 'react-hook-form';
 import { cn } from '../../lib/utils';
 import toast from 'react-hot-toast';
 import { allowedFileTypes } from '../profile/Verification';
+import { useMutation } from '@tanstack/react-query';
 
 function BarazaResources() {
   const { theme } = useTheme();
@@ -34,6 +35,7 @@ function BarazaResources() {
   } = useForm({ defaultValues: { resource: '', description: '' } });
 
   const resourceImageRegister = register('resource', { required: true });
+  const { isLoading, mutate: upload } = useMutation({});
 
   function onSubmit(values) {
     if (values.resource.length > 0) {
