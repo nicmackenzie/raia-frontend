@@ -16,7 +16,7 @@ function RatingStatCard({ title, rating, totalReviews = 0 }) {
         </div>
       </div>
       <div className="h-full aspect-square w-auto bg-primary/10 text-primary text-base md:text-lg font-bold flex items-center justify-center rounded-full">
-        {rating}
+        {isNaN(rating) ? 0 : rating}
       </div>
     </div>
   );

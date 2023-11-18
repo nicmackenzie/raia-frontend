@@ -24,7 +24,8 @@ const options = [
   { value: 'women-rep', label: 'Women Rep' },
   { value: 'mca', label: 'MCA' },
 ];
-const allowedFileTypes = ['pdf', 'jpg', 'jpeg', 'png'];
+// eslint-disable-next-line react-refresh/only-export-components
+export const allowedFileTypes = ['pdf', 'jpg', 'jpeg', 'png'];
 
 function Verification() {
   const { isLoading, counties } = useCounties();

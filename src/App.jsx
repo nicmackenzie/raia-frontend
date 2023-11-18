@@ -1,12 +1,19 @@
 import { Suspense, lazy } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
+
 import Loader from './components/ui/Loader';
 import ProtectedRoute from './components/layout/ProtectedRoute';
 import EmailConfirmation from './pages/EmailConfirmation';
 import AppLayout from './components/layout/AppLayout';
-import { Toaster } from 'react-hot-toast';
+import { MessageProvider } from './context/messages-context';
+
+
+import { NotificationProvider } from './context/notifications-context';
+
 
 // import { NotificationProvider } from './context/notifications-context';
+
 // import CreateDiscussionForm from './features/discussions/CreateDiscussionForm';
 // import DiscussonDetail from './features/discussions/DiscussonDetail';
 
@@ -18,9 +25,13 @@ const Discussions = lazy(() => import('./pages/Discussions'));
 const CreateDiscussionForm = lazy(() =>
   import('./features/discussions/CreateDiscussionForm')
 );
+// const DiscussionDetail = lazy(() =>
+//   import('./features/discussions/DiscussionDetail')
+// );
 const DiscussionDetail = lazy(() =>
-  import('./features/discussions/DiscussionDetail')
+  import('./features/discussions/DiscussionDetailsNew')
 );
+
 // const Events = lazy(() => import('./pages/Events'));
 const EventTest = lazy(() => import('./pages/EventsTest'));
 const AddEditEvent = lazy(() => import('./features/events/EventForm'));
@@ -37,6 +48,7 @@ const Resources = lazy(() => import('./pages/Resources'));
 const Reviews = lazy(() => import('./pages/Reviews'));
 const Review = lazy(() => import('./pages/Review'));
 const Tickets = lazy(() => import('./pages/Tickets'));
+const NewTicket = lazy(() => import('./pages/CreateTicket'));
 const LeaderConfirmation = lazy(() => import('./pages/LeaderConfirmation'));
 const Verification = lazy(() => import('./pages/Verification'));
 const UserProfile = lazy(() => import('./pages/UserProfile'));
@@ -46,6 +58,7 @@ const NewPetition = lazy(() => import('./pages/NewPetition'));
 const ResetPassword = lazy(() => import('./pages/ResetPassword'));
 const CreatePoll = lazy(() => import('./pages/CreatePoll'));
 const PollDetails = lazy(() => import('./pages/PollDetails'));
+const TicketDetails = lazy(() => import('./pages/TicketDetails'));
 
 function App() {
   return (
@@ -76,9 +89,11 @@ function App() {
             element={
               <Suspense fallback={<Loader />}>
                 <ProtectedRoute>
-                  {/* <NotificationProvider> */}
-                  <AppLayout />
-                  {/* </NotificationProvider> */}
+                  <NotificationProvider>
+                    <MessageProvider>
+                      <AppLayout />
+                    </MessageProvider>
+                  </NotificationProvider>
                 </ProtectedRoute>
               </Suspense>
             }
@@ -113,6 +128,8 @@ function App() {
             <Route path="reviews" element={<Reviews />} />
             <Route path="review/:username" element={<Review />} />
             <Route path="tickets" element={<Tickets />} />
+            <Route path="tickets/new" element={<NewTicket />} />
+            <Route path="tickets/:ticketId" element={<TicketDetails />} />
             <Route path="profile/:username" element={<UserProfile />} />
           </Route>
           <Route

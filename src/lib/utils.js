@@ -2,6 +2,7 @@ import { clsx } from 'clsx';
 import { differenceInMinutes, formatDistance } from 'date-fns';
 import { twMerge } from 'tailwind-merge';
 import { supabaseUrl } from '../supabase/supabase';
+import { io } from 'socket.io-client';
 
 export function cn(...inputs) {
   return twMerge(clsx(inputs));
@@ -39,6 +40,7 @@ export function getToken() {
 }
 
 export const url = apiUrl();
+export const secUrl = import.meta.env.VITE_DEV_SEC_API_URL;
 
 export async function httpRequest(
   url,
@@ -158,5 +160,7 @@ export function formatDate(date, includeTime = true) {
     timeStyle: includeTime ? 'short' : undefined,
   }).format(date);
 }
+
+export const socket = io(secUrl);
 
 export const PAGE_SIZE = 10;

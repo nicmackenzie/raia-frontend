@@ -1,40 +1,56 @@
-import { useQuery } from '@tanstack/react-query';
 import { createContext, useContext, useState, useEffect } from 'react';
-import { getNotifications } from '../services/notification-api';
+import { socket } from '../lib/utils';
+import { useUser } from '../features/authentication/use-user';
 
-const NotificationContext = createContext();
+const NotificationContext = createContext({
+  count: 0,
+});
 
 export function NotificationProvider({ children }) {
-  const [notifications, setNotifications] = useState([]);
-
-  const {
-    isLoading: isLoadingNotifications,
-    data,
-    error,
-  } = useQuery({
-    queryKey: ['notifications'],
-    queryFn: getNotifications,
-    refetchInterval: 10000,
+  const [notificationDetails, setNotificationDetails] = useState({
+    count: 0,
+    notifications: [],
   });
+  const { data } = useUser();
 
-  useEffect(
-    function () {
-      if (data) {
-        setNotifications(data);
-      }
-    },
+  useEffect(() => {
+    const handleNotification = data => {
+      setNotificationDetails(prev => {
+        if (prev.notifications.includes(data.id)) return prev;
 
-    [data]
-  );
+        return {
+          count: prev.count + 1,
+          notifications: [...prev.notifications, data.id],
+        };
+      });
+    };
 
-  const count = notifications.filter(
-    notification => notification.status === 'unread]'
-  ).length;
+    socket.on(`notification:new:${data?.user?.id}`, handleNotification);
+
+    // Cleanup function
+    return () => {
+      socket.off(`notification:new:${data?.user?.id}`, handleNotification);
+    };
+  }, [data?.user]);
+
+  // useEffect(
+  //   function () {
+  //     socket.on(`notification:new:${data?.user?.id}`, data => {
+  //       setNotificationDetails(prev => {
+  //         if (prev.notifications.includes(data.id)) return prev;
+
+  //         return {
+  //           count: prev.count + 1,
+  //           notifications: [...prev.notifications, data.id],
+  //         };
+  //       });
+  //     });
+  //   },
+  //   [data?.user]
+  // );
 
   return (
-    <NotificationContext.Provider
-      value={{ isLoadingNotifications, notifications, error, unread: count }}
-    >
+    <NotificationContext.Provider value={{ count: notificationDetails.count }}>
       {children}
     </NotificationContext.Provider>
   );
