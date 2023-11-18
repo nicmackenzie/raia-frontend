@@ -4,6 +4,7 @@ import axios from 'axios';
 const Resource = () => {
   const [resources, setResources] = useState([]);
   const [newResource, setNewResource] = useState({ title: '', description: '', image: '' });
+  const [updatedResource, setUpdatedResource] = useState({ title: '', description: '', image: '' });
   const [editingResource, setEditingResource] = useState(null);
 
   useEffect(() => {
@@ -31,7 +32,7 @@ const Resource = () => {
 
   const updateResource = async (id) => {
     try {
-      await axios.put(`http://localhost:3000/resources/${id}`, editingResource);
+      await axios.put(`http://localhost:3000/resources/${id}`, updatedResource);
       setEditingResource(null);
       fetchResources();
     } catch (error) {
@@ -40,11 +41,14 @@ const Resource = () => {
   };
 
   const deleteResource = async (id) => {
-    try {
-      await axios.delete(`http://localhost:3000/resources/${id}`);
-      fetchResources();
-    } catch (error) {
-      console.error('Error deleting resource:', error);
+    if (window.confirm('Are you sure you want to delete this resource?')) {
+      try {
+        await axios.delete(`http://localhost:3000/resources/${id}`);
+        fetchResources();
+      } catch (error) {
+        console.error('Error deleting resource:', error);
+        alert("Unauthorized!")
+      }
     }
   };
 
@@ -70,7 +74,7 @@ const Resource = () => {
           />
           <input
             type="text"
-            placeholder="Image URL"
+            placeholder="Link URL"
             className="p-2 mr-2 w-1/3"
             value={newResource.image}
             onChange={(e) => setNewResource({ ...newResource, image: e.target.value })}
@@ -86,24 +90,24 @@ const Resource = () => {
           {resources.map((resource) => (
             <li key={resource.id} className="my-2">
               {editingResource === resource.id ? (
-                <div className="flex">
+                  <div className="flex">
                   <input
                     type="text"
                     className="p-2 mr-2 w-1/3"
-                    value={editingResource.title}
-                    onChange={(e) => setEditingResource({ ...editingResource, title: e.target.value })}
+                    value={updatedResource.title}
+                    onChange={(e) => setUpdatedResource({ ...updatedResource, title: e.target.value })}
                   />
                   <input
                     type="text"
                     className="p-2 mr-2 w-1/3"
-                    value={editingResource.description}
-                    onChange={(e) => setEditingResource({ ...editingResource, description: e.target.value })}
+                    value={updatedResource.description}
+                    onChange={(e) => setUpdatedResource({ ...updatedResource, description: e.target.value })}
                   />
                   <input
                     type="text"
                     className="p-2 mr-2 w-1/3"
-                    value={editingResource.image}
-                    onChange={(e) => setEditingResource({ ...editingResource, image: e.target.value })}
+                    value={updatedResource.image}
+                    onChange={(e) => setUpdatedResource({ ...updatedResource, image: e.target.value })}
                   />
                   <button
                     className="bg-green-500 text-white p-2 rounded"
