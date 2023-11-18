@@ -13,6 +13,7 @@ function BarazasSidebar({ onlineUsers }) {
 
   function handleTabChange(e) {
     searchParams.set('tab', e.target.textContent.trim().toLowerCase());
+    searchParams.delete('activityType');
 
     setSearchParams(searchParams);
   }

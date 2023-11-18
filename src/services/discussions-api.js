@@ -1,4 +1,4 @@
-import { url, httpRequest, secUrl } from '../lib/utils';
+import { url, httpRequest, secUrl, generateSupabasePath } from '../lib/utils';
 import { supabase, supabaseUrl } from '../supabase/supabase';
 
 export async function getDiscussions() {
@@ -121,6 +121,28 @@ export async function upvote(id) {
   if (!id) throw new Error('Baraza not found');
   try {
     await httpRequest(secUrl + `/discussions/${id}/upvote`, 'POST');
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}
+
+export async function createBarazaResource({ values, id }) {
+  const { filePath, fileName } = generateSupabasePath(values.resource[0]);
+
+  const { error } = await supabase.storage
+    .from('uploads')
+    .upload(fileName, values.resource[0]);
+
+  if (error) throw new Error(error.message);
+
+  values.resource = filePath;
+
+  try {
+    await httpRequest(
+      `${secUrl}/discussions/${id}/resources`,
+      'POST',
+      JSON.stringify(values)
+    );
   } catch (error) {
     throw new Error(error.message);
   }

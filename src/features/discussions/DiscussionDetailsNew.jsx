@@ -17,6 +17,8 @@ function DiscussionDetailsNew() {
   const [onlineUsers, setOnlineUsers] = useState([]);
   const { data } = useUser();
 
+  const selectedTab = searchParams.get('tab') || 'details';
+
   useEffect(() => {
     if (!data?.user || !socket) return;
 
@@ -41,26 +43,14 @@ function DiscussionDetailsNew() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data?.user, socket]);
 
-  // useEffect(
-  //   function () {
-  //     if (!data?.user) return;
-  //     if (!socket) return;
-
-  //     const user = {
-  //       id: data?.user.id,
-  //       fullName: data?.user.full_name,
-  //       avatar: data?.user.profile_image,
-  //       username: data?.user.username,
-  //     };
-
-  //     socket.emit('online:baraza:users', user);
-  //     socket.on('online:users', data => {
-  //       console.log(data);
-  //       // setOnlineUsers(data);
-  //     });
-  //   },
-  //   [data?.user]
-  // );
+  useEffect(
+    function () {
+      if (selectedTab !== 'activities' && searchParams.get('activityType')) {
+        searchParams.delete('activityType');
+      }
+    },
+    [searchParams, selectedTab]
+  );
 
   const {
     isLoading,
@@ -71,7 +61,6 @@ function DiscussionDetailsNew() {
     queryKey: ['barazas', id],
   });
 
-  const selectedTab = searchParams.get('tab') || 'details';
   const locked =
     discussion?.data?.date && new Date() < new Date(discussion?.data.date);
   //   const locked = true;
