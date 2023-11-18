@@ -78,7 +78,12 @@ function DiscussionDetailsNew() {
             locked={locked}
           />
         )}
-        {selectedTab === 'conversations' && <BarazasChat locked={locked} />}
+        {selectedTab === 'conversations' && (
+          <BarazasChat
+            locked={locked}
+            endDate={discussion?.data?.end_datetime}
+          />
+        )}
         {selectedTab === 'activities' && <BarazaActivities />}
       </div>
     </div>

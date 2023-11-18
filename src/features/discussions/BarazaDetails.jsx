@@ -42,12 +42,13 @@ function BarazaDetails({ isLoading, error, data, locked, upvotes, upvoted }) {
       />
     );
 
-  const { title, content, date, topic, user, end_datetime } = data;
+  const { title, content, date, topic, User: user, end_datetime } = data;
 
   const minutes =
     date &&
     end_datetime &&
     differenceInMinutes(new Date(end_datetime), new Date(date));
+  // console.log(data);
 
   return (
     <div
