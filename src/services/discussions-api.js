@@ -147,3 +147,16 @@ export async function createBarazaResource({ values, id }) {
     throw new Error(error.message);
   }
 }
+
+export async function getResources(id) {
+  if (!id) throw new Error('Discussion no provided');
+  try {
+    const resources = await httpRequest(
+      `${secUrl}/discussions/${id}/resources`
+    );
+
+    return resources;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}

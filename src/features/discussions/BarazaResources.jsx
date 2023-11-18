@@ -1,31 +1,64 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useParams } from 'react-router-dom';
+import toast from 'react-hot-toast';
+import { useForm } from 'react-hook-form';
+
 import Button from '../../components/ui/Button';
+import Loader from '../../components/ui/Loader';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
-  DialogTrigger,
   DialogTitle,
 } from '../../components/ui/Modal';
 import ImageUploader from '../../components/ui/ImageUploader';
-import { useTheme } from '../../context/theme-provider';
+import Alert from '../../components/ui/Alert';
+import Input from '../../components/ui/Input';
+import FormControl from '../../components/ui/FormControl';
+import ButtonLoadingText from '../../components/ui/ButtonLoadingText';
 
 import lightPoll from '../../assets/resource-light.svg';
 import darkPoll from '../../assets/resource-light.svg';
-import Input from '../../components/ui/Input';
-import FormControl from '../../components/ui/FormControl';
-import { useForm } from 'react-hook-form';
-import { cn } from '../../lib/utils';
-import toast from 'react-hot-toast';
 import { allowedFileTypes } from '../profile/Verification';
-import { useMutation } from '@tanstack/react-query';
+import { cn } from '../../lib/utils';
+import {
+  createBarazaResource,
+  getResources,
+} from '../../services/discussions-api';
+import { useTheme } from '../../context/theme-provider';
+import { Plus } from 'lucide-react';
+import Resource from './Resource';
 
 function BarazaResources() {
   const { theme } = useTheme();
+  const queryClient = useQueryClient();
+  const { id } = useParams();
+  const [open, setOpen] = useState(false);
+  const [error, setError] = useState();
+  const [resources, setResources] = useState([]);
   const [resourceDetails, setResourceDetails] = useState({
     image: null,
     isSet: false,
   });
+
+  const {
+    isLoading: isFetching,
+    data,
+    error: fetchError,
+  } = useQuery({
+    queryFn: () => getResources(id),
+    queryKey: ['barazas', id, 'resources'],
+  });
+
+  useEffect(
+    function () {
+      if (data) {
+        setResources(data?.data);
+      }
+    },
+    [data]
+  );
 
   const {
     handleSubmit,
@@ -35,37 +68,56 @@ function BarazaResources() {
   } = useForm({ defaultValues: { resource: '', description: '' } });
 
   const resourceImageRegister = register('resource', { required: true });
-  const { isLoading, mutate: upload } = useMutation({});
+  const { isLoading, mutate: upload } = useMutation({
+    mutationFn: createBarazaResource,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['barazas'] });
+      handleClose();
+    },
+    onError: err => {
+      setError(err.message);
+    },
+  });
 
   function onSubmit(values) {
     if (values.resource.length > 0) {
-      const fileType = values.certificate[0].type.split('/')[1];
+      const fileType = values.resource[0].type.split('/')[1];
       if (!allowedFileTypes.includes(fileType)) {
         toast.error(
           'Selected file type not allowed.Can either be a PDF,JPEG,JPG or PNG'
         );
         return;
       }
-      if (values.certificate[0].size > 2000000) {
+      if (values.resource[0].size > 2000000) {
         toast.error('Selected file exceeds allowed limit of 2MB');
         return;
       }
     }
-    console.log(values);
+    upload({ values, id });
   }
 
-  // function handleClick() {
-  //   const client = filestack.init('AG6gm8in3T8qJZojlKr8jz');
-  //   client.picker().open();
-  // }
+  function handleClose() {
+    setOpen(false);
+  }
+
+  if (isFetching) return <Loader type="spinner" />;
+
+  if (fetchError)
+    return <Alert message={error} variant="error" dismissable={false} />;
 
   return (
     <div className="px-4 py-2">
-      <Dialog>
-        <DialogTrigger asChild>
-          <Button>Upload resource</Button>
-        </DialogTrigger>
+      <Button
+        onClick={() => setOpen(true)}
+        className="h-12 w-12 rounded-full bg-primary/25 text-primary transition-colors hover:bg-primary/25 absolute right-6 bottom-4"
+      >
+        <Plus className="w-4 h-4" />
+      </Button>
+      <Dialog onOpenChange={handleClose} open={open}>
         <DialogContent className="sm:max-w-[425px]">
+          {error && (
+            <Alert message={error} variant="error" onClose={setError} />
+          )}
           <DialogHeader>
             <DialogTitle>Upload a resource</DialogTitle>
           </DialogHeader>
@@ -104,20 +156,35 @@ function BarazaResources() {
                 })}
               />
             </FormControl>
-            <Button type="submit" className="w-full">
-              Submit
+            <Button type="submit" className="w-full" disabled={isLoading}>
+              {isLoading ? (
+                <ButtonLoadingText loadingText="Uploading..." />
+              ) : (
+                'Submit'
+              )}
             </Button>
           </form>
         </DialogContent>
       </Dialog>
-      <img
-        src={theme === 'dark' ? darkPoll : lightPoll}
-        alt="Poll illustrator"
-        className="w-72 md:w-96 h-auto m-4 md:mx-auto"
-      />
-      <p className="text-center font-semibold text-muted-foreground">
-        No resources added
-      </p>
+      {resources.length === 0 ? (
+        <>
+          {' '}
+          <img
+            src={theme === 'dark' ? darkPoll : lightPoll}
+            alt="Poll illustrator"
+            className="w-72 md:w-96 h-auto m-4 md:mx-auto rounded-md"
+          />
+          <p className="text-center font-semibold text-muted-foreground">
+            No resources added
+          </p>{' '}
+        </>
+      ) : (
+        <div className="space-y-4">
+          {resources.map(resource => (
+            <Resource key={resource.id} {...resource} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
