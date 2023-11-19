@@ -48,7 +48,7 @@ export async function createDiscussion(values) {
 
     if (error) throw new Error(error.message);
   }
-  // const dateTime = new Date(`${values.date} ${values.time}`);
+
   delete values.file;
   try {
     await httpRequest(
