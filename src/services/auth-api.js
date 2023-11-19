@@ -92,14 +92,23 @@ export async function signUp(details) {
     if (error) throw new Error(error.message);
 
     try {
-      await httpRequest(
-        `${url}/session/set_uid/${resdata.id}`,
-        'PATCH',
-        JSON.stringify({ user_uid: data.user.id })
-      );
+      await fetch(`${url}/session/set_uid/${resdata.id}`, {
+        method: 'PATCH',
+        body: JSON.stringify({ user_uid: data.user.id }),
+      });
     } catch (error) {
       throw new Error(error.message);
     }
+
+    // try {
+    //   await httpRequest(
+    //     `${url}/session/set_uid/${resdata.id}`,
+    //     'PATCH',
+    //     JSON.stringify({ user_uid: data.user.id })
+    //   );
+    // } catch (error) {
+    //   throw new Error(error.message);
+    // }
 
     return data;
   } catch (error) {
