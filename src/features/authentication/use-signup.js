@@ -9,7 +9,8 @@ export function useSignup() {
     mutationFn: signUp,
     onSuccess: () => {
       // queryClient.setQueryData(['user'], data?.user);
-      navigate('/email-confirmation', { replace: true });
+      // navigate('/email-confirmation', { replace: true });
+      navigate('/', { replace: true });
     },
   });
 
