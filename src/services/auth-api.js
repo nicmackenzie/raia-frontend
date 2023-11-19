@@ -95,6 +95,7 @@ export async function signUp(details) {
       await fetch(`${url}/session/set_uid/${resdata.id}`, {
         method: 'PATCH',
         body: JSON.stringify({ user_uid: data.user.id }),
+        headers: { 'Content-Type': 'application/json' },
       });
     } catch (error) {
       throw new Error(error.message);
