@@ -8,7 +8,11 @@ import EmailConfirmation from './pages/EmailConfirmation';
 import AppLayout from './components/layout/AppLayout';
 import { MessageProvider } from './context/messages-context';
 
+
 import { NotificationProvider } from './context/notifications-context';
+
+
+// import { NotificationProvider } from './context/notifications-context';
 
 // import CreateDiscussionForm from './features/discussions/CreateDiscussionForm';
 // import DiscussonDetail from './features/discussions/DiscussonDetail';
