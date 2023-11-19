@@ -52,7 +52,7 @@ export async function createDiscussion(values) {
   delete values.file;
   try {
     await httpRequest(
-      url + '/discussions',
+      secUrl + '/discussions',
       'POST',
       JSON.stringify({
         ...values,
