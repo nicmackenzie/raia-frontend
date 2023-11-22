@@ -17,6 +17,7 @@ export function useUser() {
     isAuthenticated: data?.status === 'success',
     user: data?.user,
     status: data?.status,
+    isInitial: !!data?.isInitial,
     error,
     // data,
   };

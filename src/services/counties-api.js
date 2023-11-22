@@ -6,7 +6,8 @@ export async function getCounties() {
   try {
     const response = await fetch(`${url}/counties`, {
       method: 'GET',
-      headers: { Authorization: 'Bearer ' + getToken().access_token },
+      // headers: { Authorization: 'Bearer ' + getToken().access_token },
+      headers: { Authorization: 'Bearer ' + getToken().token },
     });
 
     const data = await response.json();

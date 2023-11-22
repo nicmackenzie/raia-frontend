@@ -1,13 +1,12 @@
 import { supabase } from '@/supabase/supabase';
-import { apiUrl, httpRequest, secUrl } from '../lib/utils';
-import { axiosRequest } from '../lib/api';
+import { httpRequest, secUrl } from '../lib/utils';
 /**
  * API code for all authentication functionality will be done from this file
  * Supabase docs for methods used can be found in https://supabase.com/docs/reference/javascript
  */
 
 /** Used to get the currently logged user details for the session if one exists */
-const url = apiUrl();
+// const url = apiUrl();
 export async function getCurrentUser() {
   // const { data, error } = await supabase.auth.getSession();
   // // console.log(data);
@@ -95,59 +94,25 @@ export async function getSession() {
 
 export async function signUp(details) {
   try {
-    const response = await fetch(url + '/signup', {
+    const response = await fetch(secUrl + '/auth/sign-up', {
       method: 'POST',
       body: JSON.stringify({
         email: details.email,
-        full_name: details.fullName,
+        fullName: details.fullName,
         role: details.joiningAs,
         contact: details.contact,
+        password: details.password,
       }),
       headers: { 'Content-Type': 'application/json' },
     });
 
     const resdata = await response.json();
+    if (!response.ok)
+      throw new Error(
+        resdata.error || 'Something went wrong while signing you up'
+      );
 
-    if (!response.ok) {
-      throw new Error(resdata.errors);
-    }
-
-    const { data, error } = await supabase.auth.signUp({
-      email: details.email,
-      password: details.password,
-      options: {
-        data: {
-          fullName: details.fullName,
-          role: details.joiningAs,
-          contact: details.contact,
-          avatar_url: null,
-        },
-      },
-    });
-
-    if (error) throw new Error(error.message);
-
-    try {
-      await fetch(`${url}/session/set_uid/${resdata.id}`, {
-        method: 'PATCH',
-        body: JSON.stringify({ user_uid: data.user.id }),
-        headers: { 'Content-Type': 'application/json' },
-      });
-    } catch (error) {
-      throw new Error(error.message);
-    }
-
-    // try {
-    //   await httpRequest(
-    //     `${url}/session/set_uid/${resdata.id}`,
-    //     'PATCH',
-    //     JSON.stringify({ user_uid: data.user.id })
-    //   );
-    // } catch (error) {
-    //   throw new Error(error.message);
-    // }
-
-    return data;
+    return resdata;
   } catch (error) {
     throw new Error(error.message);
   }
@@ -158,8 +123,16 @@ export async function sendResetPassword(email) {
   if (error) throw new Error(error.message);
 }
 
-export async function logout() {
-  const { error } = await supabase.auth.signOut();
+// export async function logout() {
+//   const { error } = await supabase.auth.signOut();
 
-  if (error) throw new Error(error.message);
+//   if (error) throw new Error(error.message);
+// }
+
+export async function logout() {
+  try {
+    await httpRequest(secUrl + '/auth/logout', 'POST');
+  } catch (error) {
+    throw new Error(error);
+  }
 }
