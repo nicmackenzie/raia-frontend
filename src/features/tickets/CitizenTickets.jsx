@@ -11,15 +11,13 @@ import { useUser } from '../authentication/use-user';
 import { getTicketsByUser } from '../../services/tickets-api';
 
 function CitizenTickets() {
-  const {
-    data: { user },
-  } = useUser();
+  const { user } = useUser();
   const {
     isLoading,
     data: tickets,
     error,
   } = useQuery({
-    queryKey: ['tickets', user.id],
+    queryKey: ['tickets', user?.id],
     queryFn: () => getTicketsByUser(user?.id),
   });
   return (

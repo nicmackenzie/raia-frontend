@@ -7,7 +7,7 @@ import { useUser } from '../../features/authentication/use-user';
 
 function CitizenRightSidebar() {
   const role = useRole();
-  const { data: user } = useUser();
+  const { user } = useUser();
 
   const { data, isLoading } = useQuery({
     queryFn: getTopVoicesAndLeaders,
@@ -39,7 +39,7 @@ function CitizenRightSidebar() {
           </p>
         )}
       </div>
-      {role === 'citizen' && !!user.user.county_id && (
+      {role === 'citizen' && !!user?.county_id && (
         <div className="w-full p-2 space-y-3">
           <h3 className="text-sm font-bold text-tertiary">Your Leaders</h3>
           {data?.leaders?.length > 0 ? (

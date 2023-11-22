@@ -9,18 +9,16 @@ import Button from '../ui/Button';
 import { useLogout } from './use-logout';
 
 function LeaderSideBar() {
-  const { data } = useUser();
+  const { user } = useUser();
   const { isLoggingOut, logout } = useLogout();
   return (
     <aside className="hidden w-72 h-full lg:flex lg:flex-col gap-6 lg:fixed md:fixed md:inset-y-0 z-[80] bg-secondary border-r pb-6">
       <div className="h-16 flex items-center px-4 lg:px-6 2xl:px-8">
         <div className="flex items-center gap-1">
-          <Avatar size="sm" src={data?.user_metadata?.avatar_url || fallBack} />
+          <Avatar size="sm" src={user?.profile_image || fallBack} />
           <div>
-            <p className="text-xs font-semibold">
-              {data?.user_metadata?.fullName}
-            </p>
-            <p className="text-[10px] text-muted-foreground">{data?.email}</p>
+            <p className="text-xs font-semibold">{user?.full_name}</p>
+            <p className="text-[10px] text-muted-foreground">{user?.email}</p>
           </div>
         </div>
       </div>

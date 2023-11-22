@@ -19,14 +19,14 @@ function PollItem({ question, endDate, user, votes, options, id, voters }) {
   const ref = useOutsideClick(handleClose);
 
   const [open, setOpen] = useState(false);
-  const { data } = useUser();
+  const { user: loggedUser } = useUser();
 
   function handleClose() {
     setOpen(false);
   }
 
-  const isOwner = data?.user?.id === user.id;
-  const hasVoted = voters?.some(voter => voter.id === data?.user?.id);
+  const isOwner = loggedUser?.id === user.id;
+  const hasVoted = voters?.some(voter => voter.id === loggedUser?.id);
 
   return (
     <>

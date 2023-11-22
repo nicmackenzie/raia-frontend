@@ -1,5 +1,6 @@
 import { supabase } from '@/supabase/supabase';
-import { apiUrl, httpRequest } from '../lib/utils';
+import { apiUrl, httpRequest, secUrl } from '../lib/utils';
+import { axiosRequest } from '../lib/api';
 /**
  * API code for all authentication functionality will be done from this file
  * Supabase docs for methods used can be found in https://supabase.com/docs/reference/javascript
@@ -8,34 +9,69 @@ import { apiUrl, httpRequest } from '../lib/utils';
 /** Used to get the currently logged user details for the session if one exists */
 const url = apiUrl();
 export async function getCurrentUser() {
-  const { data, error } = await supabase.auth.getSession();
-  // console.log(data);
+  // const { data, error } = await supabase.auth.getSession();
+  // // console.log(data);
 
-  if (error) throw new Error(error.message);
+  // if (error) throw new Error(error.message);
 
-  if (!data.session) return null;
+  // if (!data.session) return null;
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  // const {
+  //   data: { user },
+  // } = await supabase.auth.getUser();
 
-  const dbUser = await httpRequest(`${url}/me`);
+  // const dbUser = await httpRequest(`${url}/me`);
 
-  user.user = dbUser; //combine user from database with user from supabase
+  // user.user = dbUser; //combine user from database with user from supabase
 
-  return user;
+  // return user;
+  const storedValue = localStorage.getItem('raia-auth-state');
+  if (!storedValue) return null;
+
+  try {
+    const data = await httpRequest(secUrl + '/auth/me');
+
+    return data;
+  } catch (error) {
+    throw new Error(error);
+  }
 }
 
 export async function signInWithPassword({ email, password }) {
-  const { data, error } = await supabase.auth.signInWithPassword({
-    email,
-    password,
-  });
+  try {
+    const res = await fetch(`${secUrl}/auth/sign-in`, {
+      method: 'POST',
+      body: JSON.stringify({ email, password }),
+      headers: { 'Content-Type': 'application/json' },
+    });
 
-  if (error) throw new Error(error.message);
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error);
 
-  return data;
+    return data;
+  } catch (error) {
+    throw new Error(error);
+  }
+  // const { data } = await axiosRequest(
+  //   `${secUrl}/auth/sign-in`,
+  //   'POST',
+  //   JSON.stringify({ email, password })
+  // );
+  // console.log(data);
+
+  // return data;
 }
+
+// export async function signInWithPassword({ email, password }) {
+//   const { data, error } = await supabase.auth.signInWithPassword({
+//     email,
+//     password,
+//   });
+
+//   if (error) throw new Error(error.message);
+
+//   return data;
+// }
 
 export async function signInWithGoogle() {
   const { data, error } = await supabase.auth.signInWithOAuth({

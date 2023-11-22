@@ -14,7 +14,7 @@ import { find } from 'lodash';
 
 function ConversationMessages() {
   const { id } = useParams();
-  const { data: user } = useUser();
+  const { user } = useUser();
   const [chats, setChats] = useState([]);
   const scrollRef = useRef();
 
@@ -104,7 +104,7 @@ function ConversationMessages() {
                 <p
                   className={cn(
                     'font-semibold text-sm',
-                    user?.user?.id === chat.user.id && 'text-primary font-bold'
+                    user?.id === chat.user.id && 'text-primary font-bold'
                   )}
                 >
                   {chat.user.full_name}

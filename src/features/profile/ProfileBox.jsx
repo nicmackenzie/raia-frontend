@@ -21,7 +21,7 @@ import {
 import { useUpdateProfile } from './use-update-profile';
 
 function ProfileBox() {
-  const { data } = useUser();
+  const { user } = useUser();
   const [notification, setNotification] = useState(notificationInitialState);
   const { isLoading, counties } = useCounties();
   const [interests, setInterests] = useState([]);
@@ -36,22 +36,22 @@ function ProfileBox() {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      full_name: data?.user?.full_name ?? '',
-      email: data?.user?.email ?? '',
-      username: data?.user?.username ?? '',
-      contact: data?.user?.contact ?? '',
-      gender: data?.user?.gender ?? '',
-      date_of_birth: data?.user?.date_of_birth ?? '',
-      location: data?.user?.location ?? '',
-      county_id: data?.user?.county_id ?? '',
-      national_id: data?.user?.national_id ?? '',
+      full_name: user?.full_name ?? '',
+      email: user?.email ?? '',
+      username: user?.username ?? '',
+      contact: user?.contact ?? '',
+      gender: user?.gender ?? '',
+      date_of_birth: user?.date_of_birth ?? '',
+      location: user?.location ?? '',
+      county_id: user?.county_id ?? '',
+      national_id: user?.national_id ?? '',
       profile_image: '',
-      member_type: data?.user?.member_type ?? 'individual',
+      member_type: user?.member_type ?? 'individual',
     },
   });
 
   if (isLoading) return <Loader type="spinner" size="md" />;
-  if (!data) return null;
+  if (!user) return null;
   const countyOptions = counties?.map(county => ({
     value: county.id,
     label: county.name,
@@ -73,7 +73,7 @@ function ProfileBox() {
     if (role === 'leader') delete formFields.member_type;
 
     update(
-      { values: formFields, id: data?.user?.id },
+      { values: formFields, id: user?.id },
       {
         onSuccess: () => {
           setNotification({

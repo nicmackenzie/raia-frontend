@@ -1,9 +1,8 @@
 import { useUser } from '../features/authentication/use-user';
 
 export function useRole() {
-  const { data } = useUser();
-  return data?.user?.role === 'citizen' ||
-    (data?.user?.role === 'leader' && !data?.user.verified)
+  const { user } = useUser();
+  return user?.role === 'citizen' || (user?.role === 'leader' && !user.verified)
     ? 'citizen'
     : 'leader';
 }

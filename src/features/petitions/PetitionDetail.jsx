@@ -21,7 +21,7 @@ function PetitionDetail() {
   const { slug } = useParams();
   const [petition, setPetition] = useState({});
   const [isSigned, setIsSigned] = useState(false);
-  const { data: user } = useUser();
+  const { user } = useUser();
   const queryClient = useQueryClient();
   const [notification, setNotification] = useState(notificationInitialState);
   const { isLoading, data, error } = useQuery({
@@ -64,7 +64,7 @@ function PetitionDetail() {
   );
 
   const hasSigned = petition?.petition_signatures?.some(
-    petition => petition?.user?.id === user?.user?.id
+    petition => petition?.user?.id === user?.id
   );
 
   function onSubmit(value) {

@@ -13,8 +13,11 @@ export function useUser() {
 
   return {
     isLoading,
-    isAuthenticated: data?.role === 'authenticated',
+    // isAuthenticated: data?.role === 'authenticated',
+    isAuthenticated: data?.status === 'success',
+    user: data?.user,
+    status: data?.status,
     error,
-    data,
+    // data,
   };
 }

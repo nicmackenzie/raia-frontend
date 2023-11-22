@@ -17,7 +17,7 @@ import EventActions from '../features/events/EventActions';
 
 function EventDetail() {
   const { id } = useParams();
-  const { data } = useUser();
+  const { user } = useUser();
   const [event, setEvent] = useState({});
   const {
     isLoading,
@@ -43,7 +43,7 @@ function EventDetail() {
   }
 
   const isAttending = event?.event_attendees?.some(
-    attendee => attendee.user.id === data?.user?.id
+    attendee => attendee.user.id === user?.id
   );
 
   const eventIsPast =
@@ -86,10 +86,10 @@ function EventDetail() {
             </div>
           </div>
           <EventActions
-            isOwner={event?.user?.id === data?.user?.id}
+            isOwner={event?.user?.id === user?.id}
             isAttending={isAttending}
             eventId={event?.id}
-            userId={data?.user?.id}
+            userId={user?.id}
             eventIsPast={eventIsPast}
           />
         </div>
@@ -137,10 +137,10 @@ function EventDetail() {
           </p>
         )}
       </div>
-      {event?.user?.id !== data?.user?.id && (
+      {event?.user?.id !== user?.id && (
         <div className="mt-6">
           <EventEnquiryForm
-            user_from={data?.user?.id}
+            user_from={user?.id}
             event={event?.id}
             event_user={event?.user?.id}
           />

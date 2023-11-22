@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useUser } from '../authentication/use-user';
 import { httpRequest } from '../../lib/utils';
 
 function NewsUpdateShow() {
-  const { data } = useUser();
+  const { user } = useUser();
   const [newsUpdate, setNewsUpdate] = useState(null);
   const { id } = useParams();
   const navigate = useNavigate();
@@ -16,7 +16,9 @@ function NewsUpdateShow() {
 
   async function fetchNewsUpdate(id) {
     try {
-      const response = await httpRequest(`http://localhost:3000/news_and_updates/${id}`);
+      const response = await httpRequest(
+        `http://localhost:3000/news_and_updates/${id}`
+      );
       if (!response.ok) {
         console.error('Error fetching news and update:', response.status);
         return;
@@ -32,7 +34,7 @@ function NewsUpdateShow() {
     navigate('/news-updates');
   };
 
-  const handleCommentChange = (e) => {
+  const handleCommentChange = e => {
     setComment(e.target.value);
   };
 
@@ -41,18 +43,21 @@ function NewsUpdateShow() {
 
     const newObject = {
       content: comment,
-      user_id: data?.user?.id && data?.user?.id || 2,
+      user_id: user?.id || 2,
       news_and_update_id: 22,
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
     };
 
     try {
-      const response = await httpRequest('http://localhost:3000/news_and_update_comments', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newObject),
-      });
+      const response = await httpRequest(
+        'http://localhost:3000/news_and_update_comments',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(newObject),
+        }
+      );
 
       if (!response.ok) {
         if (response.status === 401) {
@@ -65,7 +70,7 @@ function NewsUpdateShow() {
 
       const data = await response.json();
 
-      setNewsUpdate((prevUpdate) => ({
+      setNewsUpdate(prevUpdate => ({
         ...prevUpdate,
         news_and_update_comments: [
           ...prevUpdate.news_and_update_comments,
@@ -92,18 +97,32 @@ function NewsUpdateShow() {
     <div className="container mx-auto p-8">
       {newsUpdate ? (
         <div className="bg-white rounded-lg shadow-md p-4">
-          <h2 className="text-2xl font-bold mb-4 text-center">{newsUpdate.title}</h2>
+          <h2 className="text-2xl font-bold mb-4 text-center">
+            {newsUpdate.title}
+          </h2>
           {newsUpdate.image && (
             <div className="flex justify-center">
-              <img src={newsUpdate.image} alt={newsUpdate.title} className="mb-4" />
+              <img
+                src={newsUpdate.image}
+                alt={newsUpdate.title}
+                className="mb-4"
+              />
             </div>
           )}
-          <p className="text-lg text-gray-700 mb-4 flex justify-center">{newsUpdate.content}</p>
-          <p className="text-gray-500 text-sm mb-2">Published Date: {newsUpdate.published_date}</p>
-          <p className="text-gray-500 text-sm mb-2">County ID: {newsUpdate.county_id}</p>
+          <p className="text-lg text-gray-700 mb-4 flex justify-center">
+            {newsUpdate.content}
+          </p>
+          <p className="text-gray-500 text-sm mb-2">
+            Published Date: {newsUpdate.published_date}
+          </p>
+          <p className="text-gray-500 text-sm mb-2">
+            County ID: {newsUpdate.county_id}
+          </p>
           {/* <p className="text-gray-500 text-sm mb-2">User ID: {newsUpdate.user_id}</p> */}
 
-          <h3 className="text-2xl font-bold mt-8 flex justify-center mb-2"><u>Comments</u></h3>
+          <h3 className="text-2xl font-bold mt-8 flex justify-center mb-2">
+            <u>Comments</u>
+          </h3>
           <div className="mt-4 flex justify-between mb-4">
             <input
               type="text"
@@ -121,7 +140,7 @@ function NewsUpdateShow() {
           </div>
 
           <div className="space-y-4">
-            {newsUpdate.news_and_update_comments.map((comment) => (
+            {newsUpdate.news_and_update_comments.map(comment => (
               <div key={comment.id} className="bg-gray-100 p-4 rounded-lg">
                 <p className="text-lg">{comment.content}</p>
               </div>

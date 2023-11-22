@@ -17,7 +17,7 @@ import { useLogout } from './use-logout';
 function CitizenHeader({ onOpen }) {
   const { theme, setTheme } = useTheme();
   const { logout } = useLogout();
-  const { data } = useUser();
+  const { user } = useUser();
   const src = theme === 'light' ? lightLogo : darkLogo;
   function handleThemeToogle() {
     if (theme === 'light') {
@@ -69,10 +69,7 @@ function CitizenHeader({ onOpen }) {
         </Button>
         <Menu as="div" className="relative inline-block">
           <Menu.Button>
-            <Avatar
-              size="sm"
-              src={data?.user_metadata?.avatar_url || fallBack}
-            />
+            <Avatar size="sm" src={user?.profile_image || fallBack} />
           </Menu.Button>
           <Transition
             as={Fragment}
@@ -87,7 +84,7 @@ function CitizenHeader({ onOpen }) {
               <div className="px-3 py-2">
                 <Menu.Item>
                   <div className="text-sm font-semibold flex items-center justify-between">
-                    <div> {data?.user_metadata?.fullName}</div>
+                    <div> {user?.full_name}</div>
                     <span className="text-gold">1.2Kpts</span>
                   </div>
                 </Menu.Item>

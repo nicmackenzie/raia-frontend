@@ -19,7 +19,7 @@ function EventForm() {
   const [error, setError] = useState();
   const [description, setDescription] = useState('');
   const [eventTime, seteventTime] = useState();
-  const { data } = useUser();
+  const { user } = useUser();
 
   const {
     register,
@@ -62,8 +62,8 @@ function EventForm() {
     }
     const formData = {
       ...values,
-      user_id: data?.user.id,
-      county_id: data?.user.county_id,
+      user_id: user?.id,
+      county_id: user?.county_id,
       date: format(new Date(values.date), 'yyyy-MM-dd'),
       description,
     };
