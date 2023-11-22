@@ -8,6 +8,7 @@ export function useLogout() {
     mutationFn: logoutApi,
     onSuccess: () => {
       queryClient.removeQueries();
+      localStorage.removeItem('raia-auth-state');
       navigate('/auth', { replace: true });
     },
   });

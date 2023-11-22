@@ -34,9 +34,10 @@ export function apiUrl() {
 }
 
 export function getToken() {
-  return JSON.parse(
-    localStorage.getItem(`sb-${import.meta.env.VITE_SUPABASE_ID}-auth-token`)
-  );
+  // return JSON.parse(
+  //   localStorage.getItem(`sb-${import.meta.env.VITE_SUPABASE_ID}-auth-token`)
+  // );
+  return JSON.parse(localStorage.getItem(`raia-auth-state`));
 }
 
 export const url = apiUrl();
@@ -54,7 +55,8 @@ export async function httpRequest(
       body,
       headers: {
         'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + getToken().access_token,
+        // Authorization: 'Bearer ' + getToken().access_token,
+        Authorization: 'Bearer ' + getToken().token,
         ...headers, // Additional headers can be passed as an object
       },
     });

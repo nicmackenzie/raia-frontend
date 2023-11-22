@@ -9,8 +9,9 @@ import MobileNavCitizen from './MobileNavCitizen';
 import { useState } from 'react';
 
 function AppLayout() {
-  const { data } = useUser();
-  const role = data?.user_metadata?.role.toLowerCase();
+  const { user } = useUser();
+
+  const role = user?.role.toLowerCase();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   function openSideBar() {
@@ -22,8 +23,7 @@ function AppLayout() {
 
   return (
     <div className="h-dvh bg-background">
-      {role === 'citizen' ||
-      (data?.user?.role === 'leader' && !data?.user?.verified) ? (
+      {role === 'citizen' || (role === 'leader' && !user?.verified) ? (
         <>
           {isSidebarOpen && (
             <MobileNavCitizen

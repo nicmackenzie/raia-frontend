@@ -57,7 +57,7 @@ function DiscussionDetail() {
     },
   });
 
-  const { isLoading: isFetching, data: user } = useUser();
+  const { isLoading: isFetching, user } = useUser();
 
   if (isFetching || isLoading) {
     return <Loader type="spinner" size="md" />;

@@ -15,18 +15,18 @@ function DiscussionDetailsNew() {
   const { id } = useParams();
   const [searchParams] = useSearchParams();
   const [onlineUsers, setOnlineUsers] = useState([]);
-  const { data } = useUser();
+  const { user } = useUser();
 
   const selectedTab = searchParams.get('tab') || 'details';
 
   useEffect(() => {
-    if (!data?.user || !socket) return;
+    if (!user || !socket) return;
 
     const user = {
-      id: data.user.id,
-      fullName: data.user.full_name,
-      avatar: data.user.profile_image,
-      username: data.user.username,
+      id: user.id,
+      fullName: user.full_name,
+      avatar: user.profile_image,
+      username: user.username,
     };
 
     socket.emit('online:baraza:users', user);
@@ -41,7 +41,7 @@ function DiscussionDetailsNew() {
       socket.off('online:users', handleOnlineUsers);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data?.user, socket]);
+  }, [user, socket]);
 
   useEffect(
     function () {

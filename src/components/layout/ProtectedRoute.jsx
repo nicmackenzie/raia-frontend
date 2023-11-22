@@ -9,14 +9,15 @@ import Loader from '../ui/Loader';
 
 // TODO: ADD Error handling once reusable alert component is created
 function ProtectedRoute({ children }) {
-  const { isLoading, isAuthenticated, error } = useUser();
+  const { isLoading, isAuthenticated, error, status } = useUser();
   const navigate = useNavigate();
 
   useEffect(
     function () {
-      if (!isLoading && !isAuthenticated) navigate('/auth');
+      if (!isLoading && !isAuthenticated && status !== 'success')
+        navigate('/auth');
     },
-    [isLoading, isAuthenticated, navigate]
+    [isLoading, isAuthenticated, navigate, status]
   );
 
   if (isLoading) {

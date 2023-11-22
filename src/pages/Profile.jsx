@@ -12,8 +12,8 @@ import ProfileBox from '../features/profile/ProfileBox.jsx';
 import SecurityForm from '../features/profile/SecurityForm.jsx';
 
 function Profile() {
-  const { data } = useUser();
-  const role = data?.user_metadata?.role.toLowerCase();
+  const { user } = useUser();
+  const role = user?.role.toLowerCase();
 
   return (
     <div className=" mx-4">

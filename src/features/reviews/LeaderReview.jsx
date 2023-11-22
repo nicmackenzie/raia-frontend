@@ -19,7 +19,7 @@ function LeaderReview() {
   const [userInfo, setUserInfo] = useState({});
   const { username } = useParams();
   const [rating, setRating] = useState();
-  const { data: { user } = {} } = useUser();
+  const { user = {} } = useUser();
 
   const { isLoading, data, error } = useQuery({
     queryFn: () => getProfile(username),

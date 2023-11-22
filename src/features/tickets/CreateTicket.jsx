@@ -57,9 +57,7 @@ function CreateTicket() {
     },
   });
 
-  const {
-    data: { user },
-  } = useUser();
+  const { user } = useUser();
 
   const {
     isLoading,

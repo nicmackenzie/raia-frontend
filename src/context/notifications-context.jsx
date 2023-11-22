@@ -11,7 +11,7 @@ export function NotificationProvider({ children }) {
     count: 0,
     notifications: [],
   });
-  const { data } = useUser();
+  const { user } = useUser();
 
   useEffect(() => {
     const handleNotification = data => {
@@ -25,13 +25,13 @@ export function NotificationProvider({ children }) {
       });
     };
 
-    socket.on(`notification:new:${data?.user?.id}`, handleNotification);
+    socket.on(`notification:new:${user?.id}`, handleNotification);
 
     // Cleanup function
     return () => {
-      socket.off(`notification:new:${data?.user?.id}`, handleNotification);
+      socket.off(`notification:new:${user?.id}`, handleNotification);
     };
-  }, [data?.user]);
+  }, [user?.id]);
 
   // useEffect(
   //   function () {
