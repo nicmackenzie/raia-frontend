@@ -9,9 +9,12 @@ import Button from '../../components/ui/Button';
 import { useForm } from 'react-hook-form';
 import { useSignIn } from './use-signin';
 import ButtonLoadingText from '../../components/ui/ButtonLoadingText';
+import { Eye, EyeOff } from 'lucide-react';
+import { useState } from 'react';
 
 function LoginForm({ onAuthTypeChange }) {
   const [searchParams, setSearchParams] = useSearchParams();
+  const [showPassword, setShowPassword] = useState(false);
   const {
     register,
     handleSubmit,
@@ -40,11 +43,12 @@ function LoginForm({ onAuthTypeChange }) {
     );
   }
 
-  //   function handleOAuth() {
-  //     searchParams.set('auth-type', 'oauth');
-  //     setSearchParams(searchParams);
-  //     signin();
-  //   }
+  function toggleShowPassword() {
+    setShowPassword(prev => !prev);
+    // searchParams.set('auth-type', 'oauth');
+    // setSearchParams(searchParams);
+    // signin();
+  }
 
   return (
     <div className="max-w-sm w-full flex flex-col mx-2 md:mx-0">
@@ -80,17 +84,31 @@ function LoginForm({ onAuthTypeChange }) {
           id="password"
           error={errors?.password?.message}
         >
-          <Input
-            placeholder="Enter your password"
-            className="bg-gray-50 "
-            variant={errors?.password?.message ? 'destructive' : 'outline'}
-            type="password"
-            id="password"
-            disabled={isLoading}
-            {...register('password', {
-              required: { value: true, message: 'Password is required' },
-            })}
-          />
+          <div className="relative">
+            <Input
+              placeholder="Enter your password"
+              className="bg-gray-50 pr-12"
+              variant={errors?.password?.message ? 'destructive' : 'outline'}
+              type={showPassword ? 'text' : 'password'}
+              id="password"
+              disabled={isLoading}
+              {...register('password', {
+                required: { value: true, message: 'Password is required' },
+              })}
+            />
+            <button
+              onClick={toggleShowPassword}
+              type="button"
+              className="absolute  top-1/2 -translate-y-1/2 right-4 text-muted-foreground"
+              aria-label="toggle password show"
+            >
+              {showPassword ? (
+                <EyeOff className="w-4 h-4" aria-hidden />
+              ) : (
+                <Eye className="w-4 h-4" aria-hidden />
+              )}
+            </button>
+          </div>
         </FormControl>
         <Link
           className="mt-1 text-primary text-sm block text-right font-semibold"

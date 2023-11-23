@@ -1,6 +1,9 @@
+import { useState } from 'react';
+import { Eye, EyeOff } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import { FcGoogle } from 'react-icons/fc';
 import { useForm } from 'react-hook-form';
+
 import iconLogo from '../../assets/logos/raia-final-purple.png';
 import FormControl from '../../components/ui/FormControl';
 import Input from '../../components/ui/Input';
@@ -9,7 +12,6 @@ import Button from '../../components/ui/Button';
 import Alert from '../../components/ui/Alert';
 import { useSignup } from './use-signup';
 import ButtonLoadingText from '../../components/ui/ButtonLoadingText';
-import { useState } from 'react';
 
 const options = [
   { value: 'leader', label: 'Leader' },
@@ -19,6 +21,11 @@ const options = [
 function RegisterForm({ onAuthTypeChange }) {
   const { isSignin, signup } = useSignup();
   const [error, setError] = useState();
+  const [showPassword, setShowPassword] = useState({
+    password: { show: false },
+    confirmPassword: { show: false },
+  });
+
   const {
     register,
     handleSubmit,
@@ -43,6 +50,15 @@ function RegisterForm({ onAuthTypeChange }) {
       onSuccess: () => {
         setError(false);
       },
+    });
+  }
+
+  function toggleShowPassword(type) {
+    setShowPassword(prev => {
+      if (type === 'password') {
+        return { ...prev, password: { show: !prev.password.show } };
+      }
+      return { ...prev, confirmPassword: { show: !prev.confirmPassword.show } };
     });
   }
 
@@ -123,40 +139,68 @@ function RegisterForm({ onAuthTypeChange }) {
             id="password"
             error={errors?.password?.message}
           >
-            <Input
-              variant={errors?.password ? 'destructive' : 'outline'}
-              id="password"
-              size="small"
-              disabled={isSignin}
-              type="password"
-              placeholder="Password"
-              {...register('password', {
-                required: { value: true, message: 'Password is required' },
-                minLength: {
-                  value: 6,
-                  message: 'Passwords needs to be 6 characters and more',
-                },
-              })}
-            />
+            <div className="relative">
+              <Input
+                variant={errors?.password ? 'destructive' : 'outline'}
+                id="password"
+                size="small"
+                disabled={isSignin}
+                type={showPassword.password.show ? 'text' : 'password'}
+                placeholder="Password"
+                {...register('password', {
+                  required: { value: true, message: 'Password is required' },
+                  minLength: {
+                    value: 6,
+                    message: 'Passwords needs to be 6 characters and more',
+                  },
+                })}
+              />
+              <button
+                onClick={() => toggleShowPassword('password')}
+                type="button"
+                className="absolute  top-1/2 -translate-y-1/2 right-4 text-muted-foreground"
+                aria-label="toggle password show"
+              >
+                {showPassword.password.show ? (
+                  <EyeOff className="w-4 h-4" aria-hidden />
+                ) : (
+                  <Eye className="w-4 h-4" aria-hidden />
+                )}
+              </button>
+            </div>
           </FormControl>
           <FormControl
             label="Confirm Password"
             id="confirmPassword"
             error={errors?.confirmPassword?.message}
           >
-            <Input
-              variant={errors?.confirmPassword ? 'destructive' : 'outline'}
-              size="small"
-              id="confirmPassword"
-              type="password"
-              disabled={isSignin}
-              placeholder="Confirm password"
-              {...register('confirmPassword', {
-                required: 'This field is required',
-                validate: value =>
-                  value === getValues().password || 'Passwords need to match',
-              })}
-            />
+            <div className="relative">
+              <Input
+                variant={errors?.confirmPassword ? 'destructive' : 'outline'}
+                size="small"
+                id="confirmPassword"
+                type={showPassword.confirmPassword.show ? 'text' : 'password'}
+                disabled={isSignin}
+                placeholder="Confirm password"
+                {...register('confirmPassword', {
+                  required: 'This field is required',
+                  validate: value =>
+                    value === getValues().password || 'Passwords need to match',
+                })}
+              />
+              <button
+                onClick={() => toggleShowPassword('confirm')}
+                type="button"
+                className="absolute  top-1/2 -translate-y-1/2 right-4 text-muted-foreground"
+                aria-label="toggle password show"
+              >
+                {showPassword.confirmPassword.show ? (
+                  <EyeOff className="w-4 h-4" aria-hidden />
+                ) : (
+                  <Eye className="w-4 h-4" aria-hidden />
+                )}
+              </button>
+            </div>
           </FormControl>
           <FormControl
             label="Joining as"
