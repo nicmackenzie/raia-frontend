@@ -1,5 +1,7 @@
+import HomeBox from '../features/home/HomeBox';
+
 function Home() {
-  return <div>{/* <TimePicker /> */}</div>;
+  return <HomeBox />;
 }
 
 export default Home;
