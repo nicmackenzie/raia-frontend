@@ -16,9 +16,7 @@ function MessageBox() {
   const { currentConversation } = useMessage();
   const [conversations, setConversations] = useState([]);
 
-  const {
-    data: { user },
-  } = useUser();
+  const { user } = useUser();
   const { isLoading, data, error } = useQuery({
     queryFn: () => getConversations(user?.id),
     queryKey: ['conversations', user?.id],
